@@ -11,5 +11,8 @@
 
   "item.minecraft.potion.effect.strong_unburden": "强效卸负药水",
   "item.minecraft.splash_potion.effect.strong_unburden": "喷溅型强效卸负药水",
-  "item.minecraft.lingering_potion.effect.strong_unburden": "滞留型强效卸负药水"
+  "item.minecraft.lingering_potion.effect.strong_unburden": "滞留型强效卸负药水",
+
+  "item.spectrum_reclamation.blazing_bomb": "炽光炸弹",
+  "block.spectrum_reclamation.blazing_light": "炽光灯"
 }

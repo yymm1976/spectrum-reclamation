@@ -5,7 +5,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -36,13 +35,14 @@ public class SRCreativeModeTabs {
             CREATIVE_MODE_TABS.register(
                     "spectrum_reclamation",
                     () -> CreativeModeTab.builder()
-                            // 物品栏图标：暂时使用钻石
-                            .icon(() -> new ItemStack(Items.DIAMOND))
+                            // 物品栏图标：使用炽光炸弹
+                            .icon(() -> new ItemStack(SRItems.BLAZING_BOMB.get()))
                             // 物品栏显示名称，翻译键需在语言文件中定义
                             .title(Component.translatable("itemGroup.spectrum_reclamation"))
-                            // 物品展示回调，后续在此添加模组物品
+                            // 物品展示回调，添加模组物品到创造模式标签
                             .displayItems((parameters, output) -> {
-                                // TODO: 待物品注册完成后，在此处添加模组自定义物品
+                                // 炽光炸弹
+                                output.accept(SRItems.BLAZING_BOMB.get());
                             })
                             .build()
             );

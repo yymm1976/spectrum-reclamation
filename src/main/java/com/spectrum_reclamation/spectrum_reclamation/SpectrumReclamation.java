@@ -1,7 +1,10 @@
 package com.spectrum_reclamation.spectrum_reclamation;
 
 import com.spectrum_reclamation.spectrum_reclamation.event.SREventHandler;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlocks;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRCreativeModeTabs;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SREntities;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRItems;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRMobEffects;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRPotions;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRTrimMaterials;
@@ -39,6 +42,12 @@ public class SpectrumReclamation {
      * @param modEventBus 模组事件总线（MOD_BUS），由 NeoForge 自动注入
      */
     public SpectrumReclamation(IEventBus modEventBus) {
+        // 注册方块到 MOD_BUS（必须在物品之前，物品可能引用方块）
+        SRBlocks.register(modEventBus);
+        // 注册物品到 MOD_BUS
+        SRItems.register(modEventBus);
+        // 注册实体类型到 MOD_BUS
+        SREntities.register(modEventBus);
         // 注册创造模式物品栏到 MOD_BUS
         SRCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         // 注册纹饰材料到 MOD_BUS
