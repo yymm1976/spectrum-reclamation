@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "minecraft:trims/models/armor/coast"
+      ],
+      "palette_key": "spectrum_reclamation:trims/palettes/test_palette",
+      "permutations": {
+        "spectrum_reclamation:test_trim_material": "spectrum_reclamation:trims/palettes/test_palette"
+      }
+    }
+  ]
+}
