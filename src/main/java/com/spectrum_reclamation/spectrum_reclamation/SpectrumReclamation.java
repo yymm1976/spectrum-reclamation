@@ -1,6 +1,8 @@
 package com.spectrum_reclamation.spectrum_reclamation;
 
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRCreativeModeTabs;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRMobEffects;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRPotions;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRTrimMaterials;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -39,6 +41,10 @@ public class SpectrumReclamation {
         SRCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         // 注册纹饰材料到 MOD_BUS
         SRTrimMaterials.TRIM_MATERIALS.register(modEventBus);
+        // 注册状态效果到 MOD_BUS（必须在药水之前，药水依赖效果的 Holder）
+        SRMobEffects.register(modEventBus);
+        // 注册药水到 MOD_BUS
+        SRPotions.register(modEventBus);
 
         LOGGER.info("Spectrum Reclamation 模组初始化完成");
     }
