@@ -97,13 +97,13 @@ configurations {
 }
 
 repositories {
-    // Spectrum 模组的 Maven 仓库
-    maven { url = uri("https://maven.is-immensely.gay/releases") }
+    // CurseMaven 仓库，用于获取 Spectrum 等 CurseForge 上托管的模组依赖
+    maven { url = uri("https://cfa2.cursemaven.com") }
 }
 
 dependencies {
-    // Spectrum 模组依赖（运行时必需）
-    implementation("de.dafuqs:spectrum-neoforge:1.11.8-1.21.1-neoforge")
+    // Spectrum 模组依赖（通过 CurseMaven 获取，CurseForge 项目 ID: 556967，文件 ID: 8037133 对应 1.11.8-1.21.1-neo）
+    implementation("curse.maven:spectrum-556967:8037133")
 }
 
 tasks.named("createMinecraftArtifacts") {
