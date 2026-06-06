@@ -2,6 +2,7 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.BlazingBombItem;
+import com.spectrum_reclamation.spectrum_reclamation.item.custom.LivingTrapItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -29,6 +30,21 @@ public class SRItems {
             ITEMS.register(
                     "blazing_bomb",
                     () -> new BlazingBombItem(new Item.Properties().stacksTo(16))
+            );
+
+    /**
+     * 活体陷阱物品 —— 可放置于地面的活体陷阱方块。
+     * - 最大堆叠 64
+     * - 右键放置活体陷阱方块
+     * - 绑定 SRBlocks.LIVING_TRAP 方块
+     */
+    public static final DeferredHolder<Item, Item> LIVING_TRAP =
+            ITEMS.register(
+                    "living_trap",
+                    () -> new LivingTrapItem(
+                            (com.spectrum_reclamation.spectrum_reclamation.block.LivingTrapBlock) SRBlocks.LIVING_TRAP.get(),
+                            new Item.Properties().stacksTo(64)
+                    )
             );
 
     /**

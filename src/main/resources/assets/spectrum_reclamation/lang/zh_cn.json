@@ -14,5 +14,7 @@
   "item.minecraft.lingering_potion.effect.strong_unburden": "滞留型强效卸负药水",
 
   "item.spectrum_reclamation.blazing_bomb": "炽光炸弹",
-  "block.spectrum_reclamation.blazing_light": "炽光灯"
+  "block.spectrum_reclamation.blazing_light": "炽光灯",
+  "block.spectrum_reclamation.living_trap": "活体陷阱",
+  "item.spectrum_reclamation.living_trap": "活体陷阱"
 }

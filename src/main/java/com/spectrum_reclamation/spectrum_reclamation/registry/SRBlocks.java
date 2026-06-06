@@ -2,6 +2,7 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.block.BlazingLightBlock;
+import com.spectrum_reclamation.spectrum_reclamation.block.LivingTrapBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -37,6 +38,25 @@ public class SRBlocks {
                                     .noLootTable()        // 无战利品表，销毁时不掉落
                                     .instabreak()         // 瞬间破坏
                                     .replaceable()        // 可被其他方块替换
+                    )
+            );
+
+    /**
+     * 活体陷阱方块 —— 可捕捉路过的小型生物。
+     * - 低矮外观（类似感测体），碰撞箱高 2 像素
+     * - 小型生物（宽度 ≤ 0.6）踩上后被吞入 5 秒
+     * - 释放后施加 10 秒饥饿 I
+     * - 冷却 15 秒后可再次触发
+     * - 破坏后掉落自身
+     */
+    public static final DeferredHolder<Block, Block> LIVING_TRAP =
+            BLOCKS.register(
+                    "living_trap",
+                    () -> new LivingTrapBlock(
+                            BlockBehaviour.Properties.of()
+                                    .strength(2.0F)        // 硬度 2.0，木镐即可挖掘
+                                    .requiresCorrectToolForDrops()  // 需要正确工具才能掉落
+                                    .noOcclusion()         // 不遮挡相邻面
                     )
             );
 

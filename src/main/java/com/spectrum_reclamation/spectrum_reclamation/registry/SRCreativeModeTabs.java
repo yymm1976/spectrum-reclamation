@@ -43,6 +43,8 @@ public class SRCreativeModeTabs {
                             .displayItems((parameters, output) -> {
                                 // 炽光炸弹
                                 output.accept(SRItems.BLAZING_BOMB.get());
+                                // 活体陷阱
+                                output.accept(SRItems.LIVING_TRAP.get());
                             })
                             .build()
             );
