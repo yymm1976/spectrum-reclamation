@@ -1,11 +1,13 @@
 package com.spectrum_reclamation.spectrum_reclamation;
 
+import com.spectrum_reclamation.spectrum_reclamation.event.SREventHandler;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRCreativeModeTabs;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRMobEffects;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRPotions;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRTrimMaterials;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +47,11 @@ public class SpectrumReclamation {
         SRMobEffects.register(modEventBus);
         // 注册药水到 MOD_BUS
         SRPotions.register(modEventBus);
+
+        // 注册事件处理器到 GAME_BUS（NeoForge.EVENT_BUS）。
+        // GAME_BUS 处理运行时事件（如实体受伤、死亡掉落等），
+        // 使用类注册方式，会自动发现所有带 @SubscribeEvent 的静态方法。
+        NeoForge.EVENT_BUS.register(SREventHandler.class);
 
         LOGGER.info("Spectrum Reclamation 模组初始化完成");
     }

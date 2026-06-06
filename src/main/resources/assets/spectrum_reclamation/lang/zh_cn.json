@@ -1,5 +1,15 @@
 {
   "itemGroup.spectrum_reclamation": "光谱救赎",
   "trim_material.spectrum_reclamation.test_trim_material": "测试纹饰材料",
-  "item.spectrum_reclamation.test_trim_material": "测试纹饰材料"
+  "item.spectrum_reclamation.test_trim_material": "测试纹饰材料",
+
+  "effect.spectrum_reclamation.unburden": "卸负",
+
+  "item.minecraft.potion.effect.unburden": "卸负药水",
+  "item.minecraft.splash_potion.effect.unburden": "喷溅型卸负药水",
+  "item.minecraft.lingering_potion.effect.unburden": "滞留型卸负药水",
+
+  "item.minecraft.potion.effect.strong_unburden": "强效卸负药水",
+  "item.minecraft.splash_potion.effect.strong_unburden": "喷溅型强效卸负药水",
+  "item.minecraft.lingering_potion.effect.strong_unburden": "滞留型强效卸负药水"
 }
