@@ -13,7 +13,7 @@ import java.util.List;
  *
  * 继承 WaypointCompassItem，复用所有基础功能（蹲下右键记录坐标、指针指向等）。
  * 额外功能：
- * - 物品提示文本中显示"约 XXX 格"距离信息
+ * - 物品提示文本中显示"约 N 格"距离信息
  * - 距离由客户端事件处理器（SRClientEvents）通过 ItemTooltipEvent 动态计算并添加
  *
  * 距离计算原理：

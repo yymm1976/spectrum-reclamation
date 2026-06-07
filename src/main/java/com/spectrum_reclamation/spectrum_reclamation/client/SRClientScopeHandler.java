@@ -27,8 +27,10 @@ import java.util.List;
  * （NoClassDefFoundError）。因此必须放在 Dist.CLIENT 标记的客户端专属类中。
  *
  * 注册到 GAME_BUS（NeoForge.EVENT_BUS），使用 @EventBusSubscriber 自动注册。
+ * NeoForge 1.21.1 起 bus 参数已废弃，系统根据事件类型自动判断总线：
+ * - IModBusEvent 子类 → MOD_BUS，其余 → GAME_BUS
  */
-@EventBusSubscriber(modid = SpectrumReclamation.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = SpectrumReclamation.MOD_ID, value = Dist.CLIENT)
 public class SRClientScopeHandler {
 
     /**

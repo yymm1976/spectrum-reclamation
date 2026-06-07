@@ -106,7 +106,7 @@ public class SRItems {
      * 精准追溯指针物品 —— 追溯指针的升级版本。
      * - 最大堆叠 1
      * - 继承追溯指针所有功能
-     * - 额外显示到目标的距离（"约 XXX 格"）
+     * - 额外显示到目标的距离（"约 N 格"）
      * - 合成配方：追溯指针 + 回响碎片 → 精准追溯指针（锻造台）
      */
     public static final DeferredHolder<Item, Item> PRECISE_WAYPOINT_COMPASS =

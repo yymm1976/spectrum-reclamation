@@ -21,11 +21,13 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
  * 避免 ClassNotFoundException 或 NoClassDefFoundError。
  *
  * NeoForge 的 @EventBusSubscriber 注解：
- * - bus = MOD_BUS：监听模组加载阶段事件（如渲染器注册）
+ * - NeoForge 1.21.1 起 bus 参数已废弃，系统根据事件类型自动判断总线
+ * - IModBusEvent 子类（如 EntityRenderersEvent、RegisterMenuScreensEvent）→ MOD_BUS
+ * - 其他事件 → GAME_BUS
  * - value = CLIENT：仅在物理客户端加载此类
  * - 静态方法 + @SubscribeEvent：自动发现并注册事件监听
  */
-@EventBusSubscriber(modid = SpectrumReclamation.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = SpectrumReclamation.MOD_ID, value = Dist.CLIENT)
 public class SRClientEvents {
 
     /**

@@ -1,7 +1,6 @@
 package com.spectrum_reclamation.spectrum_reclamation.mixin;
 
 import com.spectrum_reclamation.spectrum_reclamation.inventory.FletchingTableMenu;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;

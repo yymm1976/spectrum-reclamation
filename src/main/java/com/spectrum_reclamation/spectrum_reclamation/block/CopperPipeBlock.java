@@ -245,8 +245,8 @@ public class CopperPipeBlock extends Block implements SimpleWaterloggedBlock, En
                 // 通知相邻方块更新连接（它们会发现此位置已不是铜管）
                 updateNeighborConnections(level, pos);
 
-                // TODO: 从管道网络中移除自身（待网络系统实现后补充）
-                // PipeNetworkManager.removePipe(level, pos);
+                // 从管道网络中移除自身：由 CopperPipeBlockEntity.setRemoved() 处理，
+                // 该回调在方块实体被移除时自动调用 network.removeNode(worldPosition)
             }
         }
         super.onRemove(oldState, level, pos, newState, movedByPiston);
