@@ -2,11 +2,14 @@ package com.spectrum_reclamation.spectrum_reclamation.client;
 
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SREntities;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRMenuTypes;
+import com.spectrum_reclamation.spectrum_reclamation.screen.FletchingTableScreen;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 /**
  * 客户端专属事件处理器。
@@ -40,5 +43,26 @@ public class SRClientEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(SREntities.BLAZING_BOMB.get(), ThrownItemRenderer::new);
+    }
+
+    /**
+     * 注册容器菜单屏幕。
+     *
+     * RegisterMenuScreensEvent 是 NeoForge 1.21.1 提供的 MOD_BUS 事件，
+     * 用于将 MenuType 与对应的 Screen 类绑定。
+     * 当客户端收到服务端发来的 OpenScreenPacket 时，
+     * Minecraft 会查找此 MenuType 对应的 ScreenConstructor 来创建 GUI 实例。
+     *
+     * 此方法替代了旧版的 MenuScreens.register() 调用方式，
+     * 符合 NeoForge 1.21.x 的事件驱动注册规范。
+     *
+     * @param event 屏幕注册事件
+     */
+    @SubscribeEvent
+    public static void registerScreens(RegisterMenuScreensEvent event) {
+        // 将制箭台菜单类型与制箭台 GUI 屏幕绑定
+        // ScreenConstructor.create() 会在客户端收到 OpenScreenPacket 时被调用，
+        // 创建 FletchingTableScreen 实例并打开 GUI
+        event.register(SRMenuTypes.FLETCHING_TABLE.get(), FletchingTableScreen::new);
     }
 }
