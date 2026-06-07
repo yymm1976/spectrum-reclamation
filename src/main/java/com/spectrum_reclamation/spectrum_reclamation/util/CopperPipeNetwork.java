@@ -116,6 +116,13 @@ public class CopperPipeNetwork {
     /** 出口集合：标记为 OUTPUT 模式的铜管接口位置 */
     private final Set<BlockPos> exitPoints;
 
+    /**
+     * BFS 路径缓存：入口位置 → 最近出口位置。
+     * 拓扑不变时直接命中缓存，避免每 20 ticks 重新 BFS。
+     * 拓扑变化时（addNode/removeNode/addExitPoint/removeExitPoint）清空。
+     */
+    private Map<BlockPos, BlockPos> exitCache = new HashMap<>();
+
     // ==================== 构造器（私有，通过 getOrCreate 获取） ====================
 
     private CopperPipeNetwork(UUID networkId, ResourceKey<Level> dimension) {
@@ -124,6 +131,13 @@ public class CopperPipeNetwork {
         this.adjacency = new HashMap<>();
         this.entryPoints = new HashSet<>();
         this.exitPoints = new HashSet<>();
+    }
+
+    /**
+     * 清空路径缓存。在拓扑变化时调用。
+     */
+    private void invalidateCache() {
+        exitCache.clear();
     }
 
     // ==================== 节点管理方法 ====================
@@ -137,14 +151,12 @@ public class CopperPipeNetwork {
      * @param neighbors 该铜管已连接的邻居位置集合
      */
     public void addNode(BlockPos pos, Set<BlockPos> neighbors) {
-        // 将该位置加入邻接表，初始化邻居集合
         adjacency.computeIfAbsent(pos, p -> new HashSet<>());
-
-        // 为每个邻居建立双向边（无向图）
         for (BlockPos neighbor : neighbors) {
             adjacency.get(pos).add(neighbor);
             adjacency.computeIfAbsent(neighbor, p -> new HashSet<>()).add(pos);
         }
+        invalidateCache();
     }
 
     /**
@@ -155,7 +167,6 @@ public class CopperPipeNetwork {
      * @param pos 要移除的铜管方块位置
      */
     public void removeNode(BlockPos pos) {
-        // 断开与所有邻居的双向连接
         Set<BlockPos> neighbors = adjacency.get(pos);
         if (neighbors != null) {
             for (BlockPos neighbor : neighbors) {
@@ -165,15 +176,10 @@ public class CopperPipeNetwork {
                 }
             }
         }
-
-        // 从邻接表中移除该节点
         adjacency.remove(pos);
-
-        // 同时从入口/出口集合中移除
         entryPoints.remove(pos);
         exitPoints.remove(pos);
-
-        // 网络为空时自动销毁，释放内存
+        invalidateCache();
         if (adjacency.isEmpty()) {
             networks.remove(this.networkId);
         }
@@ -188,6 +194,7 @@ public class CopperPipeNetwork {
      */
     public void addEntryPoint(BlockPos pos) {
         entryPoints.add(pos);
+        invalidateCache();
     }
 
     /**
@@ -197,6 +204,7 @@ public class CopperPipeNetwork {
      */
     public void addExitPoint(BlockPos pos) {
         exitPoints.add(pos);
+        invalidateCache();
     }
 
     /**
@@ -206,6 +214,7 @@ public class CopperPipeNetwork {
      */
     public void removeEntryPoint(BlockPos pos) {
         entryPoints.remove(pos);
+        invalidateCache();
     }
 
     /**
@@ -215,6 +224,7 @@ public class CopperPipeNetwork {
      */
     public void removeExitPoint(BlockPos pos) {
         exitPoints.remove(pos);
+        invalidateCache();
     }
 
     /**
@@ -355,6 +365,53 @@ public class CopperPipeNetwork {
 
         // 队列为空，无路径
         return null;
+    }
+
+    /**
+     * 使用 BFS 查找从入口到最近出口的路径（带缓存）。
+     *
+     * 先检查 exitCache，命中则直接返回缓存结果。
+     * 未命中则执行 BFS，结果写入缓存。
+     *
+     * @param from 入口位置
+     * @return 最近的出口位置，无可达出口时返回 null
+     */
+    public BlockPos findNearestExit(BlockPos from) {
+        // 检查缓存
+        if (exitCache.containsKey(from)) {
+            return exitCache.get(from); // 可能为 null（之前确认无出口）
+        }
+
+        // 缓存未命中，执行 BFS
+        if (!adjacency.containsKey(from)) {
+            return null;
+        }
+
+        Queue<BlockPos> queue = new LinkedList<>();
+        Set<BlockPos> visited = new HashSet<>();
+        queue.add(from);
+        visited.add(from);
+
+        BlockPos result = null;
+        while (!queue.isEmpty()) {
+            BlockPos current = queue.poll();
+            if (!current.equals(from) && exitPoints.contains(current)) {
+                result = current;
+                break;
+            }
+            Set<BlockPos> neighbors = adjacency.get(current);
+            if (neighbors == null) continue;
+            for (BlockPos neighbor : neighbors) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        // 写入缓存（包括 null 结果，避免重复 BFS 空网络）
+        exitCache.put(from, result);
+        return result;
     }
 
     /**

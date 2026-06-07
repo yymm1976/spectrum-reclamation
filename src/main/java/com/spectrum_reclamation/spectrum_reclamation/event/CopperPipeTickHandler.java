@@ -241,40 +241,7 @@ public class CopperPipeTickHandler {
      * @return 最近的出口位置，无可达出口时返回 null
      */
     private BlockPos findNearestExit(CopperPipeNetwork network, BlockPos from) {
-        // 网络为空或起点不在网络中，返回 null
-        if (!network.containsNode(from)) {
-            return null;
-        }
-
-        // BFS 标准实现
-        Queue<BlockPos> queue = new LinkedList<>();
-        Set<BlockPos> visited = new HashSet<>();
-
-        queue.add(from);
-        visited.add(from);
-
-        while (!queue.isEmpty()) {
-            BlockPos current = queue.poll();
-
-            // 如果当前节点是出口（且不是起点本身），直接返回
-            // 起点是入口，不应同时是出口，但防御性检查
-            if (!current.equals(from) && network.isExitPoint(current)) {
-                return current;
-            }
-
-            // 获取当前节点的邻居并加入队列
-            Set<BlockPos> neighbors = network.getNeighbors(current);
-            if (neighbors == null) continue;
-
-            for (BlockPos neighbor : neighbors) {
-                if (visited.contains(neighbor)) continue;
-                visited.add(neighbor);
-                queue.add(neighbor);
-            }
-        }
-
-        // 队列为空，无可达出口
-        return null;
+        return network.findNearestExit(from);
     }
 
     /**

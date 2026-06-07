@@ -203,6 +203,9 @@ public class TrimEffectEventHandler {
     public static void onEquipmentChange(LivingEquipmentChangeEvent event) {
         LivingEntity entity = event.getEntity();
 
+        // 装备变化时清除缓存，确保下次 lookupFromArmor 重新计算
+        TrimEffectRegistry.clearCache(entity.getUUID());
+
         // 获取该实体盔甲上所有纹饰对应的处理器
         List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(entity);
         if (handlers.isEmpty()) {

@@ -108,11 +108,11 @@ public class CopperPipeBlockEntity extends BlockEntity {
         super.onLoad();
         if (level == null || level.isClientSide) return;
 
-        // 首次放置时，先检查邻居是否已有网络
-        if (networkId == null) {
+        // 首次放置或网络丢失时的自愈逻辑
+        if (networkId == null || CopperPipeNetwork.get(networkId) == null) {
             UUID neighborNetworkId = findNeighborNetworkId();
             if (neighborNetworkId != null) {
-                // 加入邻居的网络
+                // 加入邻居的网络（覆盖丢失的旧 networkId）
                 networkId = neighborNetworkId;
             } else {
                 // 没有邻居网络，创建新网络

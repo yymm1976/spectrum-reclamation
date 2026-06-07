@@ -1,6 +1,7 @@
 package com.spectrum_reclamation.spectrum_reclamation.inventory;
 
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRMenuTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -62,30 +63,33 @@ public class FletchingTableMenu extends AbstractContainerMenu {
      * 容器关闭后数据自动丢失。 */
     private final SimpleContainer container;
 
+    /** 制箭台方块坐标（用于距离校验），null 表示未设置（服务端构造器不传入） */
+    private final BlockPos tablePos;
+
     // ==================== 构造方法 ====================
 
     /**
-     * 服务端构造方法。
-     * 由方块实体或交互逻辑调用，直接传入玩家背包。
+     * 服务端构造方法（带坐标）。
+     * 由 Mixin 的 createMenu 调用，传入制箭台坐标用于距离校验。
      *
-     * @param windowId   窗口 ID，由服务器分配，用于网络同步
-     * @param playerInv  玩家背包，用于创建快捷栏和背包槽位
+     * @param windowId   窗口 ID
+     * @param playerInv  玩家背包
+     * @param tablePos   制箭台方块坐标
      */
-    public FletchingTableMenu(int windowId, Inventory playerInv) {
-        this(windowId, playerInv, new SimpleContainer(SLOT_COUNT));
+    public FletchingTableMenu(int windowId, Inventory playerInv, BlockPos tablePos) {
+        this(windowId, playerInv, new SimpleContainer(SLOT_COUNT), tablePos);
     }
 
     /**
      * 客户端构造方法。
-     * 由客户端网络包处理器调用，通过 FriendlyByteBuf 反序列化额外数据。
-     * 当前实现无需额外数据，因此 buf 参数未使用。
+     * 由客户端网络包处理器调用，通过 FriendlyByteBuf 读取制箭台坐标。
      *
      * @param windowId   窗口 ID
      * @param playerInv  玩家背包
-     * @param buf        网络数据缓冲区（当前未使用，预留接口）
+     * @param buf        网络数据缓冲区，包含制箭台坐标
      */
     public FletchingTableMenu(int windowId, Inventory playerInv, FriendlyByteBuf buf) {
-        this(windowId, playerInv, new SimpleContainer(SLOT_COUNT));
+        this(windowId, playerInv, new SimpleContainer(SLOT_COUNT), buf.readBlockPos());
     }
 
     /**
@@ -96,9 +100,10 @@ public class FletchingTableMenu extends AbstractContainerMenu {
      * @param playerInv 玩家背包
      * @param container 临时物品容器
      */
-    private FletchingTableMenu(int windowId, Inventory playerInv, SimpleContainer container) {
+    private FletchingTableMenu(int windowId, Inventory playerInv, SimpleContainer container, BlockPos tablePos) {
         super(SRMenuTypes.FLETCHING_TABLE.get(), windowId);
         this.container = container;
+        this.tablePos = tablePos;
 
         // ---------- 输入槽（顶部行，y=20，32 像素间距） ----------
 
@@ -328,19 +333,16 @@ public class FletchingTableMenu extends AbstractContainerMenu {
 
     /**
      * 判断容器是否仍对玩家有效。
-     * 如果玩家距离过远则关闭容器（标准 8 格距离限制）。
-     *
-     * 注意：由于使用 SimpleContainer（无方块实体关联），无法获取方块坐标，
-     * 因此采用固定距离限制（基于玩家当前位置与打开 GUI 时的位置）。
-     * 当前实现始终返回 true（SimpleContainer 无方块坐标信息），
-     * 实际距离检查由 Minecraft 原版 GUI 框架处理。
+     * 如果玩家距离制箭台超过 8 格则自动关闭容器。
      *
      * @param player 玩家
      * @return       是否保持打开状态
      */
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        if (tablePos == null) return true;
+        return player.distanceToSqr(
+                tablePos.getX() + 0.5, tablePos.getY() + 0.5, tablePos.getZ() + 0.5) <= 64;
     }
 
     /**

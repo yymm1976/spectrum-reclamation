@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.WeakHashMap;
 
 /**
  * 纹饰效果注册表 —— 公开 API 层。
@@ -42,6 +44,28 @@ public class TrimEffectRegistry {
      */
     private static final Map<ResourceLocation, List<TrimEffectHandler>> REGISTRY = new HashMap<>();
 
+    /** 注册表是否已冻结（初始化完成后冻结，防止运行时意外修改） */
+    private static boolean frozen = false;
+
+    /**
+     * 纹饰效果缓存：实体 UUID → (trim 组合哈希, 处理器列表)。
+     * WeakHashMap 确保玩家离线后自动清理，避免内存泄漏。
+     */
+    private static final Map<UUID, CachedEffects> LOOKUP_CACHE = new WeakHashMap<>();
+
+    /** 缓存条目：记录上次的 trim 组合哈希值和对应的处理器列表 */
+    private record CachedEffects(int trimHash, List<TrimEffectHandler> handlers) {}
+
+    /**
+     * 清除指定实体的纹饰效果缓存。
+     * 在装备变化时调用，确保下次 lookupFromArmor 重新计算。
+     *
+     * @param entityUuid 实体 UUID
+     */
+    public static void clearCache(UUID entityUuid) {
+        LOOKUP_CACHE.remove(entityUuid);
+    }
+
     /**
      * 注册一个纹饰效果处理器。
      *
@@ -55,8 +79,22 @@ public class TrimEffectRegistry {
      * @param handler    效果处理器实例
      */
     public static void register(ResourceLocation materialId, TrimEffectHandler handler) {
+        // 冻结后不允许注册，防止运行时意外修改
+        if (frozen) {
+            throw new IllegalStateException(
+                    "TrimEffectRegistry is frozen. Cannot register after initialization. Material: " + materialId);
+        }
         // 使用 computeIfAbsent 确保同一材料的多个处理器被聚合到同一个 List 中
         REGISTRY.computeIfAbsent(materialId, k -> new ArrayList<>()).add(handler);
+    }
+
+    /**
+     * 冻结注册表，防止初始化完成后的意外修改。
+     * 应在 VanillaTrimEffects.register() 完成后立即调用。
+     * 冻结后 register() 会抛出 IllegalStateException。
+     */
+    public static void freeze() {
+        frozen = true;
     }
 
     /**
@@ -77,53 +115,76 @@ public class TrimEffectRegistry {
      * 读取每件盔甲上的 DataComponents.TRIM（纹饰数据），
      * 提取纹饰材料的 ResourceLocation，查找对应的处理器列表。
      *
-     * 纹饰读取原理（1.21.x Data Components）：
-     * - 每件盔甲物品可携带 DataComponents.TRIM 数据组件
-     * - ArmorTrim 对象包含材料（Holder<TrimMaterial>）和图案信息
-     * - 通过 Holder.unwrapKey() 获取材料在注册表中的 ResourceLocation
+     * 使用缓存机制避免每 tick 重建处理器列表：
+     * 计算当前盔甲 trim 组合的哈希值，与缓存比对，相同则直接返回缓存结果。
      *
      * @param entity 需要查询纹饰效果的实体（通常为玩家）
      * @return 所有盔甲纹饰对应的处理器聚合列表（去重但保留所有实例），
      *         若无任何纹饰则返回空列表
      */
     public static List<TrimEffectHandler> lookupFromArmor(LivingEntity entity) {
+        // 计算当前盔甲 trim 组合的哈希值
+        int currentHash = computeTrimHash(entity);
+        UUID entityUuid = entity.getUUID();
+
+        // 检查缓存
+        CachedEffects cached = LOOKUP_CACHE.get(entityUuid);
+        if (cached != null && cached.trimHash() == currentHash) {
+            return cached.handlers();
+        }
+
+        // 缓存未命中，重新计算
         List<TrimEffectHandler> result = new ArrayList<>();
 
-        // 4 个盔甲槽位：头盔、胸甲、护腿、靴子
         EquipmentSlot[] armorSlots = {
-                EquipmentSlot.HEAD,
-                EquipmentSlot.CHEST,
-                EquipmentSlot.LEGS,
-                EquipmentSlot.FEET
+                EquipmentSlot.HEAD, EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS, EquipmentSlot.FEET
         };
 
-        // 遍历每个盔甲槽位
         for (EquipmentSlot slot : armorSlots) {
             ItemStack armorStack = entity.getItemBySlot(slot);
+            if (armorStack.isEmpty()) continue;
 
-            // 跳过空槽位
-            if (armorStack.isEmpty()) {
-                continue;
-            }
-
-            // 读取盔甲上的纹饰数据组件（1.21.x 使用 DataComponents 替代旧版 NBT）
             ArmorTrim trim = armorStack.get(DataComponents.TRIM);
+            if (trim == null) continue;
 
-            // 若该盔甲没有纹饰，跳过
-            if (trim == null) {
-                continue;
-            }
-
-            // 从 ArmorTrim 中获取纹饰材料的 Holder，再提取 ResourceLocation
-            // unwrapKey() 返回 Optional<ResourceKey<TrimMaterial>>，
-            // 其 location() 即为材料的注册名（如 "minecraft:quartz"）
             trim.material().unwrapKey().ifPresent(materialKey -> {
                 ResourceLocation materialId = materialKey.location();
-                // 查找该材料注册的所有处理器，聚合到结果列表
                 result.addAll(lookup(materialId));
             });
         }
 
+        // 写入缓存
+        LOOKUP_CACHE.put(entityUuid, new CachedEffects(currentHash, result));
         return result;
+    }
+
+    /**
+     * 计算实体盔甲 trim 组合的哈希值。
+     * 基于 4 个槽位的纹饰材料 ResourceLocation 字符串拼接，
+     * 确保不同 trim 组合产生不同哈希。
+     *
+     * @param entity 实体
+     * @return trim 组合哈希值
+     */
+    private static int computeTrimHash(LivingEntity entity) {
+        EquipmentSlot[] armorSlots = {
+                EquipmentSlot.HEAD, EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS, EquipmentSlot.FEET
+        };
+        int hash = 0;
+        for (EquipmentSlot slot : armorSlots) {
+            ItemStack armorStack = entity.getItemBySlot(slot);
+            if (armorStack.isEmpty()) continue;
+
+            ArmorTrim trim = armorStack.get(DataComponents.TRIM);
+            if (trim == null) continue;
+
+            var key = trim.material().unwrapKey();
+            if (key.isPresent()) {
+                hash = hash * 31 + key.get().location().toString().hashCode();
+            }
+        }
+        return hash;
     }
 }

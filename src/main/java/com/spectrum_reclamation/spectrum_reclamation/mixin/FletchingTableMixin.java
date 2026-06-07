@@ -1,6 +1,7 @@
 package com.spectrum_reclamation.spectrum_reclamation.mixin;
 
 import com.spectrum_reclamation.spectrum_reclamation.inventory.FletchingTableMenu;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -75,36 +76,24 @@ public class FletchingTableMixin {
         // NeoForge 的 Side 安全规则：GUI 打开必须由服务端发起，
         // 服务端通过 OpenScreenPacket 通知客户端创建对应的 Menu 和 Screen
         if (!level.isClientSide) {
-            // 打开自定义制箭台 GUI
-            // player.openMenu() 是 Minecraft 原版方法，内部流程：
-            // 1. 创建 MenuProvider 返回的 AbstractContainerMenu 实例
-            // 2. 分配唯一的 windowId（容器窗口 ID）
-            // 3. 发送 OpenScreenPacket 到客户端
-            // 4. 客户端根据 MenuType 查找 IContainerFactory（IMenuTypeExtension.create 注册）
-            //    创建客户端的 Menu 实例
-            // 5. 客户端根据 RegisterMenuScreensEvent 注册的 ScreenConstructor
-            //    创建对应的 Screen 实例并打开 GUI
             player.openMenu(new MenuProvider() {
                 @Override
                 public Component getDisplayName() {
-                    // 容器标题，显示在 GUI 顶部
                     return Component.translatable("container.spectrum_reclamation.fletching_table");
                 }
 
                 @Override
                 public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player player) {
-                    // 创建服务端的 FletchingTableMenu 实例
-                    // windowId 由 player.openMenu() 分配，用于网络同步
-                    // playerInv 用于创建玩家背包和快捷栏槽位
-                    return new FletchingTableMenu(windowId, playerInv);
+                    return new FletchingTableMenu(windowId, playerInv, pos);
                 }
-            });
+            }, buf -> buf.writeBlockPos(pos));
         }
 
         // 取消原版方法执行（无论客户端还是服务端都取消）
         // 服务端：已打开自定义 GUI，不需要原版行为
         // 客户端：原版行为（粒子效果）也不需要
-        // InteractionResult.SUCCESS 表示交互成功，阻止后续处理
-        cir.setReturnValue(InteractionResult.SUCCESS);
+        // 使用 sidedSuccess 确保客户端返回 PASS（不吞掉交互），
+        // 服务端返回 SUCCESS（正常完成交互）
+        cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
     }
 }
