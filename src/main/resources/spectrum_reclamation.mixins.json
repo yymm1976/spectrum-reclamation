@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.spectrum_reclamation.mixin",
+  "package": "com.spectrum_reclamation.spectrum_reclamation.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "FletchingTableMixin"
