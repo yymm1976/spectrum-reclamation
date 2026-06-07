@@ -2,6 +2,8 @@ package com.spectrum_reclamation.spectrum_reclamation;
 
 import com.spectrum_reclamation.spectrum_reclamation.event.CopperPipeTickHandler;
 import com.spectrum_reclamation.spectrum_reclamation.event.SREventHandler;
+import com.spectrum_reclamation.spectrum_reclamation.trim.TrimEffectEventHandler;
+import com.spectrum_reclamation.spectrum_reclamation.trim.VanillaTrimEffects;
 import com.spectrum_reclamation.spectrum_reclamation.inventory.FletchingTableMenu;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlocks;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlockEntities;
@@ -87,6 +89,15 @@ public class SpectrumReclamation {
         // GAME_BUS 处理运行时事件（如实体受伤、死亡掉落等），
         // 使用类注册方式，会自动发现所有带 @SubscribeEvent 的静态方法。
         NeoForge.EVENT_BUS.register(SREventHandler.class);
+
+        // 注册纹饰效果处理器到 GAME_BUS。
+        // 使用类注册方式，监听实体受伤、经验掉落、摔落、装备变化等事件，
+        // 将事件分发给对应纹饰材料的 TrimEffectHandler。
+        NeoForge.EVENT_BUS.register(TrimEffectEventHandler.class);
+
+        // 注册所有原版纹饰效果到 TrimEffectRegistry。
+        // 必须在 GAME_BUS 注册之前完成，确保事件触发时注册表已就绪。
+        VanillaTrimEffects.register();
 
         // 注册铜管传输事件处理器到 GAME_BUS。
         // 使用实例注册（而非类注册），因为 CopperPipeTickHandler 的 onServerTick 是实例方法，
