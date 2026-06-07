@@ -1,0 +1,24 @@
+{
+  "type": "spectrum:potion_workshop_crafting",
+  "base_ingredient": {
+    "item": "spectrum_reclamation:heavy_spear"
+  },
+  "use_up_base_ingredient": true,
+  "color": 0,
+  "ingredient1": {
+    "item": "spectrum:black_ink_bottle"
+  },
+  "ingredient2": {
+    "item": "minecraft:air"
+  },
+  "ingredient3": {
+    "item": "minecraft:air"
+  },
+  "result": {
+    "item": "spectrum_reclamation:heavy_spear",
+    "count": 1,
+    "components": {
+      "spectrum_reclamation:spear_coating": "black"
+    }
+  }
+}

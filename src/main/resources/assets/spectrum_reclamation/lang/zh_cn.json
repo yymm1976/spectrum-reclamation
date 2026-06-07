@@ -36,5 +36,24 @@
   "message.spectrum_reclamation.waypoint_recorded": "§a已记录位置：(%s, %s, %s)",
 
   "item.spectrum_reclamation.heavy_spear": "沉重之矛",
-  "item.spectrum_reclamation.meteor_crossbow": "陨星弩"
+  "item.spectrum_reclamation.meteor_crossbow": "陨星弩",
+
+  "recipeGroup.spectrum_reclamation.coating": "墨水涂装",
+
+  "recipe.spectrum_reclamation.coating_red": "红色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_orange": "橙色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_yellow": "黄色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_green": "绿色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_cyan": "青色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_blue": "蓝色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_purple": "紫色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_magenta": "品红涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_pink": "粉色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_white": "白色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_black": "黑色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_light_gray": "浅灰涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_dark_gray": "深灰涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_brown": "棕色涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_light_blue": "浅蓝涂装沉重之矛",
+  "recipe.spectrum_reclamation.coating_lime": "黄绿涂装沉重之矛"
 }

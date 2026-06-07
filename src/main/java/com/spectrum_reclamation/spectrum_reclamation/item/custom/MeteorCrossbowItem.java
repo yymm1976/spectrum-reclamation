@@ -79,8 +79,24 @@ public class MeteorCrossbowItem extends CrossbowItem {
         if (CrossbowItem.isCharged(crossbowStack)) {
             // 仅在服务端创建和发射弹射物（避免客户端重复生成）
             if (!level.isClientSide()) {
-                // 创建沉重之矛弹射物实体
-                ThrownHeavySpear spear = new ThrownHeavySpear(level, player);
+                // 从弩上读取装填时保存的涂装数据
+                // ChargedProjectiles 不保留数据组件，所以涂装数据单独存储在弩上
+                String savedCoating = crossbowStack.get(SRDataComponents.SPEAR_COATING.get());
+                ItemStack spearStack;
+                if (savedCoating != null) {
+                    // 有涂装数据：创建带涂装的矛物品栈
+                    spearStack = new ItemStack(SRItems.HEAVY_SPEAR.get());
+                    spearStack.set(SRDataComponents.SPEAR_COATING.get(), savedCoating);
+                    // 清除弩上的临时涂装数据（已转移到弹射物上）
+                    crossbowStack.remove(SRDataComponents.SPEAR_COATING.get());
+                } else {
+                    // 无涂装：普通矛
+                    spearStack = new ItemStack(SRItems.HEAVY_SPEAR.get());
+                }
+
+                // 创建沉重之矛弹射物实体（传入带涂装的物品栈）
+                // ThrownHeavySpear 的三参数构造器会将涂装数据传递给 pickupItem
+                ThrownHeavySpear spear = new ThrownHeavySpear(level, player, spearStack);
                 // shootFromRotation 参数：投射者、俯仰角、偏航角、偏移、速度、散射
                 // 速度 3.0F 比雪球（1.5F）快，适合重型弩的射击感
                 spear.shootFromRotation(player, player.getXRot(), player.getYRot(),
@@ -145,6 +161,14 @@ public class MeteorCrossbowItem extends CrossbowItem {
                 // isCharged() 检查此组件是否非空
                 stack.set(DataComponents.CHARGED_PROJECTILES,
                         ChargedProjectiles.of(List.of(new ItemStack(SRItems.HEAVY_SPEAR.get()))));
+
+                // === 保存涂装数据到弩上 ===
+                // ChargedProjectiles 不保留数据组件，所以涂装数据需要单独存储
+                // 在发射时从弩上读取，转移到弹射物上
+                String coating = HeavySpearItem.getCoating(ammo);
+                if (coating != null) {
+                    stack.set(SRDataComponents.SPEAR_COATING.get(), coating);
+                }
 
                 // 消耗弹药（非创造模式下从背包移除 1 个）
                 if (!player.getAbilities().instabuild) {

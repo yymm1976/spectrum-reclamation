@@ -70,6 +70,20 @@ public class SRDataComponents {
             );
 
     /**
+     * 沉重之矛涂装颜色 —— 存储墨水涂装的颜色 ID（如 "red"、"blue"）。
+     * 值类型：String
+     * 用途：击中目标时读取此组件，触发对应颜色的特殊效果。
+     * 持久化：是（存档时保留），网络同步：是（弹射物需要在客户端显示效果）。
+     */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> SPEAR_COATING =
+            DATA_COMPONENTS.register("spear_coating",
+                    () -> DataComponentType.<String>builder()
+                            .persistent(Codec.STRING)
+                            .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                            .build()
+            );
+
+    /**
      * 将数据组件注册器绑定到模组事件总线（MOD_BUS）。
      *
      * @param modEventBus 模组事件总线
