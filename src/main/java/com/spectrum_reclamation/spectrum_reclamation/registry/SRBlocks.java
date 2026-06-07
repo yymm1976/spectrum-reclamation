@@ -2,6 +2,8 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.block.BlazingLightBlock;
+import com.spectrum_reclamation.spectrum_reclamation.block.CopperPipeBlock;
+import com.spectrum_reclamation.spectrum_reclamation.block.CopperPipeEndpointBlock;
 import com.spectrum_reclamation.spectrum_reclamation.block.LivingTrapBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -57,6 +59,42 @@ public class SRBlocks {
                                     .strength(2.0F)        // 硬度 2.0，木镐即可挖掘
                                     .requiresCorrectToolForDrops()  // 需要正确工具才能掉落
                                     .noOcclusion()         // 不遮挡相邻面
+                    )
+            );
+
+    /**
+     * 铜管方块 —— 用于构建管道网络，可自动连接相邻的铜管或铜管接口。
+     * - 6 个面的 BooleanProperty 管理连接状态
+     * - 放置时自动检测相邻方块并建立连接
+     * - 支持含水和蜜脾涂蜡
+     */
+    public static final DeferredHolder<Block, Block> COPPER_PIPE =
+            BLOCKS.register(
+                    "copper_pipe",
+                    () -> new CopperPipeBlock(
+                            BlockBehaviour.Properties.of()
+                                    .strength(3.0F)           // 硬度 3.0，石镐可挖掘
+                                    .requiresCorrectToolForDrops()  // 需要正确工具才能掉落
+                                    .noOcclusion()             // 不遮挡相邻面（管道形状不规则）
+                                    .sound(net.minecraft.world.level.block.SoundType.COPPER)  // 铜质音效
+                    )
+            );
+
+    /**
+     * 铜管接口方块 —— 贴在容器上，连接铜管网络与容器。
+     * - FACING 属性朝向容器
+     * - 右键切换入口/出口模式
+     * - 自动检测朝向方向的容器（BlockEntity 实现 Container 接口）
+     */
+    public static final DeferredHolder<Block, Block> COPPER_PIPE_ENDPOINT =
+            BLOCKS.register(
+                    "copper_pipe_endpoint",
+                    () -> new CopperPipeEndpointBlock(
+                            BlockBehaviour.Properties.of()
+                                    .strength(3.0F)           // 硬度 3.0，石镐可挖掘
+                                    .requiresCorrectToolForDrops()  // 需要正确工具才能掉落
+                                    .noOcclusion()             // 不遮挡相邻面（接口形状不规则）
+                                    .sound(net.minecraft.world.level.block.SoundType.COPPER)  // 铜质音效
                     )
             );
 
