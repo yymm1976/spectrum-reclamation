@@ -1,0 +1,10 @@
+{
+  "type": "spectrum:pedestal",
+  "ingredients": [
+    { "item": "minecraft:copper_ingot" }
+  ],
+  "result": {
+    "item": "spectrum_reclamation:copper_pipe_endpoint",
+    "count": 4
+  }
+}

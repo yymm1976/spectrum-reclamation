@@ -1,8 +1,10 @@
 package com.spectrum_reclamation.spectrum_reclamation;
 
+import com.spectrum_reclamation.spectrum_reclamation.event.CopperPipeTickHandler;
 import com.spectrum_reclamation.spectrum_reclamation.event.SREventHandler;
 import com.spectrum_reclamation.spectrum_reclamation.inventory.FletchingTableMenu;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlocks;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlockEntities;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRCreativeModeTabs;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SREntities;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRItems;
@@ -50,6 +52,8 @@ public class SpectrumReclamation {
     public SpectrumReclamation(IEventBus modEventBus) {
         // 注册方块到 MOD_BUS（必须在物品之前，物品可能引用方块）
         SRBlocks.register(modEventBus);
+        // 注册方块实体类型到 MOD_BUS（必须在方块之后，方块实体类型引用方块）
+        SRBlockEntities.register(modEventBus);
         // 注册物品到 MOD_BUS
         SRItems.register(modEventBus);
         // 注册实体类型到 MOD_BUS
@@ -80,6 +84,11 @@ public class SpectrumReclamation {
         // GAME_BUS 处理运行时事件（如实体受伤、死亡掉落等），
         // 使用类注册方式，会自动发现所有带 @SubscribeEvent 的静态方法。
         NeoForge.EVENT_BUS.register(SREventHandler.class);
+
+        // 注册铜管传输事件处理器到 GAME_BUS。
+        // 使用实例注册（而非类注册），因为 CopperPipeTickHandler 的 onServerTick 是实例方法，
+        // 需要访问实例级别的 tick 计数器来控制每 20 ticks 执行一次扫描。
+        NeoForge.EVENT_BUS.register(new CopperPipeTickHandler());
 
         LOGGER.info("Spectrum Reclamation 模组初始化完成");
     }

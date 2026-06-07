@@ -7,6 +7,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -16,7 +17,11 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import com.spectrum_reclamation.spectrum_reclamation.block_entity.CopperPipeBlockEntity;
+import javax.annotation.Nullable;
 
 /**
  * 铜管方块 —— 用于构建管道网络，可自动连接相邻的铜管或铜管接口。
@@ -27,6 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * - 相邻方块变化时自动更新连接状态
  * - 被破坏时通知相邻铜管更新连接 + 从网络中移除自身
  * - 支持含水（WATERLOGGED）和蜜脾涂蜡（WAXED）
+ * - 实现 EntityBlock 接口，每个铜管方块关联一个 CopperPipeBlockEntity（持有网络 UUID）
  *
  * BlockState 序列化说明：
  * 6 个 BooleanProperty + WATERLOGGED + WAXED = 8 个布尔属性，
@@ -36,7 +42,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * 每个属性独立序列化为 "属性名=值"，逗号分隔，方括号包裹。
  * 反序列化时由 Minecraft 的 BlockStateParser 解析字符串还原状态。
  */
-public class CopperPipeBlock extends Block implements SimpleWaterloggedBlock {
+public class CopperPipeBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
 
     // ==================== 方块状态属性定义 ====================
 
@@ -99,6 +105,26 @@ public class CopperPipeBlock extends Block implements SimpleWaterloggedBlock {
                         .setValue(WATERLOGGED, false)
                         .setValue(WAXED, false)
         );
+    }
+
+    // ==================== EntityBlock 接口实现（方块实体工厂） ====================
+
+    /**
+     * 创建铜管方块实体实例。
+     *
+     * EntityBlock 接口要求实现此方法，Minecraft 引擎在加载方块时调用，
+     * 用于创建与方块关联的 BlockEntity 实例。
+     *
+     * CopperPipeBlockEntity 在其 onLoad 回调中会自动注册到铜管网络。
+     *
+     * @param pos   方块位置
+     * @param state 方块状态
+     * @return 新的 CopperPipeBlockEntity 实例
+     */
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new CopperPipeBlockEntity(pos, state);
     }
 
     /**

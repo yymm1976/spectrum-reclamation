@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "spectrum_reclamation:copper_pipe" },
+    { "item": "minecraft:honeycomb" }
+  ],
+  "result": {
+    "item": "spectrum_reclamation:copper_pipe",
+    "count": 1
+  }
+}

@@ -18,5 +18,10 @@
   "block.spectrum_reclamation.living_trap": "活体陷阱",
   "item.spectrum_reclamation.living_trap": "活体陷阱",
 
-  "container.spectrum_reclamation.fletching_table": "制箭台"
+  "container.spectrum_reclamation.fletching_table": "制箭台",
+
+  "block.spectrum_reclamation.copper_pipe": "铜管",
+  "item.spectrum_reclamation.copper_pipe": "铜管",
+  "block.spectrum_reclamation.copper_pipe_endpoint": "铜管接口",
+  "item.spectrum_reclamation.copper_pipe_endpoint": "铜管接口"
 }
