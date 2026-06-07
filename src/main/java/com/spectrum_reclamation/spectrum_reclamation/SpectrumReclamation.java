@@ -5,6 +5,7 @@ import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlocks;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRCreativeModeTabs;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SREntities;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRItems;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRMenuTypes;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRMobEffects;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRPotions;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRTrimMaterials;
@@ -56,6 +57,8 @@ public class SpectrumReclamation {
         SRMobEffects.register(modEventBus);
         // 注册药水到 MOD_BUS
         SRPotions.register(modEventBus);
+        // 注册菜单类型到 MOD_BUS（制箭台等容器 GUI）
+        SRMenuTypes.register(modEventBus);
 
         // 注册事件处理器到 GAME_BUS（NeoForge.EVENT_BUS）。
         // GAME_BUS 处理运行时事件（如实体受伤、死亡掉落等），
