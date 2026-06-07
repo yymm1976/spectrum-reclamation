@@ -16,5 +16,7 @@
   "item.spectrum_reclamation.blazing_bomb": "炽光炸弹",
   "block.spectrum_reclamation.blazing_light": "炽光灯",
   "block.spectrum_reclamation.living_trap": "活体陷阱",
-  "item.spectrum_reclamation.living_trap": "活体陷阱"
+  "item.spectrum_reclamation.living_trap": "活体陷阱",
+
+  "container.spectrum_reclamation.fletching_table": "制箭台"
 }
