@@ -68,13 +68,15 @@ public class LivingTrapBlock extends Block {
 
     /**
      * 被吞入实体的追踪表。
-     * Key = 方块位置，Value = 被吞入的实体引用。
-     * 用于在 5 秒延迟 tick 触发时定位并释放实体。
-     *
-     * 注意：此表仅存在于内存中，服务重启后丢失。
-     * 在 5 秒的极短窗口内，服务器重启导致实体状态不一致的概率极低。
+     * Key = "维度ID:方块位置" 字符串，确保跨维度不冲突。
+     * Value = 被吞入的实体引用。
      */
-    private static final Map<BlockPos, LivingEntity> TRAPPED_ENTITIES = new HashMap<>();
+    private static final Map<String, LivingEntity> TRAPPED_ENTITIES = new HashMap<>();
+
+    /** 生成维度感知的追踪键 */
+    private static String trapKey(Level level, BlockPos pos) {
+        return level.dimension().location() + ":" + pos.getX() + "," + pos.getY() + "," + pos.getZ();
+    }
 
     // ==================== 构造与状态定义 ====================
 
@@ -152,7 +154,7 @@ public class LivingTrapBlock extends Block {
         livingEntity.setNoGravity(true);
 
         // 4. 记录被吞入的实体，供延迟 tick 释放时查找
-        TRAPPED_ENTITIES.put(pos.immutable(), livingEntity);
+        TRAPPED_ENTITIES.put(trapKey(level, pos), livingEntity);
 
         // 5. 调度 5 秒（100 ticks）后释放实体的延迟 tick
         level.scheduleTick(pos, this, SWALLOW_DURATION);
@@ -174,10 +176,10 @@ public class LivingTrapBlock extends Block {
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(COOLDOWN)) {
             // 冷却状态：尝试释放实体
-            LivingEntity trapped = TRAPPED_ENTITIES.get(pos);
+            LivingEntity trapped = TRAPPED_ENTITIES.get(trapKey(level, pos));
             if (trapped != null) {
                 releaseEntity(trapped, level, pos);
-                TRAPPED_ENTITIES.remove(pos);
+                TRAPPED_ENTITIES.remove(trapKey(level, pos));
             }
             // 调度 15 秒后重置冷却（再过 200 ticks 才能恢复待命状态）
             level.scheduleTick(pos, this, COOLDOWN_DURATION - SWALLOW_DURATION);
@@ -212,7 +214,7 @@ public class LivingTrapBlock extends Block {
         if (!oldState.is(newState.getBlock())) {
             // 仅在冷却状态（即有实体被吞入时）才需要清理
             if (oldState.getValue(COOLDOWN)) {
-                LivingEntity trapped = TRAPPED_ENTITIES.remove(pos);
+                LivingEntity trapped = TRAPPED_ENTITIES.remove(trapKey(level, pos));
                 if (trapped != null) {
                     // 恢复实体正常状态，防止实体永久卡在不可见/无敌/无重力状态
                     trapped.setInvisible(false);

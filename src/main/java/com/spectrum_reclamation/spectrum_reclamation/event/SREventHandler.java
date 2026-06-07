@@ -72,7 +72,6 @@ public class SREventHandler {
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getEntity();
-        InteractionHand hand = event.getHand();
         Level level = event.getLevel();
 
         if (player == null || level.isClientSide()) {

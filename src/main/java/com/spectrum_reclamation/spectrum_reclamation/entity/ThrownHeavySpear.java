@@ -201,8 +201,20 @@ public class ThrownHeavySpear extends AbstractArrow {
      */
     @Override
     protected void doKnockback(LivingEntity target, DamageSource damageSource) {
-        // 计算矛的水平飞行方向
-        Vec3 flightDir = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize();
+        // 计算矛的水平飞行方向（防止零向量 normalize 产生 NaN）
+        Vec3 horizontal = this.getDeltaMovement().multiply(1.0, 0.0, 1.0);
+        Vec3 flightDir;
+        if (horizontal.lengthSqr() > 1.0E-7) {
+            flightDir = horizontal.normalize();
+        } else {
+            // 矛几乎垂直下落，使用朝向兜底
+            flightDir = this.getViewVector(1.0F).multiply(1.0, 0.0, 1.0);
+            if (flightDir.lengthSqr() > 1.0E-7) {
+                flightDir = flightDir.normalize();
+            } else {
+                flightDir = new Vec3(1.0, 0.0, 0.0); // 最终兜底
+            }
+        }
 
         // 计算击退抗性修正（击退抗性属性会减免部分击退）
         double resistance = Math.max(0.0, 1.0 - target.getAttributeValue(
@@ -238,9 +250,19 @@ public class ThrownHeavySpear extends AbstractArrow {
      */
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        // 记录碰撞前的飞行方向（normalize 后为单位向量）
-        // multiply(1.0, 0.0, 1.0) 忽略垂直分量，只取水平方向
-        Vec3 flightDir = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize();
+        // 记录碰撞前的飞行方向（防止零向量 normalize 产生 NaN）
+        Vec3 horizontal = this.getDeltaMovement().multiply(1.0, 0.0, 1.0);
+        Vec3 flightDir;
+        if (horizontal.lengthSqr() > 1.0E-7) {
+            flightDir = horizontal.normalize();
+        } else {
+            flightDir = this.getViewVector(1.0F).multiply(1.0, 0.0, 1.0);
+            if (flightDir.lengthSqr() > 1.0E-7) {
+                flightDir = flightDir.normalize();
+            } else {
+                flightDir = new Vec3(1.0, 0.0, 0.0);
+            }
+        }
 
         // === 保存射手引用（涂装效果需要，如绿/浅蓝需要对射手施加效果） ===
         LivingEntity shooter = this.getOwner() instanceof LivingEntity living ? living : null;
@@ -404,15 +426,18 @@ public class ThrownHeavySpear extends AbstractArrow {
             return;
         }
 
-        // 交换位置：记录射手坐标，将目标传送到射手位置
+        // 先捕获双方原始坐标，再执行交换（避免 moveTo 后坐标被引擎修正导致不同步）
         double shooterX = shooter.getX();
         double shooterY = shooter.getY();
         double shooterZ = shooter.getZ();
+        double targetX = target.getX();
+        double targetY = target.getY();
+        double targetZ = target.getZ();
 
-        // 将目标传送到射手当前位置
+        // 将目标传送到射手位置
         target.moveTo(shooterX, shooterY, shooterZ);
-        // 将射手传送到目标原位置（实现位置互换）
-        shooter.moveTo(target.getX(), target.getY(), target.getZ());
+        // 将射手传送到目标原始位置
+        shooter.moveTo(targetX, targetY, targetZ);
     }
 
     /**
@@ -483,11 +508,15 @@ public class ThrownHeavySpear extends AbstractArrow {
     private void applyLightGrayEffect(LivingEntity target) {
         Level level = this.level();
         for (int i = 0; i < 3; i++) {
-            // 在目标位置附近生成蠹虫（setPosToRandomAvoidingOverlap 避免重叠）
             var silverfish = EntityType.SILVERFISH.create(level);
             if (silverfish != null) {
-                silverfish.moveTo(target.getX(), target.getY(), target.getZ(),
+                // 在目标附近随机偏移位置生成，避免重叠
+                double offsetX = (this.random.nextDouble() - 0.5) * 2.0;
+                double offsetZ = (this.random.nextDouble() - 0.5) * 2.0;
+                silverfish.moveTo(target.getX() + offsetX, target.getY(), target.getZ() + offsetZ,
                         this.random.nextFloat() * 360.0F, 0.0F);
+                // 设定攻击目标，使蠹虫主动攻击被击中的实体
+                silverfish.setTarget(target);
                 level.addFreshEntity(silverfish);
             }
         }

@@ -2,6 +2,7 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.block_entity.CopperPipeBlockEntity;
+import com.spectrum_reclamation.spectrum_reclamation.block_entity.CopperPipeEndpointBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -41,6 +42,19 @@ public class SRBlockEntities {
                     () -> BlockEntityType.Builder.of(
                             CopperPipeBlockEntity::new,
                             SRBlocks.COPPER_PIPE.get()   // 对应的铜管方块
+                    ).build(null)
+            );
+
+    /**
+     * 铜管接口方块实体类型。
+     * 管理端口的网络入口/出口注册。
+     */
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopperPipeEndpointBlockEntity>> COPPER_PIPE_ENDPOINT =
+            BLOCK_ENTITY_TYPES.register(
+                    "copper_pipe_endpoint",
+                    () -> BlockEntityType.Builder.of(
+                            CopperPipeEndpointBlockEntity::new,
+                            SRBlocks.COPPER_PIPE_ENDPOINT.get()
                     ).build(null)
             );
 

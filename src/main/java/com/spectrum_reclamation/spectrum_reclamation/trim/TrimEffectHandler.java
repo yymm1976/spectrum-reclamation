@@ -130,4 +130,20 @@ public interface TrimEffectHandler {
     default void onEquipmentChange(LivingEntity entity, int count) {
         // 默认空实现，子类按需覆盖
     }
+
+    /**
+     * 造成伤害时调用 —— 用于增加攻击者输出伤害的纹饰效果。
+     *
+     * 与 onHurt 的区别：onHurt 检查被攻击方（防御方）的纹饰，
+     * 此方法检查攻击方的纹饰，用于石英（近战伤害加成）等攻击侧效果。
+     *
+     * @param attacker 发起攻击的实体（穿戴攻击型纹饰的一方）
+     * @param target   被攻击的目标
+     * @param count    攻击者身上该纹饰材料的件数（0-4）
+     * @param damage   当前伤害值
+     * @return 伤害乘数加算值（如 0.02 表示 +2% 伤害），默认 0.0f
+     */
+    default float onDealDamage(LivingEntity attacker, LivingEntity target, int count, float damage) {
+        return 0.0f;
+    }
 }

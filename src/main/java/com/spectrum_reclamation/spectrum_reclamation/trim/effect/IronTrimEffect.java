@@ -2,12 +2,15 @@ package com.spectrum_reclamation.spectrum_reclamation.trim.effect;
 
 import com.spectrum_reclamation.spectrum_reclamation.trim.TrimCountedValue;
 import com.spectrum_reclamation.spectrum_reclamation.trim.TrimEffectHandler;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.armortrim.ArmorTrim;
 
 /**
  * 铁锭纹饰效果处理器。
@@ -15,69 +18,78 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  * 材料：minecraft:iron
  * 效果：+0.5 盔甲值/件
  *
- * 通过 addAttributeModifier 向盔甲添加 ARMOR 属性修饰器。
- * Attributes.ARMOR 基础值为 0，使用 ADD_MULTIPLIED_BASE 操作：
- * - 1 件：0 + 1.0 × 0.5 = +0.5 盔甲
+ * 使用 ADD_VALUE 操作直接叠加盔甲值：
+ * - 1 件：+0.5 盔甲
  * - 2 件：+1.0 盔甲
  * - 4 件：+2.0 盔甲
  *
- * NeoForge 1.21.x 中 AttributeModifier 使用 ResourceLocation 而非 UUID 作为标识符，
- * 每个盔甲槽位使用不同的 ResourceLocation（防止合并计算错误）。
+ * 仅在装备变化时更新属性修饰器（onEquipmentChange），
+ * 避免每 tick 重复操作属性系统。
  */
 public class IronTrimEffect implements TrimEffectHandler {
 
     /** 每件纹饰提供的盔甲值 */
     private static final TrimCountedValue ARMOR_BONUS = TrimCountedValue.linear(0.0, 0.5);
 
-    /** 4 个盔甲槽位各自的固定 ResourceLocation 标识符，防止同一实体上多个槽位的修饰器互相覆盖 */
+    /** 4 个盔甲槽位各自的固定 ResourceLocation 标识符 */
     private static final ResourceLocation[] SLOT_IDS = {
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_0"), // 头盔
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_1"), // 胸甲
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_2"), // 护腿
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_3")  // 靴子
+            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_0"),
+            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_1"),
+            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_2"),
+            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_3")
     };
 
-    /**
-     * 每 tick 更新盔甲属性修饰器。
-     *
-     * 根据铁锭纹饰件数动态调整 ARMOR 属性值。
-     * 仅在服务端执行，避免客户端属性重复叠加。
-     *
-     * NeoForge 1.21.x 属性修饰器原理：
-     * - AttributeInstance 存储某个属性在实体上的所有修饰器
-     * - 每个修饰器有固定 ResourceLocation 标识符，同一 ID 会被替换而非叠加
-     * - 当 count=0 时移除修饰器，恢复原版属性值
-     *
-     * @param entity 拥有纹饰效果的实体
-     * @param count  铁锭纹饰的盔甲件数（0-4）
-     */
+    private static final EquipmentSlot[] ARMOR_SLOTS = {
+            EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
+    };
+
+    private static final ResourceLocation IRON_MATERIAL_ID =
+            ResourceLocation.fromNamespaceAndPath("minecraft", "iron");
+
     @Override
-    public void onTick(LivingEntity entity, int count) {
-        // 仅在服务端操作属性，避免客户端重复叠加
-        if (entity.level().isClientSide()) {
-            return;
+    public void onEquipmentChange(LivingEntity entity, int count) {
+        if (entity.level().isClientSide()) return;
+        updateArmorModifiers(entity);
+    }
+
+    private void updateArmorModifiers(LivingEntity entity) {
+        AttributeInstance attrInstance = entity.getAttribute(Attributes.ARMOR);
+        if (attrInstance == null) return;
+
+        int trimCount = 0;
+        for (int i = 0; i < ARMOR_SLOTS.length; i++) {
+            // 先移除旧修饰器
+            attrInstance.removeModifier(SLOT_IDS[i]);
+
+            // 检查该槽位是否有铁纹饰
+            ItemStack armorStack = entity.getItemBySlot(ARMOR_SLOTS[i]);
+            if (!armorStack.isEmpty()) {
+                ArmorTrim trim = armorStack.get(DataComponents.TRIM);
+                if (trim != null && trim.material().unwrapKey().isPresent()
+                        && trim.material().unwrapKey().get().location().equals(IRON_MATERIAL_ID)) {
+                    trimCount++;
+                }
+            }
         }
 
-        // 计算当前纹饰件数对应的总盔甲加成
-        double armorValue = ARMOR_BONUS.calc(count);
-
-        for (int i = 0; i < SLOT_IDS.length; i++) {
-            AttributeInstance attrInstance = entity.getAttribute(Attributes.ARMOR);
-            if (attrInstance == null) continue;
-
-            if (count > 0) {
-                // count > 0 时，添加或更新属性修饰器
-                // ADD_MULTIPLIED_BASE：基于属性基础值进行乘法加算
-                // ARMOR 基础值为 0，此处用 ADD_MULTIPLIED_BASE + value=0.5 来叠加
-                // 实际效果：每件 +0.5 盔甲值
-                attrInstance.addPermanentModifier(new AttributeModifier(
-                        SLOT_IDS[i],
-                        armorValue,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_BASE
-                ));
-            } else {
-                // count=0 时移除修饰器，恢复原版属性值
-                attrInstance.removeModifier(SLOT_IDS[i]);
+        if (trimCount > 0) {
+            // 总盔甲值 = 0.5 × 件数，均分到每个有纹饰的槽位
+            double totalArmor = ARMOR_BONUS.calc(trimCount);
+            double perSlotValue = totalArmor / trimCount;
+            int idx = 0;
+            for (EquipmentSlot slot : ARMOR_SLOTS) {
+                ItemStack armorStack = entity.getItemBySlot(slot);
+                if (!armorStack.isEmpty()) {
+                    ArmorTrim trim = armorStack.get(DataComponents.TRIM);
+                    if (trim != null && trim.material().unwrapKey().isPresent()
+                            && trim.material().unwrapKey().get().location().equals(IRON_MATERIAL_ID)) {
+                        attrInstance.addPermanentModifier(new AttributeModifier(
+                                SLOT_IDS[idx], perSlotValue,
+                                AttributeModifier.Operation.ADD_VALUE
+                        ));
+                    }
+                }
+                idx++;
             }
         }
     }

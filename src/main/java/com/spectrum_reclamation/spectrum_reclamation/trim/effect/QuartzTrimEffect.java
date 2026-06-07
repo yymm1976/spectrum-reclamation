@@ -40,6 +40,15 @@ public class QuartzTrimEffect implements TrimEffectHandler {
      */
     @Override
     public float onHurt(LivingEntity entity, int count, float damage) {
-        return (float) DAMAGE_BONUS.calc(count); // 百分比值，如 calc(4) = 0.08
+        return 0.0f; // 石英纹饰是攻击侧效果，防御方不生效
+    }
+
+    /**
+     * 攻击者穿戴石英纹饰时，增加造成伤害。
+     * 由 TrimEffectEventHandler 检查攻击者护甲后调用。
+     */
+    @Override
+    public float onDealDamage(LivingEntity attacker, LivingEntity target, int count, float damage) {
+        return (float) DAMAGE_BONUS.calc(count);
     }
 }

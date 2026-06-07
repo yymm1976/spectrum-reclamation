@@ -8,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -117,6 +116,23 @@ public class CopperPipeBlockEntity extends BlockEntity {
         // 注册到静态网络管理器（若网络不存在则创建）
         CopperPipeNetwork network = CopperPipeNetwork.getOrCreate(networkId, level.dimension());
         network.addNode(worldPosition, findConnectedNeighbors());
+
+        // 扫描相邻端点方块，将它们注册到网络的入口/出口
+        registerAdjacentEndpoints(network);
+    }
+
+    /**
+     * 扫描 6 个方向，找到相邻的 CopperPipeEndpointBlock 方块实体，
+     * 确保它们的入口/出口已在网络中注册。
+     */
+    private void registerAdjacentEndpoints(CopperPipeNetwork network) {
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = worldPosition.relative(direction);
+            if (level.getBlockEntity(neighborPos) instanceof CopperPipeEndpointBlockEntity endpointBE) {
+                // 触发端点的网络注册（端点会自行检查模式并注册为入口或出口）
+                endpointBE.onModeChanged();
+            }
+        }
     }
 
     /**
@@ -133,6 +149,11 @@ public class CopperPipeBlockEntity extends BlockEntity {
      */
     @Override
     public void setRemoved() {
+        // 防止区块卸载时 level 为 null 导致 NPE
+        if (level == null) {
+            super.setRemoved();
+            return;
+        }
         // 仅在服务端且 networkId 已初始化时执行
         if (!level.isClientSide && networkId != null) {
             CopperPipeNetwork network = CopperPipeNetwork.get(networkId);
@@ -165,7 +186,6 @@ public class CopperPipeBlockEntity extends BlockEntity {
      */
     private Set<BlockPos> findConnectedNeighbors() {
         Set<BlockPos> neighbors = new HashSet<>();
-        BlockState myState = getBlockState();
 
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = worldPosition.relative(direction);
@@ -177,7 +197,7 @@ public class CopperPipeBlockEntity extends BlockEntity {
                 neighbors.add(neighborPos);
             }
             // 铜管接口：面向容器的方向不连接铜管（该方向连接容器）
-            else if (neighborBlock instanceof CopperPipeEndpointBlock endpoint) {
+            else if (neighborBlock instanceof CopperPipeEndpointBlock) {
                 Direction endpointFacing = neighborState.getValue(CopperPipeEndpointBlock.FACING);
                 // 接口的 FACING 朝向容器，其反方向才是面向铜管的方向
                 // 从当前铜管看邻居接口时，只有非 FACING 方向才连接

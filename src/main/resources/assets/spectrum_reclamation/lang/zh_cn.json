@@ -40,6 +40,8 @@
 
   "message.spectrum_reclamation.scope_attached": "§a瞄准镜已附着",
   "message.spectrum_reclamation.waypoint_recorded": "§a已记录位置：(%s, %s, %s)",
+  "message.spectrum_reclamation.pipe_endpoint.input": "§7铜管接口：入口模式",
+  "message.spectrum_reclamation.pipe_endpoint.output": "§7铜管接口：出口模式",
 
   "recipeGroup.spectrum_reclamation.coating": "墨水涂装",
   "recipeGroup.spectrum_reclamation.fletching": "制箭台合成",

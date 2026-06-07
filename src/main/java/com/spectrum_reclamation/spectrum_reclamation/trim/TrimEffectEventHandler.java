@@ -55,30 +55,35 @@ public class TrimEffectEventHandler {
             return;
         }
 
-        // 获取实体盔甲上所有纹饰对应的处理器（含重复件数）
-        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(entity);
-        if (handlers.isEmpty()) {
-            return;
-        }
-
-        // 统计每种处理器的件数（同一处理器出现 N 次 = 该纹饰材料在 N 件盔甲上）
-        // 使用 HashMap<对象引用, 次数> 进行计数，Object.equals() 默认用引用比较
-        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
-        for (TrimEffectHandler handler : handlers) {
-            countMap.merge(handler, 1, Integer::sum);
-        }
-
-        // 累加所有处理器返回的伤害乘数加算值（多个纹饰效果的加成叠加）
-        // 例：石英 +2% 和午夜碎片 +8% → 总加算 = 0.02 + 0.08 = 0.10
-        // 使用带 DamageSource 的重载版本，使 handler 可获取攻击者信息（如中毒纹饰需要）
         float totalDamageBonus = 0.0f;
-        for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
-            totalDamageBonus += entry.getKey().onHurt(entity, entry.getValue(), event.getAmount(), event.getSource());
+
+        // === 1. 攻击侧纹饰效果（检查攻击者护甲） ===
+        if (event.getSource().getEntity() instanceof LivingEntity attacker) {
+            List<TrimEffectHandler> attackerHandlers = TrimEffectRegistry.lookupFromArmor(attacker);
+            if (!attackerHandlers.isEmpty()) {
+                Map<TrimEffectHandler, Integer> attackerCountMap = new HashMap<>();
+                for (TrimEffectHandler handler : attackerHandlers) {
+                    attackerCountMap.merge(handler, 1, Integer::sum);
+                }
+                for (Map.Entry<TrimEffectHandler, Integer> entry : attackerCountMap.entrySet()) {
+                    totalDamageBonus += entry.getKey().onDealDamage(attacker, entity, entry.getValue(), event.getAmount());
+                }
+            }
         }
 
-        // 有伤害加成时才修改事件，避免不必要的调用
-        // 最终伤害 = 原始伤害 × (1 + 总加算值)
-        // setAmount() 是 LivingIncomingDamageEvent 修改伤害的正确方法
+        // === 2. 防御侧纹饰效果（检查被攻击方护甲） ===
+        List<TrimEffectHandler> defenderHandlers = TrimEffectRegistry.lookupFromArmor(entity);
+        if (!defenderHandlers.isEmpty()) {
+            Map<TrimEffectHandler, Integer> defenderCountMap = new HashMap<>();
+            for (TrimEffectHandler handler : defenderHandlers) {
+                defenderCountMap.merge(handler, 1, Integer::sum);
+            }
+            for (Map.Entry<TrimEffectHandler, Integer> entry : defenderCountMap.entrySet()) {
+                totalDamageBonus += entry.getKey().onHurt(entity, entry.getValue(), event.getAmount(), event.getSource());
+            }
+        }
+
+        // 有伤害加成时才修改事件
         if (totalDamageBonus != 0.0f) {
             event.setAmount(event.getAmount() * (1.0f + totalDamageBonus));
         }

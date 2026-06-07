@@ -46,6 +46,15 @@ public class MidnightChipTrimEffect implements TrimEffectHandler {
      */
     @Override
     public float onHurt(LivingEntity entity, int count, float damage) {
-        return (float) ARMOR_PENETRATION.calc(count); // 护甲穿透百分比
+        return 0.0f; // 午夜碎片是攻击侧效果，防御方不生效
+    }
+
+    /**
+     * 攻击者穿戴午夜碎片纹饰时，增加造成伤害（等效护甲穿透）。
+     * 由 TrimEffectEventHandler 检查攻击者护甲后调用。
+     */
+    @Override
+    public float onDealDamage(LivingEntity attacker, LivingEntity target, int count, float damage) {
+        return (float) ARMOR_PENETRATION.calc(count);
     }
 }

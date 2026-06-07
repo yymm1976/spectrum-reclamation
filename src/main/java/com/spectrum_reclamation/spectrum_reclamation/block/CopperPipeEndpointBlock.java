@@ -9,6 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,6 +24,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.Container;
+import com.spectrum_reclamation.spectrum_reclamation.block_entity.CopperPipeEndpointBlockEntity;
+import javax.annotation.Nullable;
 
 /**
  * 铜管接口方块 —— 贴在容器上，连接铜管网络与容器。
@@ -38,7 +41,7 @@ import net.minecraft.world.Container;
  * - INPUT（入口）：从朝向的容器中提取物品，通过铜管网络传输
  * - OUTPUT（出口）：从铜管网络接收物品，存入朝向的容器
  */
-public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedBlock {
+public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
 
     // ==================== 方块状态属性定义 ====================
 
@@ -239,6 +242,14 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
         super.onRemove(oldState, level, pos, newState, movedByPiston);
     }
 
+    // ==================== EntityBlock 接口实现 ====================
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new CopperPipeEndpointBlockEntity(pos, state);
+    }
+
     // ==================== 交互逻辑（右键切换模式） ====================
 
     /**
@@ -261,9 +272,17 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
                     : EndpointMode.INPUT;
             level.setBlock(pos, state.setValue(MODE, newMode), 3);
 
-            // 通知玩家当前模式（通过动作栏消息，屏幕底部经验条上方）
-            String message = newMode == EndpointMode.INPUT ? "铜管接口：入口模式" : "铜管接口：出口模式";
-            player.displayClientMessage(net.minecraft.network.chat.Component.literal(message), true);
+            // 通知方块实体更新网络注册
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof CopperPipeEndpointBlockEntity endpointBE) {
+                endpointBE.onModeChanged();
+            }
+
+            // 通知玩家当前模式（使用翻译键）
+            String messageKey = newMode == EndpointMode.INPUT
+                    ? "message.spectrum_reclamation.pipe_endpoint.input"
+                    : "message.spectrum_reclamation.pipe_endpoint.output";
+            player.displayClientMessage(net.minecraft.network.chat.Component.translatable(messageKey), true);
         }
         return InteractionResult.SUCCESS;
     }

@@ -44,12 +44,19 @@ public class OnyxPowderTrimEffect implements TrimEffectHandler {
      */
     @Override
     public float onHurt(LivingEntity entity, int count, float damage) {
-        // 检查目标是否满血：当前生命值 == 最大生命值
-        // 使用 == 比较浮点数在此场景下是安全的，因为 Minecraft 内部 health 和 maxHealth
-        // 都是 float 类型，满血时两者值完全一致
-        if (entity.getHealth() == entity.getMaxHealth()) {
-            return (float) DAMAGE_BONUS.calc(count); // 满血时返回加成百分比
+        return 0.0f; // 黑曜石粉是攻击侧效果，防御方不生效
+    }
+
+    /**
+     * 攻击者穿戴黑曜石粉纹饰时，对满血目标造成额外伤害。
+     * 检查目标（entity 参数，即被攻击方）是否满血。
+     */
+    @Override
+    public float onDealDamage(LivingEntity attacker, LivingEntity target, int count, float damage) {
+        // 检查目标是否满血
+        if (target.getHealth() >= target.getMaxHealth() - 0.001f) {
+            return (float) DAMAGE_BONUS.calc(count);
         }
-        return 0.0f; // 非满血时无加成
+        return 0.0f;
     }
 }
