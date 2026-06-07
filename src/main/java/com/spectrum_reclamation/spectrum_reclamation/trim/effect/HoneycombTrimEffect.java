@@ -22,8 +22,7 @@ import net.minecraft.world.entity.LivingEntity;
  * - 例：从 10 格高摔落，4 件蜜脾纹饰 → 有效距离 = 10 - 4 = 6 格
  * - 伤害从 (10-3)=7 降低为 (6-3)=3
  *
- * 注意：onFall 方法返回 void，实际摔落距离修改需要调用方
- * 在 LivingFallEvent 中通过 event.setDistance(distance - reduction) 完成。
+ * onFall() 返回摔落距离减免量，由 TrimEffectEventHandler 统一累加并应用。
  * 当修改后距离 ≤ 0 时，实体将不受到任何摔落伤害。
  */
 public class HoneycombTrimEffect implements TrimEffectHandler {
@@ -37,19 +36,16 @@ public class HoneycombTrimEffect implements TrimEffectHandler {
     /**
      * 摔落时计算有效摔落距离减免。
      *
-     * 调用方应使用返回的减免值修正摔落事件的距离：
-     *   float reduction = (float) FALL_REDUCTION.calc(count);
-     *   float newDistance = Math.max(0, distance - reduction);
-     *   event.setDistance(newDistance);
+     * 返回的减免值由事件分发器累加后统一应用：
+     *   event.setDistance(Math.max(0, distance - totalReduction))
      *
      * @param entity   摔落的实体
      * @param count    蜜脾纹饰的盔甲件数（0-4）
      * @param distance 原始摔落距离（方块数）
+     * @return 摔落距离减免量（如 4 件时返回 4.0，表示减免 4 格高度）
      */
     @Override
-    public void onFall(LivingEntity entity, int count, float distance) {
-        // 蜜脾纹饰的摔落高度减免由 TrimCountedValue 线性计算
-        // 调用方需通过 LivingFallEvent 的 setDistance() 应用距离减免
-        // 当 count=4 且 distance ≤ 4 时，有效摔落距离为 0，不受到摔落伤害
+    public float onFall(LivingEntity entity, int count, float distance) {
+        return (float) FALL_REDUCTION.calc(count); // 减免格数，如 calc(4) = 4.0
     }
 }

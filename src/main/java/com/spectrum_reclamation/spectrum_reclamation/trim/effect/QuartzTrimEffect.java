@@ -17,9 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
  * - 4 件：+8%
  *
  * 伤害修正公式：最终伤害 = 原始伤害 × (1 + 加成百分比)
- *
- * 注意：onHurt 方法返回 void，实际伤害修改需要调用方
- * 在事件中通过 event.setDamage(damage * multiplier) 完成。
+ * onHurt() 返回伤害乘数加算值，由 TrimEffectEventHandler 统一累加并应用。
  */
 public class QuartzTrimEffect implements TrimEffectHandler {
 
@@ -32,17 +30,16 @@ public class QuartzTrimEffect implements TrimEffectHandler {
     /**
      * 受伤时计算伤害加成百分比。
      *
-     * 调用方应使用返回的乘数修正伤害：
-     *   float multiplier = (float) (1.0 + DAMAGE_BONUS.calc(count));
-     *   event.setDamage(damage * multiplier);
+     * 返回值由事件分发器累加后统一应用到事件：
+     *   event.setDamage(damage * (1.0f + totalBonus))
      *
      * @param entity 受伤的实体
      * @param count  石英纹饰的盔甲件数（0-4）
      * @param damage 当前伤害值
+     * @return 伤害乘数加算值（如 4 件时返回 0.08，表示 +8% 伤害）
      */
     @Override
-    public void onHurt(LivingEntity entity, int count, float damage) {
-        // 石英纹饰的伤害加成由 TrimCountedValue 线性计算
-        // 调用方需通过 event.setDamage() 应用 damage * (1 + DAMAGE_BONUS.calc(count))
+    public float onHurt(LivingEntity entity, int count, float damage) {
+        return (float) DAMAGE_BONUS.calc(count); // 百分比值，如 calc(4) = 0.08
     }
 }

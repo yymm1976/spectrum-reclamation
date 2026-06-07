@@ -16,10 +16,8 @@ import net.minecraft.world.entity.LivingEntity;
  * - 3 件：+24%（0.24）
  * - 4 件：+32%（0.32）
  *
- * 经验修正公式：最终经验 = 原始经验 × (1 + 加成百分比)
- *
- * 注意：onExperienceDrop 方法返回 int，调用方需将返回值
- * 作为修正后的经验量设置到 LivingExperienceDropEvent 中。
+ * 经验修正公式：额外经验 = 原始经验 × 加成百分比
+ * onExperienceDrop() 返回额外经验值，由 TrimEffectEventHandler 统一累加并应用。
  *
  * 此效果实际触发的是击杀者的纹饰件数，而非被击杀实体的。
  * 因此 TrimEffectRegistry.lookupFromArmor() 应查询攻击方（玩家），
@@ -36,19 +34,16 @@ public class LapisTrimEffect implements TrimEffectHandler {
     /**
      * 计算击杀经验加成。
      *
-     * 调用方应使用返回的加成值修正经验掉落量：
-     *   int bonus = (int) Math.floor(amount * EXP_BONUS.calc(count));
-     *   event.setDroppedExperience(amount + bonus);
+     * 返回的额外经验值由事件分发器累加后统一应用：
+     *   event.setDroppedExperience(originalExp + totalExtraExp)
      *
      * @param entity 被击杀的实体（纹饰效果来自攻击者）
      * @param count  击杀者身上青金石纹饰的盔甲件数（0-4）
      * @param amount 当前经验掉落量
-     * @return 修正后的经验掉落量
+     * @return 额外经验值（如原始经验 5，4 件青金石 → 5 × 0.32 = 1.6 → 向下取整为 1）
      */
     @Override
-    public void onExperienceDrop(LivingEntity entity, int count, int amount) {
-        // 计算经验加成并返回修正后的总量
-        // 例如：原始经验 5，4 件青金石 → 5 × (1 + 0.32) = 6.6 → 向下取整为 6
-        // 调用方通过 event.setDroppedExperience() 应用返回值
+    public int onExperienceDrop(LivingEntity entity, int count, int amount) {
+        return (int) Math.floor(amount * EXP_BONUS.calc(count)); // 向下取整，避免经验膨胀
     }
 }

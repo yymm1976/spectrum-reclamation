@@ -18,10 +18,8 @@ import net.minecraft.world.entity.LivingEntity;
  *
  * 暴击伤害修正公式：最终暴击伤害 = 基础暴击伤害 × (1 + 加成百分比)
  *
- * 注意：onCriticalHit 方法返回 void，实际暴击伤害修改需要调用方
- * 在 CriticalHitEvent 中通过 event.setDamageModifier() 完成。
- * CriticalHitEvent 默认暴击伤害乘数为 1.5（50% 加成），
- * 钻石纹饰在此基础上额外叠加。
+ * 注意：onCriticalHit 保持 void 返回，暴击事件的处理需要
+ * 单独的 CriticalHitEvent 监听器来完成。
  */
 public class DiamondTrimEffect implements TrimEffectHandler {
 
@@ -34,9 +32,12 @@ public class DiamondTrimEffect implements TrimEffectHandler {
     /**
      * 暴击时计算额外暴击伤害加成。
      *
-     * 调用方应使用返回的加成值修正暴击事件的伤害乘数：
-     *   float bonus = (float) CRIT_DAMAGE_BONUS.calc(count);
-     *   event.setDamageModifier(event.getDamageModifier() + bonus);
+     * 当前保持 void 返回，暴击事件需要单独的 CriticalHitEvent 监听器处理。
+     * 完整实现流程：
+     * 1. 注册 CriticalHitEvent 监听器
+     * 2. 查询攻击者盔甲纹饰件数
+     * 3. 计算暴击伤害加成
+     * 4. 通过 event.setDamageModifier() 应用
      *
      * @param attacker 发起暴击的攻击者
      * @param target   被暴击的目标
@@ -44,7 +45,6 @@ public class DiamondTrimEffect implements TrimEffectHandler {
      */
     @Override
     public void onCriticalHit(LivingEntity attacker, LivingEntity target, int count) {
-        // 钻石纹饰的暴击伤害加成由 TrimCountedValue 线性计算
-        // 调用方需通过 CriticalHitEvent 的 setDamageModifier() 应用额外暴击加成
+        // 暂为空实现：需要 CriticalHitEvent 配合完整的暴击事件监听机制
     }
 }

@@ -35,12 +35,16 @@ public interface TrimEffectHandler {
      * 适用场景：石英纹饰的近战伤害加成、击退抗性等。
      * 对应 NeoForge 事件：LivingIncomingDamageEvent
      *
+     * 返回值语义：伤害乘数加算值（1.0 = 无变化，0.08 = +8% 伤害加成）
+     * 多个 handler 的返回值会在事件分发器中累加后统一应用。
+     *
      * @param entity 受伤的实体
      * @param count  该纹饰材料在身上的件数（0-4）
-     * @param damage 当前伤害值（可被修改）
+     * @param damage 当前伤害值
+     * @return 伤害乘数加算值（如 0.02 表示 +2% 伤害），默认 0.0f 表示无变化
      */
-    default void onHurt(LivingEntity entity, int count, float damage) {
-        // 默认空实现，子类按需覆盖
+    default float onHurt(LivingEntity entity, int count, float damage) {
+        return 0.0f; // 默认无伤害加成
     }
 
     /**
@@ -63,12 +67,16 @@ public interface TrimEffectHandler {
      * 适用场景：青金石纹饰的经验加成。
      * 对应 NeoForge 事件：LivingExperienceDropEvent
      *
+     * 返回值语义：额外经验值（0 = 无变化，5 = 额外增加 5 点经验）
+     * 多个 handler 的返回值会在事件分发器中累加后统一应用。
+     *
      * @param entity 被击杀的实体
      * @param count  击杀者身上该纹饰材料的件数（0-4）
-     * @param amount 当前经验掉落量（可被修改）
+     * @param amount 当前经验掉落量
+     * @return 额外经验值，0 表示无变化
      */
-    default void onExperienceDrop(LivingEntity entity, int count, int amount) {
-        // 默认空实现，子类按需覆盖
+    default int onExperienceDrop(LivingEntity entity, int count, int amount) {
+        return 0; // 默认无额外经验
     }
 
     /**
@@ -77,12 +85,16 @@ public interface TrimEffectHandler {
      * 适用场景：蜜脾纹饰的摔落有效高度减免。
      * 对应 NeoForge 事件：LivingFallEvent
      *
+     * 返回值语义：摔落距离减免量（方块数），0 = 无变化
+     * 多个 handler 的返回值会在事件分发器中累加后从距离中减去。
+     *
      * @param entity   摔落的实体
      * @param count    该纹饰材料在身上的件数（0-4）
      * @param distance 摔落距离（方块数）
+     * @return 摔落距离减免量（方块数），0 表示无减免
      */
-    default void onFall(LivingEntity entity, int count, float distance) {
-        // 默认空实现，子类按需覆盖
+    default float onFall(LivingEntity entity, int count, float distance) {
+        return 0.0f; // 默认无摔落减免
     }
 
     /**

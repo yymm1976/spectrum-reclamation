@@ -68,9 +68,18 @@ public class TrimEffectEventHandler {
             countMap.merge(handler, 1, Integer::sum);
         }
 
-        // 分发给每个处理器，传入纹饰件数和当前伤害值
+        // 累加所有处理器返回的伤害乘数加算值（多个纹饰效果的加成叠加）
+        // 例：石英 +2% 和午夜碎片 +8% → 总加算 = 0.02 + 0.08 = 0.10
+        float totalDamageBonus = 0.0f;
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
-            entry.getKey().onHurt(entity, entry.getValue(), event.getAmount());
+            totalDamageBonus += entry.getKey().onHurt(entity, entry.getValue(), event.getAmount());
+        }
+
+        // 有伤害加成时才修改事件，避免不必要的调用
+        // 最终伤害 = 原始伤害 × (1 + 总加算值)
+        // setAmount() 是 LivingIncomingDamageEvent 修改伤害的正确方法
+        if (totalDamageBonus != 0.0f) {
+            event.setAmount(event.getAmount() * (1.0f + totalDamageBonus));
         }
     }
 
@@ -112,9 +121,15 @@ public class TrimEffectEventHandler {
             countMap.merge(handler, 1, Integer::sum);
         }
 
-        // 分发给每个处理器
+        // 累加所有处理器返回的额外经验值（多个纹饰效果的经验加成叠加）
+        int totalExtraExp = 0;
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
-            entry.getKey().onExperienceDrop(entity, entry.getValue(), event.getDroppedExperience());
+            totalExtraExp += entry.getKey().onExperienceDrop(entity, entry.getValue(), event.getDroppedExperience());
+        }
+
+        // 有额外经验时才修改事件
+        if (totalExtraExp > 0) {
+            event.setDroppedExperience(event.getDroppedExperience() + totalExtraExp);
         }
     }
 
@@ -150,9 +165,16 @@ public class TrimEffectEventHandler {
             countMap.merge(handler, 1, Integer::sum);
         }
 
-        // 分发给每个处理器
+        // 累加所有处理器返回的摔落距离减免量（多个纹饰效果的减免叠加）
+        float totalFallReduction = 0.0f;
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
-            entry.getKey().onFall(entity, entry.getValue(), event.getDistance());
+            totalFallReduction += entry.getKey().onFall(entity, entry.getValue(), event.getDistance());
+        }
+
+        // 有摔落减免时才修改事件，且确保距离不会变为负数
+        if (totalFallReduction > 0.0f) {
+            float newDistance = Math.max(0.0f, event.getDistance() - totalFallReduction);
+            event.setDistance(newDistance);
         }
     }
 
