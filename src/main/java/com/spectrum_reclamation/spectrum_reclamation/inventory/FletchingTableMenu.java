@@ -54,20 +54,6 @@ public class FletchingTableMenu extends AbstractContainerMenu {
      */
     private static final List<ArrowRecipe> ARROW_RECIPES = new ArrayList<>();
 
-    // ==================== 静态初始化：注册默认配方 ====================
-
-    static {
-        // 基础箭配方：燧石（箭头） + 木棍（箭杆） + 羽毛（翎羽） → 16 支普通箭
-        // 试剂槽为空，仅需 3 种必需材料
-        registerArrowRecipe(
-                Ingredient.of(net.minecraft.world.item.Items.STICK),    // 箭杆：木棍
-                Ingredient.of(net.minecraft.world.item.Items.FLINT),    // 箭头：燧石
-                Ingredient.of(net.minecraft.world.item.Items.FEATHER),  // 翎羽：羽毛
-                List.of(),                                              // 无试剂
-                new ItemStack(net.minecraft.world.item.Items.ARROW, 16) // 输出：16 支普通箭
-        );
-    }
-
     // ==================== 内部数据结构 ====================
 
     /** 临时物品容器（6 输入 + 1 输出）。

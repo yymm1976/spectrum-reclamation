@@ -1,6 +1,7 @@
 package com.spectrum_reclamation.spectrum_reclamation;
 
 import com.spectrum_reclamation.spectrum_reclamation.event.SREventHandler;
+import com.spectrum_reclamation.spectrum_reclamation.inventory.FletchingTableMenu;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlocks;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRCreativeModeTabs;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SREntities;
@@ -9,11 +10,15 @@ import com.spectrum_reclamation.spectrum_reclamation.registry.SRMenuTypes;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRMobEffects;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRPotions;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRTrimMaterials;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
 
 /**
  * 模组主类 —— Spectrum Reclamation 的入口。
@@ -59,6 +64,17 @@ public class SpectrumReclamation {
         SRPotions.register(modEventBus);
         // 注册菜单类型到 MOD_BUS（制箭台等容器 GUI）
         SRMenuTypes.register(modEventBus);
+
+        // 注册制箭台配方。
+        // 配方注册在构造器中而非 static 块中，确保依赖的物品注册已就绪。
+        // 基础箭配方：木棍（箭杆） + 燧石（箭头） + 羽毛（翎羽） → 16 支普通箭
+        FletchingTableMenu.registerArrowRecipe(
+                Ingredient.of(Items.STICK),    // 箭杆：木棍
+                Ingredient.of(Items.FLINT),    // 箭头：燧石
+                Ingredient.of(Items.FEATHER),  // 翎羽：羽毛
+                List.of(),                     // 无试剂
+                new ItemStack(Items.ARROW, 16) // 输出：16 支普通箭
+        );
 
         // 注册事件处理器到 GAME_BUS（NeoForge.EVENT_BUS）。
         // GAME_BUS 处理运行时事件（如实体受伤、死亡掉落等），
