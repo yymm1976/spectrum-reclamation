@@ -25,7 +25,7 @@ import net.minecraft.world.item.armortrim.ArmorTrim;
  */
 public class NetheriteTrimEffect implements TrimEffectHandler {
 
-    private static final TrimCountedValue KNOCKBACK_BONUS = TrimCountedValue.linear(0.0, 1.0);
+    private static final TrimCountedValue KNOCKBACK_BONUS = TrimCountedValue.linear(0.0, 0.25);
 
     private static final ResourceLocation[] SLOT_IDS = {
             ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.netherite_0"),

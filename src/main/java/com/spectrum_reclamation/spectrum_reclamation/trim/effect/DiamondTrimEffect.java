@@ -42,11 +42,25 @@ public class DiamondTrimEffect implements TrimEffectHandler {
     }
 
     /**
-     * 获取暴击伤害加成百分比（供事件处理器调用）。
+     * 获取暴击伤害乘数（多态接口方法）。
+     * 返回值 = 1.0 + 加成百分比（如 4 件 = 1.0 + 0.20 = 1.20）。
+     *
+     * @param count 钻石纹饰的盔甲件数
+     * @return 暴击伤害乘数
+     */
+    @Override
+    public float getCritDamageMultiplier(int count) {
+        return 1.0f + (float) CRIT_DAMAGE_BONUS.calc(count);
+    }
+
+    /**
+     * 获取暴击伤害加成百分比（保留向后兼容）。
      *
      * @param count 钻石纹饰的盔甲件数
      * @return 暴击伤害加成百分比（如 0.20 = +20%）
+     * @deprecated 使用 {@link #getCritDamageMultiplier(int)} 代替
      */
+    @Deprecated
     public double getCritDamageBonus(int count) {
         return CRIT_DAMAGE_BONUS.calc(count);
     }

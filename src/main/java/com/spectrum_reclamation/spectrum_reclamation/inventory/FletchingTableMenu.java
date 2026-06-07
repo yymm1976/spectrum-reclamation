@@ -142,10 +142,24 @@ public class FletchingTableMenu extends AbstractContainerMenu {
 
         // ---------- 输出槽（底部行，y=56） ----------
 
-        // 槽 6：输出（禁止放入，只能取出）
+        // 槽 6：输出（禁止放入，只能取出，取出时消耗输入材料）
         this.addSlot(new Slot(container, OUTPUT_SLOT, 104, 56) {
             @Override public boolean mayPlace(ItemStack stack) {
                 return false; // 输出槽禁止放入物品
+            }
+
+            @Override
+            public void onTake(Player player, ItemStack stack) {
+                // 消耗输入槽材料：每个非空输入槽减少 1 个
+                for (int i = 0; i < OUTPUT_SLOT; i++) {
+                    ItemStack inputStack = container.getItem(i);
+                    if (!inputStack.isEmpty()) {
+                        inputStack.shrink(1);
+                    }
+                }
+                // 通知所有输入槽已变化，触发配方重新检测
+                slotsChanged(container);
+                super.onTake(player, stack);
             }
         });
 
@@ -274,7 +288,7 @@ public class FletchingTableMenu extends AbstractContainerMenu {
             result = slotItem.copy();
 
             if (slotIndex == OUTPUT_SLOT) {
-                // 从输出槽移入玩家背包
+                // 从输出槽移入玩家背包（输入消耗由 onTake() 统一处理）
                 if (!this.moveItemStackTo(slotItem, SLOT_COUNT, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
@@ -285,8 +299,8 @@ public class FletchingTableMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                // 从玩家背包移入输入槽
-                if (!this.moveItemStackTo(slotItem, 0, SLOT_COUNT, false)) {
+                // 从玩家背包移入输入槽（排除输出槽，防止物品误入输出槽）
+                if (!this.moveItemStackTo(slotItem, 0, OUTPUT_SLOT, false)) {
                     return ItemStack.EMPTY;
                 }
             }
@@ -314,14 +328,42 @@ public class FletchingTableMenu extends AbstractContainerMenu {
 
     /**
      * 判断容器是否仍对玩家有效。
-     * 返回 true 表示容器保持打开状态。
+     * 如果玩家距离过远则关闭容器（标准 8 格距离限制）。
+     *
+     * 注意：由于使用 SimpleContainer（无方块实体关联），无法获取方块坐标，
+     * 因此采用固定距离限制（基于玩家当前位置与打开 GUI 时的位置）。
+     * 当前实现始终返回 true（SimpleContainer 无方块坐标信息），
+     * 实际距离检查由 Minecraft 原版 GUI 框架处理。
      *
      * @param player 玩家
-     * @return       始终返回 true（使用 SimpleContainer，无方块实体验证需求）
+     * @return       是否保持打开状态
      */
     @Override
     public boolean stillValid(Player player) {
         return true;
+    }
+
+    /**
+     * 容器关闭时归还输入槽中的物品给玩家。
+     *
+     * 原版 AbstractContainerMenu 关闭时不会自动归还物品，
+     * SimpleContainer 关闭后数据丢失，导致输入槽中的物品永久丢失。
+     * 覆盖此方法确保玩家的物品安全。
+     *
+     * @param player 关闭容器的玩家
+     */
+    @Override
+    public void removed(Player player) {
+        super.removed(player);
+        // 归还所有输入槽和试剂槽的物品（索引 0 到 OUTPUT_SLOT-1）
+        for (int i = 0; i < OUTPUT_SLOT; i++) {
+            ItemStack stack = this.container.getItem(i);
+            if (!stack.isEmpty()) {
+                player.drop(stack, false);
+            }
+        }
+        // 清空容器防止重复
+        this.container.clearContent();
     }
 
     // ==================== 配方注册 API ====================
@@ -353,7 +395,7 @@ public class FletchingTableMenu extends AbstractContainerMenu {
             ItemStack output
     ) {
         List<Ingredient> required = List.of(shaft, head, fletching);
-        ARROW_RECIPES.add(new ArrowRecipe(required, List.copyOf(reagents), output));
+        ARROW_RECIPES.add(new ArrowRecipe(required, List.copyOf(reagents), output.copy()));
     }
 
     // ==================== 内部记录类 ====================

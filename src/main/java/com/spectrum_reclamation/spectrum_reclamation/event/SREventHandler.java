@@ -21,6 +21,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.HashSet;
@@ -188,6 +189,20 @@ public class SREventHandler {
         }
     }
 
+    /**
+     * 监听玩家登出事件 —— 清理 PLAYERS_WITH_SCOPED_SHOT 中的残留条目。
+     *
+     * 当玩家断开连接时，如果之前发射的瞄准镜箭矢尚未加入世界
+     * （例如箭矢被其他模组取消），UUID 会残留在集合中导致内存泄漏。
+     * 在此处确保玩家登出时清除其 UUID。
+     *
+     * @param event 玩家登出事件
+     */
+    @SubscribeEvent
+    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        PLAYERS_WITH_SCOPED_SHOT.remove(event.getEntity().getUUID());
+    }
+
     // ==================== 卸负效果逻辑 ====================
 
     /**
@@ -209,7 +224,12 @@ public class SREventHandler {
         }
 
         // 获取卸负效果的等级（amplifier：0 = I 级，1 = II 级）
-        int amplifier = event.getEntity().getEffect(SRMobEffects.UNBURDEN).getAmplifier();
+        // 使用局部变量保存 getEffect 结果，避免两次调用之间效果被移除导致 NPE
+        var unburdenEffect = event.getEntity().getEffect(SRMobEffects.UNBURDEN);
+        if (unburdenEffect == null) {
+            return;
+        }
+        int amplifier = unburdenEffect.getAmplifier();
 
         // 脱落概率：等级 I（amplifier=0）为 10%，等级 II（amplifier=1）为 20%
         float dropChance = 0.10f * (amplifier + 1);
@@ -224,7 +244,7 @@ public class SREventHandler {
                 EquipmentSlot.FEET
         };
 
-        // 遍历每个盔甲槽位，按概率触发脱落
+        // 遍历每个盔甲槽位，按概率触发脱落（每次受击最多脱落一件，避免过度惩罚）
         for (EquipmentSlot slot : armorSlots) {
             ItemStack itemStack = event.getEntity().getItemBySlot(slot);
 
@@ -252,6 +272,9 @@ public class SREventHandler {
 
                 // 清空该槽位
                 event.getEntity().setItemSlot(slot, ItemStack.EMPTY);
+
+                // 每次受击最多脱落一件盔甲，防止单次失去多件装备
+                break;
             }
         }
     }

@@ -5,6 +5,9 @@ import com.spectrum_reclamation.spectrum_reclamation.trim.TrimEffectHandler;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 紫水晶纹饰效果处理器。
  *
@@ -19,6 +22,10 @@ import net.minecraft.world.entity.LivingEntity;
  *
  * 实现方式：在 onTick 中检查实体当前所有负面效果，
  * 将时长缩减为原来的 (1 - reduction) 倍。
+ *
+ * 重要：MobEffectInstance.update() 方法内部会拒绝更短时长的更新
+ * （仅当 newDuration > currentDuration 时才接受），因此必须使用
+ * removeEffect + addEffect 的方式替换效果，而非 update()。
  */
 public class AmethystTrimEffect implements TrimEffectHandler {
 
@@ -31,8 +38,8 @@ public class AmethystTrimEffect implements TrimEffectHandler {
     /**
      * 每 tick 缩减负面效果时长。
      *
-     * 遍历实体所有当前效果，对 HARMFUL 类别的效果缩短剩余时长。
-     * 每 tick 执行一次缩减，确保效果时长持续被压制。
+     * 遍历实体所有效果，对 HARMFUL 类别的效果缩短剩余时长。
+     * 使用 removeEffect + addEffect 替代 update()，因为 update() 会静默拒绝更短的时长。
      *
      * @param entity 拥有纹饰效果的实体
      * @param count  紫水晶纹饰的盔甲件数（0-4）
@@ -42,22 +49,29 @@ public class AmethystTrimEffect implements TrimEffectHandler {
         if (entity.level().isClientSide() || count <= 0) return;
 
         double reduction = DURATION_REDUCTION.calc(count);
-        // 每 tick 缩减 1 tick 的 (reduction) 比例
-        // 即每 tick 额外消耗 reduction tick 的时长
-        int extraConsumption = (int) Math.floor(reduction * 2); // 每 2 tick 额外消耗 1 tick
-        if (extraConsumption <= 0) return;
+        // 每 tick 按缩减比例额外消耗负面效果时长（乘以 20 使效果可感知）
+        int extraConsumption = Math.max(1, (int) Math.floor(reduction * 20));
+
+        // 收集需要修改的效果（避免在遍历 activeEffects 时修改集合导致 ConcurrentModificationException）
+        List<MobEffectInstance> toReplace = new ArrayList<>();
 
         for (MobEffectInstance effect : entity.getActiveEffects()) {
-            // getEffect() 返回 Holder<MobEffect>，需通过 .value() 获取 MobEffect 实例再调用 isBeneficial()
             if (effect.getEffect().value().isBeneficial()) continue;
-            // 缩短剩余时长
             int remaining = effect.getDuration();
-            if (remaining > 1) {
-                effect.update(new MobEffectInstance(
-                        effect.getEffect(), remaining - extraConsumption,
-                        effect.getAmplifier(), effect.isAmbient(), effect.isVisible()
-                ));
-            }
+            if (remaining <= 1) continue;
+
+            int consume = Math.min(extraConsumption, remaining - 1);
+            int newDuration = remaining - consume;
+            toReplace.add(new MobEffectInstance(
+                    effect.getEffect(), newDuration,
+                    effect.getAmplifier(), effect.isAmbient(), effect.isVisible()
+            ));
+        }
+
+        // 应用修改：先移除旧效果，再添加缩减后的新效果
+        for (MobEffectInstance replacement : toReplace) {
+            entity.removeEffect(replacement.getEffect());
+            entity.addEffect(replacement);
         }
     }
 }

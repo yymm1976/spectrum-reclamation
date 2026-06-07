@@ -72,6 +72,16 @@ public class CopperPipeNetwork {
     }
 
     /**
+     * 删除指定 UUID 的网络。
+     * 用于网络合并时移除被合并的旧网络。
+     *
+     * @param networkId 要删除的网络 UUID
+     */
+    public static void remove(UUID networkId) {
+        networks.remove(networkId);
+    }
+
+    /**
      * 获取所有铜管网络的不可变快照列表。
      * 用于遍历所有网络进行定时扫描（如物品传输），
      * 返回快照而非视图，避免在遍历过程中因网络增删而抛出 ConcurrentModificationException。
@@ -252,6 +262,11 @@ public class CopperPipeNetwork {
         return adjacency.size();
     }
 
+    /** 获取网络中所有节点位置（用于网络合并时遍历迁移） */
+    public Set<BlockPos> getNodes() {
+        return Collections.unmodifiableSet(adjacency.keySet());
+    }
+
     /** 查询指定位置是否属于此网络 */
     public boolean containsNode(BlockPos pos) {
         return adjacency.containsKey(pos);
@@ -365,6 +380,11 @@ public class CopperPipeNetwork {
      * @return 传输成功返回 true；无路径或容器操作失败返回 false
      */
     public boolean transfer(Level level, ItemStack itemStack, BlockPos from, BlockPos to) {
+        // 步骤 0：验证 from/to 分别是入口和出口
+        if (!isEntryPoint(from) || !isExitPoint(to)) {
+            return false;
+        }
+
         // 步骤 1：验证路径存在
         List<BlockPos> path = findPath(from, to);
         if (path == null) {

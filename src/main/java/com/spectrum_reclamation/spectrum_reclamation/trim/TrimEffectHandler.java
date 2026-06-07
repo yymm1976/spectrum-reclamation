@@ -132,6 +132,20 @@ public interface TrimEffectHandler {
     }
 
     /**
+     * 获取暴击伤害乘数 —— 用于暴击相关的纹饰效果。
+     *
+     * 适用场景：钻石纹饰的暴击伤害加成。
+     * 返回值语义：暴击伤害乘数（1.0 = 无变化，1.20 = +20% 暴击伤害）
+     * 多个 handler 的返回值会在事件分发器中累积相乘。
+     *
+     * @param count 该纹饰材料在身上的件数（0-4）
+     * @return 暴击伤害乘数，默认 1.0f 表示无变化
+     */
+    default float getCritDamageMultiplier(int count) {
+        return 1.0f;
+    }
+
+    /**
      * 造成伤害时调用 —— 用于增加攻击者输出伤害的纹饰效果。
      *
      * 与 onHurt 的区别：onHurt 检查被攻击方（防御方）的纹饰，

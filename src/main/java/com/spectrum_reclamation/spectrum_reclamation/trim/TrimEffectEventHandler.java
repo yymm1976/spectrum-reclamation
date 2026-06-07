@@ -1,11 +1,14 @@
 package com.spectrum_reclamation.spectrum_reclamation.trim;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -215,6 +218,99 @@ public class TrimEffectEventHandler {
         // 分发给每个处理器
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
             entry.getKey().onEquipmentChange(entity, entry.getValue());
+        }
+    }
+
+    // ==================== Tick 事件 ====================
+
+    /**
+     * 监听玩家 Tick 事件（Post 阶段）。
+     *
+     * 触发条件：每个服务端 tick 结束时，对每个在线玩家触发。
+     * 用于驱动需要持续生效的纹饰效果（如金锭纹饰的伤害吸收、
+     * 紫水晶纹饰的负面效果时长缩减、回声碎片的沉默等）。
+     *
+     * 仅在服务端处理，客户端不需要 tick 纹饰效果。
+     *
+     * @param event 玩家 Tick 事件
+     */
+    @SubscribeEvent
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
+        Player player = event.getEntity();
+
+        // 仅在服务端处理
+        if (player.level().isClientSide()) {
+            return;
+        }
+
+        // 获取该玩家盔甲上所有纹饰对应的处理器
+        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(player);
+        if (handlers.isEmpty()) {
+            return;
+        }
+
+        // 统计每种处理器的件数
+        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
+        for (TrimEffectHandler handler : handlers) {
+            countMap.merge(handler, 1, Integer::sum);
+        }
+
+        // 分发给每个处理器的 onTick 方法
+        for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
+            entry.getKey().onTick(player, entry.getValue());
+        }
+    }
+
+    // ==================== 暴击事件 ====================
+
+    /**
+     * 监听暴击事件。
+     *
+     * 触发条件：玩家执行暴击攻击时（下落中攻击、跳跃暴击）。
+     * 用于驱动钻石纹饰的暴击伤害加成效果。
+     *
+     * NeoForge 的 CriticalHitEvent 允许修改暴击伤害倍率。
+     * 通过 DamageContainer 读取当前伤害倍率并叠加纹饰加成。
+     *
+     * @param event 暴击事件
+     */
+    @SubscribeEvent
+    public static void onCriticalHit(CriticalHitEvent event) {
+        Player player = event.getEntity();
+
+        // 仅在服务端处理
+        if (player.level().isClientSide()) {
+            return;
+        }
+
+        // 获取攻击者盔甲上所有纹饰对应的处理器
+        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(player);
+        if (handlers.isEmpty()) {
+            return;
+        }
+
+        // 统计每种处理器的件数
+        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
+        for (TrimEffectHandler handler : handlers) {
+            countMap.merge(handler, 1, Integer::sum);
+        }
+
+        // 获取被攻击目标
+        LivingEntity target = event.getTarget() instanceof LivingEntity living ? living : null;
+
+        // 分发给每个处理器
+        for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
+            entry.getKey().onCriticalHit(player, target, entry.getValue());
+        }
+
+        // 计算暴击伤害乘数（多态接口，无需 instanceof 检查）
+        float totalMultiplier = 1.0f;
+        for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
+            totalMultiplier *= entry.getKey().getCritDamageMultiplier(entry.getValue());
+        }
+        if (totalMultiplier != 1.0f) {
+            float oldMultiplier = event.getDamageMultiplier();
+            event.setDamageMultiplier(oldMultiplier * totalMultiplier);
         }
     }
 }

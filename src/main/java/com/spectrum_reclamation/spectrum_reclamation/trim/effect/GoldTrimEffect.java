@@ -38,17 +38,19 @@ public class GoldTrimEffect implements TrimEffectHandler {
      */
     @Override
     public void onTick(LivingEntity entity, int count) {
-        // count=0 时不施加任何效果
-        if (count <= 0) {
-            return;
-        }
+        if (entity.level().isClientSide() || count <= 0) return;
 
-        // amplifier = count - 1：1 件对应等级 I（amplifier=0），4 件对应等级 IV（amplifier=3）
         int amplifier = count - 1;
 
-        // 施加吸收效果，持续 40 ticks（2 秒）
-        // MobEffects.ABSORPTION 是原版吸收效果的 Holder
-        // addEffect 会自动合并同类型效果（取更高等级或刷新持续时间）
+        // 不覆盖更高等级的吸收效果（如金苹果的 Absorption IV）
+        MobEffectInstance existing = entity.getEffect(MobEffects.ABSORPTION);
+        if (existing != null) {
+            // 如果已有更高等级的效果，跳过
+            if (existing.getAmplifier() > amplifier) return;
+            // 如果效果持续时间充足（> 20 ticks），无需重新施加，避免每 tick 创建 MobEffectInstance
+            if (existing.getDuration() > 20) return;
+        }
+
         entity.addEffect(new MobEffectInstance(
                 MobEffects.ABSORPTION,
                 EFFECT_DURATION,

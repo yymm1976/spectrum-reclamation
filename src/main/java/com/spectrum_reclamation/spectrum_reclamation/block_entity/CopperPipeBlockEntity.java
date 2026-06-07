@@ -108,9 +108,16 @@ public class CopperPipeBlockEntity extends BlockEntity {
         super.onLoad();
         if (level == null || level.isClientSide) return;
 
-        // 首次放置时生成新 UUID
+        // 首次放置时，先检查邻居是否已有网络
         if (networkId == null) {
-            networkId = UUID.randomUUID();
+            UUID neighborNetworkId = findNeighborNetworkId();
+            if (neighborNetworkId != null) {
+                // 加入邻居的网络
+                networkId = neighborNetworkId;
+            } else {
+                // 没有邻居网络，创建新网络
+                networkId = UUID.randomUUID();
+            }
         }
 
         // 注册到静态网络管理器（若网络不存在则创建）
@@ -119,6 +126,73 @@ public class CopperPipeBlockEntity extends BlockEntity {
 
         // 扫描相邻端点方块，将它们注册到网络的入口/出口
         registerAdjacentEndpoints(network);
+
+        // 合并相邻的不同网络
+        mergeNeighborNetworks(network);
+    }
+
+    /**
+     * 扫描 6 个方向，查找相邻铜管方块实体的网络 ID。
+     * 用于首次放置时加入已有网络，避免物理连通的铜管属于不同网络。
+     *
+     * @return 第一个找到的邻居网络 ID，无邻居网络时返回 null
+     */
+    private UUID findNeighborNetworkId() {
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = worldPosition.relative(direction);
+            if (level.getBlockEntity(neighborPos) instanceof CopperPipeBlockEntity neighborBE) {
+                UUID neighborId = neighborBE.getNetworkId();
+                if (neighborId != null) {
+                    return neighborId;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 合并相邻的不同网络。
+     * 当一个铜管连接了属于不同网络的邻居时，将所有邻居网络合并为一个。
+     * 合并策略：将所有节点迁移到当前铜管的网络中，删除旧网络。
+     *
+     * @param currentNetwork 当前铜管所属的网络
+     */
+    private void mergeNeighborNetworks(CopperPipeNetwork currentNetwork) {
+        Set<UUID> networksToMerge = new HashSet<>();
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = worldPosition.relative(direction);
+            if (level.getBlockEntity(neighborPos) instanceof CopperPipeBlockEntity neighborBE) {
+                UUID neighborId = neighborBE.getNetworkId();
+                if (neighborId != null && !neighborId.equals(networkId)) {
+                    networksToMerge.add(neighborId);
+                }
+            }
+        }
+
+        for (UUID oldId : networksToMerge) {
+            CopperPipeNetwork oldNetwork = CopperPipeNetwork.get(oldId);
+            if (oldNetwork != null) {
+                // 将旧网络的所有节点和端点迁移到当前网络
+                for (BlockPos node : oldNetwork.getNodes()) {
+                    currentNetwork.addNode(node, oldNetwork.getNeighbors(node));
+                }
+                for (BlockPos entry : oldNetwork.getEntryPoints()) {
+                    currentNetwork.addEntryPoint(entry);
+                }
+                for (BlockPos exit : oldNetwork.getExitPoints()) {
+                    currentNetwork.addExitPoint(exit);
+                }
+                // 删除旧网络
+                CopperPipeNetwork.remove(oldId);
+
+                // 更新旧网络中所有铜管方块实体的 networkId
+                for (BlockPos node : currentNetwork.getNodes()) {
+                    if (level.getBlockEntity(node) instanceof CopperPipeBlockEntity nodeBE) {
+                        nodeBE.networkId = this.networkId;
+                    }
+                }
+            }
+        }
     }
 
     /**

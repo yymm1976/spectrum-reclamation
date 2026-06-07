@@ -35,20 +35,40 @@ public class EchoShardTrimEffect implements TrimEffectHandler {
      * 每 tick 检查纹饰件数，控制静音状态。
      *
      * - count >= 4：设置 entity.setSilent(true)，静音所有声音
-     * - count < 4：设置 entity.setSilent(false)，恢复声音
+     * - count < 4：不主动设置 false（避免覆盖其他来源的静音状态）
+     *
+     * 静音恢复由 onEquipmentChange 处理。
      *
      * @param entity 拥有纹饰效果的实体
      * @param count  回响碎片纹饰的盔甲件数（0-4）
      */
     @Override
     public void onTick(LivingEntity entity, int count) {
-        // 仅在服务端操作，避免客户端状态同步问题
-        if (entity.level().isClientSide()) {
-            return;
-        }
+        if (entity.level().isClientSide()) return;
 
-        // 当穿满 4 件回响碎片纹饰时，完全静音
-        // setSilent(true) 阻止实体发出所有声音事件（脚步、受伤、攻击等）
-        entity.setSilent(count >= FULL_SET_COUNT);
+        // 仅在穿满 4 件时设置静音，不主动设置 false
+        if (count >= FULL_SET_COUNT) {
+            entity.setSilent(true);
+        }
+    }
+
+    /**
+     * 装备变化时恢复静音状态。
+     *
+     * 当件数从 4 降到 < 4 时，恢复实体的声音。
+     * 仅恢复由本模组设置的静音——通过检查实体当前是否静音来判断。
+     * 如果实体被其他机制静音（如深灰涂装），此处不会干扰。
+     *
+     * @param entity 装备变化的实体
+     * @param count  回响碎片纹饰的盔甲件数（0-4）
+     */
+    @Override
+    public void onEquipmentChange(LivingEntity entity, int count) {
+        if (entity.level().isClientSide()) return;
+
+        // 件数减少到 < 4 且实体当前被静音 → 恢复声音
+        if (count < FULL_SET_COUNT && entity.isSilent()) {
+            entity.setSilent(false);
+        }
     }
 }

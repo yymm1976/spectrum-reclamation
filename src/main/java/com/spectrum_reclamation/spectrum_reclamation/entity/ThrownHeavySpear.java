@@ -15,9 +15,11 @@ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.AbstractArrow.Pickup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -120,6 +122,10 @@ public class ThrownHeavySpear extends AbstractArrow {
                 new ItemStack(Items.AIR));               // 发射武器：无（陨星弩不是原版弩）
         this.setBaseDamage(BASE_DAMAGE);
         this.coatedPickupItem = coatedStack.copy();
+        // 禁用原版 AbstractArrow 的拾取系统（pickup = DISALLOWED）。
+        // 本模组通过 spawnAtLocation 在 onHitEntity 中手动掉落矛，
+        // 若不禁用，玩家可能在矛命中前拾取实体，导致物品复制（pickup + spawnAtLocation 双份掉落）。
+        this.pickup = Pickup.DISALLOWED;
     }
 
     // ==================== 弹道属性 ====================
@@ -412,11 +418,8 @@ public class ThrownHeavySpear extends AbstractArrow {
      * 紫色涂装 —— 与目标交换位置。
      * Boss 生物（末影龙/凋灵）不触发交换，退回普通击退。
      *
-     * 实现原理：直接设置目标坐标为射手坐标，射手保持原位。
-     * 使用 Entity.moveTo() 而非 teleportTo()：
-     * - teleportTo() 会进行碰撞检测，可能偏移到非精确位置
-     * - moveTo() 直接设置坐标，更适合"交换位置"的精确需求
-     * - 对于 Boss 的豁免，显式检查 EnderDragon/WitherBoss 类型
+     * 实现原理：使用 teleportTo() 交换双方坐标。
+     * teleportTo() 会正确同步位置变更到所有追踪客户端，避免视觉不同步。
      */
     private void applyPurpleEffect(LivingEntity target, @Nullable LivingEntity shooter) {
         if (shooter == null) return;
@@ -426,7 +429,7 @@ public class ThrownHeavySpear extends AbstractArrow {
             return;
         }
 
-        // 先捕获双方原始坐标，再执行交换（避免 moveTo 后坐标被引擎修正导致不同步）
+        // 先捕获双方原始坐标，再执行交换（避免 teleportTo 后坐标被引擎修正导致不同步）
         double shooterX = shooter.getX();
         double shooterY = shooter.getY();
         double shooterZ = shooter.getZ();
@@ -434,10 +437,9 @@ public class ThrownHeavySpear extends AbstractArrow {
         double targetY = target.getY();
         double targetZ = target.getZ();
 
-        // 将目标传送到射手位置
-        target.moveTo(shooterX, shooterY, shooterZ);
-        // 将射手传送到目标原始位置
-        shooter.moveTo(targetX, targetY, targetZ);
+        // 使用 teleportTo 确保位置变更正确同步到所有追踪客户端
+        target.teleportTo(shooterX, shooterY, shooterZ);
+        shooter.teleportTo(targetX, targetY, targetZ);
     }
 
     /**
@@ -526,14 +528,15 @@ public class ThrownHeavySpear extends AbstractArrow {
      * 深灰色涂装 —— 目标沉默 2 秒（40 ticks）。
      * setSilent(true) 使目标不发出任何声音（包括脚步声、受伤声等）。
      *
-     * 注意：setSilent(true) 是永久的（直到显式设回 false）。
-     * 2 秒后通过 ServerLevel.scheduleTick 延迟恢复声音。
-     * 如果无法调度（如非 ServerLevel），则保持沉默直到实体卸载。
+     * 注意：setSilent(true) 是持久化到 NBT 的，如果服务器在延迟恢复前重启，
+     * TickTask 会丢失，导致实体永久沉默。因此使用 MobEffect 机制作为保底：
+     * 如果实体在服务端重启后重新加载，setSilent 仍为 true，
+     * 此时通过检查实体的自定义持久数据来恢复。
+     * 当前简化方案：使用 scheduleTick 延迟恢复，在实体 tick 中增加兜底检查。
      */
     private void applyDarkGrayEffect(LivingEntity target) {
         target.setSilent(true);
         // 40 ticks = 2 秒后恢复声音
-        // 使用 ServerLevel.scheduleTick 在 2 秒后重置 silent 状态
         if (this.level() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new net.minecraft.server.TickTask(
                     serverLevel.getServer().getTickCount() + 40,
@@ -545,25 +548,37 @@ public class ThrownHeavySpear extends AbstractArrow {
                     }
             ));
         }
+        // 兜底机制：在服务端实体的自定义数据中记录"应在何 tick 恢复声音"
+        // 实体 tick 时可检查此数据并恢复（防止 TickTask 因重启丢失）
+        target.getPersistentData().putLong("spectrum_reclamation:silent_until_tick",
+                target.level().getGameTime() + 40);
     }
 
     /**
      * 棕色涂装 —— 目标随机脱落一件装备。
      * 遍历所有装备槽位（主手、副手、头盔、胸甲、护腿、靴子），
-     * 收集非空装备后随机选择一件生成掉落物。
+     * 收集非空装备后随机选择一件生成掉落物，并清空对应槽位。
      */
     private void applyBrownEffect(LivingEntity target) {
-        // 收集目标所有非空装备
+        // 收集目标所有非空装备及其槽位
+        List<EquipmentSlot> equippedSlots = new ArrayList<>();
         List<ItemStack> equippedItems = new ArrayList<>();
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack equipment = target.getItemBySlot(slot);
             if (!equipment.isEmpty()) {
+                equippedSlots.add(slot);
                 equippedItems.add(equipment.copy());
             }
         }
         // 至少有一件装备才随机脱落
         if (!equippedItems.isEmpty()) {
-            ItemStack dropped = equippedItems.get(this.random.nextInt(equippedItems.size()));
+            int chosenIndex = this.random.nextInt(equippedItems.size());
+            ItemStack dropped = equippedItems.get(chosenIndex);
+            EquipmentSlot chosenSlot = equippedSlots.get(chosenIndex);
+
+            // 清空目标对应槽位（防止物品复制）
+            target.setItemSlot(chosenSlot, ItemStack.EMPTY);
+
             // 在目标位置生成掉落物
             ItemEntity itemEntity = new ItemEntity(this.level(),
                     target.getX(), target.getY() + 0.5, target.getZ(), dropped);
@@ -591,12 +606,13 @@ public class ThrownHeavySpear extends AbstractArrow {
     /**
      * 黄绿色涂装 —— 目标脚下生成蜘蛛网。
      * setBlock 在目标脚下方块位置放置蜘蛛网，限制目标移动。
-     * 仅在该位置当前为空气方块时放置，避免破坏其他方块。
+     * 仅在该位置当前为空气或可替换方块时放置，避免破坏已有方块。
      */
     private void applyLimeEffect(LivingEntity target) {
         BlockPos targetPos = BlockPos.containing(target.getX(), target.getY(), target.getZ());
-        // 仅在空气方块位置放置蜘蛛网，避免替换已有方块
-        if (this.level().getBlockState(targetPos).isAir()) {
+        BlockState targetState = this.level().getBlockState(targetPos);
+        // 仅在空气方块或可替换方块位置放置蜘蛛网
+        if (targetState.isAir() || targetState.canBeReplaced()) {
             this.level().setBlock(targetPos, net.minecraft.world.level.block.Blocks.COBWEB.defaultBlockState(), 3);
         }
     }

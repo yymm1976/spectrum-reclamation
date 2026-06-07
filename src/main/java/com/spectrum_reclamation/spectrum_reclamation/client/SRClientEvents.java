@@ -43,8 +43,9 @@ public class SRClientEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(SREntities.BLAZING_BOMB.get(), ThrownItemRenderer::new);
-        // 沉重之矛弹射物继承 AbstractArrow，使用默认渲染器（箭矢外观）
-        // 如需自定义矛外观，后续可注册专门的渲染器
+        // 沉重之矛弹射物继承 AbstractArrow，必须使用 ArrowRenderer 子类渲染。
+        // HeavySpearRenderer 暂用原版箭矢纹理，后续可替换为自定义纹理。
+        event.registerEntityRenderer(SREntities.THROWN_HEAVY_SPEAR.get(), HeavySpearRenderer::new);
     }
 
     /**

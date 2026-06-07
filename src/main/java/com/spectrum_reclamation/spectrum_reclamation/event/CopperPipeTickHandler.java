@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 
 import java.util.*;
 
@@ -87,6 +88,20 @@ public class CopperPipeTickHandler {
         for (CopperPipeNetwork network : networksSnapshot) {
             processNetwork(network);
         }
+    }
+
+    /**
+     * 监听服务端停止事件 —— 清理所有铜管网络数据，防止内存泄漏。
+     *
+     * 当服务端关闭（包括单人世界退出）时触发。
+     * 如果不清理静态的 networks 映射，下次加载世界时可能残留旧网络数据，
+     * 导致引用已卸载世界的 BlockPos 和 BlockEntity，引发内存泄漏或异常。
+     *
+     * @param event 服务端停止事件
+     */
+    @SubscribeEvent
+    public void onServerStopping(ServerStoppingEvent event) {
+        CopperPipeNetwork.clearAll();
     }
 
     /**
@@ -304,29 +319,41 @@ public class CopperPipeTickHandler {
      */
     private ItemStack insertIntoContainer(Container container, ItemStack itemStack) {
         ItemStack remaining = itemStack.copy();
+
+        // 第一遍：优先合并同类物品（isSameItemSameComponents 且未满）
         for (int i = 0; i < container.getContainerSize(); i++) {
-            if (remaining.isEmpty()) break; // 已全部放入
+            if (remaining.isEmpty()) break;
 
             ItemStack slotStack = container.getItem(i);
+            if (slotStack.isEmpty()) continue; // 空槽第二遍处理
 
-            // 槽位为空，直接放入
-            if (slotStack.isEmpty()) {
-                container.setItem(i, remaining);
-                remaining = ItemStack.EMPTY;
-                break;
-            }
+            if (!container.canPlaceItem(i, remaining)) continue;
 
-            // 槽位物品相同且未满，合并
             if (ItemStack.isSameItemSameComponents(slotStack, remaining)) {
                 int canAdd = Math.min(slotStack.getMaxStackSize() - slotStack.getCount(), remaining.getCount());
                 if (canAdd > 0) {
                     slotStack.grow(canAdd);
                     remaining.shrink(canAdd);
-                    container.setItem(i, slotStack); // 触发标记脏数据
+                    container.setItem(i, slotStack);
                     if (remaining.isEmpty()) break;
                 }
             }
         }
+
+        // 第二遍：寻找空槽位放入
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            if (remaining.isEmpty()) break;
+
+            if (!container.canPlaceItem(i, remaining)) continue;
+
+            ItemStack slotStack = container.getItem(i);
+            if (slotStack.isEmpty()) {
+                container.setItem(i, remaining);
+                remaining = ItemStack.EMPTY;
+                break;
+            }
+        }
+
         return remaining;
     }
 

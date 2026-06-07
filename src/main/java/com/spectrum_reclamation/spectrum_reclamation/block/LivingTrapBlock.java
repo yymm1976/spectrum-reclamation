@@ -23,7 +23,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -70,8 +69,10 @@ public class LivingTrapBlock extends Block {
      * 被吞入实体的追踪表。
      * Key = "维度ID:方块位置" 字符串，确保跨维度不冲突。
      * Value = 被吞入的实体引用。
+     *
+     * 使用 ConcurrentHashMap 以提供额外的安全保障（防御潜在的并发访问场景）。
      */
-    private static final Map<String, LivingEntity> TRAPPED_ENTITIES = new HashMap<>();
+    private static final Map<String, LivingEntity> TRAPPED_ENTITIES = new java.util.concurrent.ConcurrentHashMap<>();
 
     /** 生成维度感知的追踪键 */
     private static String trapKey(Level level, BlockPos pos) {
@@ -109,11 +110,11 @@ public class LivingTrapBlock extends Block {
 
     /**
      * 此方块不阻挡寻路。
-     * AI 寻路时不会绕开此方块，确保生物会自然走上来触发陷阱。
+     * 返回 true 使 AI 寻路时不会绕开此方块，确保生物会自然走上来触发陷阱。
      */
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType type) {
-        return false;
+        return true;
     }
 
     // ==================== 核心陷阱逻辑 ====================
@@ -141,6 +142,12 @@ public class LivingTrapBlock extends Block {
         // 小型生物判定：碰撞箱宽度 ≤ 0.6 格
         if (livingEntity.getBbWidth() > 0.6f) return;
 
+        // 检查是否已有实体被困在此位置（防止重复触发覆盖导致实体永久丢失）
+        String key = trapKey(level, pos);
+        if (TRAPPED_ENTITIES.containsKey(key)) {
+            return;
+        }
+
         // === 执行吞入 ===
 
         // 1. 设为不可见（客户端会跳过渲染，实体"消失"）
@@ -154,7 +161,7 @@ public class LivingTrapBlock extends Block {
         livingEntity.setNoGravity(true);
 
         // 4. 记录被吞入的实体，供延迟 tick 释放时查找
-        TRAPPED_ENTITIES.put(trapKey(level, pos), livingEntity);
+        TRAPPED_ENTITIES.put(key, livingEntity);
 
         // 5. 调度 5 秒（100 ticks）后释放实体的延迟 tick
         level.scheduleTick(pos, this, SWALLOW_DURATION);
@@ -174,17 +181,17 @@ public class LivingTrapBlock extends Block {
      */
     @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (state.getValue(COOLDOWN)) {
-            // 冷却状态：尝试释放实体
-            LivingEntity trapped = TRAPPED_ENTITIES.get(trapKey(level, pos));
-            if (trapped != null) {
-                releaseEntity(trapped, level, pos);
-                TRAPPED_ENTITIES.remove(trapKey(level, pos));
-            }
-            // 调度 15 秒后重置冷却（再过 200 ticks 才能恢复待命状态）
+        if (!state.getValue(COOLDOWN)) return;
+
+        String key = trapKey(level, pos);
+        LivingEntity trapped = TRAPPED_ENTITIES.remove(key);
+
+        if (trapped != null) {
+            // 吞入期结束：释放实体，调度冷却重置
+            releaseEntity(trapped, level, pos);
             level.scheduleTick(pos, this, COOLDOWN_DURATION - SWALLOW_DURATION);
         } else {
-            // 非冷却状态（冷却到期）：恢复方块为待命状态
+            // 冷却期结束（或服务器重启后 TRAPPED_ENTITIES 丢失）：恢复待命状态
             level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
         }
     }
@@ -216,13 +223,11 @@ public class LivingTrapBlock extends Block {
             if (oldState.getValue(COOLDOWN)) {
                 LivingEntity trapped = TRAPPED_ENTITIES.remove(trapKey(level, pos));
                 if (trapped != null) {
-                    // 恢复实体正常状态，防止实体永久卡在不可见/无敌/无重力状态
-                    trapped.setInvisible(false);
-                    trapped.setInvulnerable(false);
-                    trapped.setNoGravity(false);
+                    releaseEntity(trapped, level instanceof ServerLevel sl ? sl : null, pos);
+                } else if (level instanceof ServerLevel) {
+                    // HashMap 中无记录（服务器重启后丢失），扫描方块上方残留实体
+                    recoverStrayEntities(level, pos);
                 }
-                // trapped == null 的情况：服务器重启后 TRAPPED_ENTITIES 被清空，
-                // 实体引用丢失，此处无法恢复，但实体会在重启时自然重新加载，状态重置
             }
         }
         // 必须调用父类实现，确保方块移除的其他清理逻辑正常执行
@@ -295,6 +300,37 @@ public class LivingTrapBlock extends Block {
     }
 
     // ==================== 方块行为 ====================
+
+    /**
+     * 方块放置时扫描上方残留实体并恢复。
+     * 防止服务器重启后活体陷阱的 TRAPPED_ENTITIES 丢失，
+     * 导致实体永久处于不可见/无敌/无重力状态。
+     */
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        if (!level.isClientSide) {
+            recoverStrayEntities(level, pos);
+        }
+    }
+
+    /**
+     * 扫描方块上方 1 格范围内的残留异常实体并恢复其状态。
+     * 判定条件：invisible=true && invulnerable=true && noGravity=true 且非旁观者。
+     * 这些状态组合极不自然，几乎只可能是活体陷阱造成的。
+     */
+    private void recoverStrayEntities(Level level, BlockPos pos) {
+        net.minecraft.world.phys.AABB searchBox = new net.minecraft.world.phys.AABB(pos).inflate(1.0);
+        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, searchBox)) {
+            if (entity.isInvisible() && entity.isInvulnerable() && entity.isNoGravity()
+                    && !(entity instanceof net.minecraft.world.entity.player.Player p && p.isSpectator())) {
+                entity.setInvisible(false);
+                entity.setInvulnerable(false);
+                entity.setNoGravity(false);
+                entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0, false, true, true));
+            }
+        }
+    }
 
     /**
      * 方块被破坏时掉落自身。
