@@ -33,5 +33,8 @@
   "tooltip.spectrum_reclamation.waypoint_compass.empty": "§7蹲下+右键记录当前位置",
 
   "message.spectrum_reclamation.scope_attached": "§a瞄准镜已附着",
-  "message.spectrum_reclamation.waypoint_recorded": "§a已记录位置：(%s, %s, %s)"
+  "message.spectrum_reclamation.waypoint_recorded": "§a已记录位置：(%s, %s, %s)",
+
+  "item.spectrum_reclamation.heavy_spear": "沉重之矛",
+  "item.spectrum_reclamation.meteor_crossbow": "陨星弩"
 }

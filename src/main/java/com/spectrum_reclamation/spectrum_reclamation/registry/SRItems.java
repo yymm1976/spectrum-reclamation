@@ -2,7 +2,9 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.BlazingBombItem;
+import com.spectrum_reclamation.spectrum_reclamation.item.custom.HeavySpearItem;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.LivingTrapItem;
+import com.spectrum_reclamation.spectrum_reclamation.item.custom.MeteorCrossbowItem;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.PreciseWaypointCompassItem;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.ScopeAttachmentItem;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.WaypointCompassItem;
@@ -111,6 +113,34 @@ public class SRItems {
             ITEMS.register(
                     "precise_waypoint_compass",
                     () -> new PreciseWaypointCompassItem(new Item.Properties().stacksTo(1))
+            );
+
+    // ==================== 陨星弩与沉重之矛 ====================
+
+    /**
+     * 沉重之矛物品 —— 陨星弩的专用弹药。
+     * - 最大堆叠 1（弹药类物品不可堆叠）
+     * - 不是可投掷物品，仅作为弹药被陨星弩消耗
+     * - 右键无效果
+     */
+    public static final DeferredHolder<Item, Item> HEAVY_SPEAR =
+            ITEMS.register(
+                    "heavy_spear",
+                    () -> new HeavySpearItem(new Item.Properties().stacksTo(1))
+            );
+
+    /**
+     * 陨星弩物品 —— 继承 CrossbowItem 的重型弩。
+     * - 最大堆叠 1（武器类物品不可堆叠）
+     * - 仅接受沉重之矛作为弹药
+     * - 装填速度比普通弩慢 2 倍（50 ticks vs 25 ticks）
+     * - 自带瞄准镜效果（FOV 缩放）
+     * - 发射 ThrownHeavySpear 实体（高伤害、强击退、钉穿）
+     */
+    public static final DeferredHolder<Item, Item> METEOR_CROSSBOW =
+            ITEMS.register(
+                    "meteor_crossbow",
+                    () -> new MeteorCrossbowItem(new Item.Properties().stacksTo(1))
             );
 
     /**

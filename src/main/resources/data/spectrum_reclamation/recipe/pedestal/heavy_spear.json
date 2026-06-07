@@ -1,0 +1,12 @@
+{
+  "type": "spectrum:pedestal",
+  "ingredients": [
+    { "item": "minecraft:breeze_rod" },
+    { "item": "minecraft:heavy_core" },
+    { "item": "minecraft:black_dye" }
+  ],
+  "result": {
+    "item": "spectrum_reclamation:heavy_spear",
+    "count": 1
+  }
+}

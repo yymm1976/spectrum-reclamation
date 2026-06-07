@@ -2,6 +2,7 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.entity.BlazingBombEntity;
+import com.spectrum_reclamation.spectrum_reclamation.entity.ThrownHeavySpear;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -47,4 +48,25 @@ public class SREntities {
     public static void register(IEventBus modEventBus) {
         ENTITY_TYPES.register(modEventBus);
     }
+
+    // ==================== 陨星弩与沉重之矛 ====================
+
+    /**
+     * 沉重之矛弹射物实体类型。
+     * - 分类：MISC（杂项）
+     * - 体积：0.25×0.25（与箭矢相同）
+     * - 客户端追踪距离：4 区块
+     * - 更新间隔：10 ticks
+     *
+     * 继承 AbstractArrow，具有完整的碰撞检测和伤害计算。
+     */
+    public static final DeferredHolder<EntityType<?>, EntityType<ThrownHeavySpear>> THROWN_HEAVY_SPEAR =
+            ENTITY_TYPES.register(
+                    "thrown_heavy_spear",
+                    () -> EntityType.Builder.<ThrownHeavySpear>of(ThrownHeavySpear::new, MobCategory.MISC)
+                            .sized(0.25F, 0.25F)
+                            .clientTrackingRange(4)
+                            .updateInterval(10)
+                            .build("thrown_heavy_spear")
+            );
 }
