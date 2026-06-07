@@ -45,6 +45,12 @@ public class SRCreativeModeTabs {
                                 output.accept(SRItems.BLAZING_BOMB.get());
                                 // 活体陷阱
                                 output.accept(SRItems.LIVING_TRAP.get());
+                                // 瞄准镜
+                                output.accept(SRItems.SCOPE_ATTACHMENT.get());
+                                // 追溯指针
+                                output.accept(SRItems.WAYPOINT_COMPASS.get());
+                                // 精准追溯指针
+                                output.accept(SRItems.PRECISE_WAYPOINT_COMPASS.get());
                             })
                             .build()
             );

@@ -3,6 +3,9 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.BlazingBombItem;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.LivingTrapItem;
+import com.spectrum_reclamation.spectrum_reclamation.item.custom.PreciseWaypointCompassItem;
+import com.spectrum_reclamation.spectrum_reclamation.item.custom.ScopeAttachmentItem;
+import com.spectrum_reclamation.spectrum_reclamation.item.custom.WaypointCompassItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -35,9 +38,6 @@ public class SRItems {
 
     /**
      * 活体陷阱物品 —— 可放置于地面的活体陷阱方块。
-     * - 最大堆叠 64
-     * - 右键放置活体陷阱方块
-     * - 绑定 SRBlocks.LIVING_TRAP 方块
      */
     public static final DeferredHolder<Item, Item> LIVING_TRAP =
             ITEMS.register(
@@ -50,10 +50,6 @@ public class SRItems {
 
     /**
      * 铜管物品 —— 可放置的铜管方块物品。
-     * - 最大堆叠 64
-     * - 右键放置铜管方块（CopperPipeBlock）
-     * - 放置后自动与相邻铜管/铜管接口建立连接
-     * - 每个铜管方块关联一个 CopperPipeBlockEntity，持有网络 UUID
      */
     public static final DeferredHolder<Item, Item> COPPER_PIPE =
             ITEMS.register(
@@ -66,12 +62,6 @@ public class SRItems {
 
     /**
      * 铜管接口物品 —— 可放置的铜管接口方块物品。
-     * - 最大堆叠 64
-     * - 右键放置铜管接口方块（CopperPipeEndpointBlock）
-     * - 放置时自动朝向容器方向
-     * - 右键切换入口/出口模式
-     * - 入口模式：从朝向的容器提取物品，传入铜管网络
-     * - 出口模式：从铜管网络接收物品，存入朝向的容器
      */
     public static final DeferredHolder<Item, Item> COPPER_PIPE_ENDPOINT =
             ITEMS.register(
@@ -80,6 +70,47 @@ public class SRItems {
                             SRBlocks.COPPER_PIPE_ENDPOINT.get(),
                             new Item.Properties().stacksTo(64)
                     )
+            );
+
+    // ==================== 新增物品 ====================
+
+    /**
+     * 瞄准镜物品 —— 可附加到弓/弩上的瞄准镜附件。
+     * - 最大堆叠 1（附件类物品不可堆叠）
+     * - 副手持瞄准镜 + 主手弓/弩右键 → 附着
+     * - 附着后：拉弓时 FOV 缩小（放大效果），箭矢无重力（弹道更直）
+     * - 合成配方：望远镜 + 铜锭 + 紫水晶碎片 → 瞄准镜
+     */
+    public static final DeferredHolder<Item, Item> SCOPE_ATTACHMENT =
+            ITEMS.register(
+                    "scope_attachment",
+                    () -> new ScopeAttachmentItem(new Item.Properties().stacksTo(1))
+            );
+
+    /**
+     * 追溯指针物品 —— 可自定义坐标指向的指南针。
+     * - 最大堆叠 1
+     * - 蹲下 + 右键：记录当前位置和维度
+     * - 指针指向记录的坐标（同维度时），跨维度时不工作
+     * - 悬停提示显示目标坐标和维度
+     */
+    public static final DeferredHolder<Item, Item> WAYPOINT_COMPASS =
+            ITEMS.register(
+                    "waypoint_compass",
+                    () -> new WaypointCompassItem(new Item.Properties().stacksTo(1))
+            );
+
+    /**
+     * 精准追溯指针物品 —— 追溯指针的升级版本。
+     * - 最大堆叠 1
+     * - 继承追溯指针所有功能
+     * - 额外显示到目标的距离（"约 XXX 格"）
+     * - 合成配方：追溯指针 + 回响碎片 → 精准追溯指针（锻造台）
+     */
+    public static final DeferredHolder<Item, Item> PRECISE_WAYPOINT_COMPASS =
+            ITEMS.register(
+                    "precise_waypoint_compass",
+                    () -> new PreciseWaypointCompassItem(new Item.Properties().stacksTo(1))
             );
 
     /**

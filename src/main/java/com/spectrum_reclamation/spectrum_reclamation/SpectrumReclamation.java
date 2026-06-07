@@ -7,6 +7,7 @@ import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlocks;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlockEntities;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRCreativeModeTabs;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SREntities;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRDataComponents;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRItems;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRMenuTypes;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRMobEffects;
@@ -54,6 +55,8 @@ public class SpectrumReclamation {
         SRBlocks.register(modEventBus);
         // 注册方块实体类型到 MOD_BUS（必须在方块之后，方块实体类型引用方块）
         SRBlockEntities.register(modEventBus);
+        // 注册数据组件类型到 MOD_BUS（物品自定义数据，替代旧版 NBT）
+        SRDataComponents.register(modEventBus);
         // 注册物品到 MOD_BUS
         SRItems.register(modEventBus);
         // 注册实体类型到 MOD_BUS

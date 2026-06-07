@@ -23,5 +23,15 @@
   "block.spectrum_reclamation.copper_pipe": "铜管",
   "item.spectrum_reclamation.copper_pipe": "铜管",
   "block.spectrum_reclamation.copper_pipe_endpoint": "铜管接口",
-  "item.spectrum_reclamation.copper_pipe_endpoint": "铜管接口"
+  "item.spectrum_reclamation.copper_pipe_endpoint": "铜管接口",
+
+  "item.spectrum_reclamation.scope_attachment": "瞄准镜",
+  "item.spectrum_reclamation.waypoint_compass": "追溯指针",
+  "item.spectrum_reclamation.precise_waypoint_compass": "精准追溯指针",
+
+  "tooltip.spectrum_reclamation.scope_attachment": "§7副手持瞄准镜，主手弓/弩右键附着",
+  "tooltip.spectrum_reclamation.waypoint_compass.empty": "§7蹲下+右键记录当前位置",
+
+  "message.spectrum_reclamation.scope_attached": "§a瞄准镜已附着",
+  "message.spectrum_reclamation.waypoint_recorded": "§a已记录位置：(%s, %s, %s)"
 }

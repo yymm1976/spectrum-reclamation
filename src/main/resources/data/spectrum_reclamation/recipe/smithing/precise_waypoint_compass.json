@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:compass"
+  },
+  "base": {
+    "item": "spectrum_reclamation:waypoint_compass"
+  },
+  "addition": {
+    "item": "minecraft:echo_shard"
+  },
+  "result": {
+    "id": "spectrum_reclamation:precise_waypoint_compass"
+  }
+}
