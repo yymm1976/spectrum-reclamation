@@ -7,8 +7,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -186,6 +188,47 @@ public class SREventHandler {
         if (PLAYERS_WITH_SCOPED_SHOT.remove(ownerUUID)) {
             // 设置箭矢无重力，弹道更直（模拟瞄准镜的精准射击效果）
             arrow.setNoGravity(true);
+        }
+    }
+
+    /**
+     * 监听实体加入世界事件 —— 深灰涂装跨重启静音恢复。
+     *
+     * 深灰涂装使用 TickTask 延迟恢复静音，但服务器重启后 TickTask 丢失。
+     * 实体的 setSilent(true) 会持久化到 NBT，导致永久静音。
+     * 通过检查 PersistentData 中的 silent_until_tick 键来判断是否需要恢复。
+     *
+     * @param event 实体加入世界事件
+     */
+    @SubscribeEvent
+    public static void onLivingEntityJoinLevel(EntityJoinLevelEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity entity)) return;
+        if (entity.level().isClientSide()) return;
+
+        var persistentData = entity.getPersistentData();
+        String key = "spectrum_reclamation:silent_until_tick";
+        if (!persistentData.contains(key)) return;
+
+        long silentUntilTick = persistentData.getLong(key);
+        long currentTick = entity.level().getGameTime();
+
+        if (currentTick >= silentUntilTick) {
+            // 已过期：恢复声音并清除 NBT 键
+            entity.setSilent(false);
+            persistentData.remove(key);
+        } else {
+            // 未过期：保持静音并重新调度清除
+            entity.setSilent(true);
+            long remainingTicks = silentUntilTick - currentTick;
+            if (entity.level() instanceof ServerLevel serverLevel) {
+                int targetTick = serverLevel.getServer().getTickCount() + (int) remainingTicks;
+                serverLevel.getServer().tell(new net.minecraft.server.TickTask(targetTick, () -> {
+                    if (entity.isAlive() && entity.level() == serverLevel) {
+                        entity.setSilent(false);
+                        entity.getPersistentData().remove(key);
+                    }
+                }));
+            }
         }
     }
 

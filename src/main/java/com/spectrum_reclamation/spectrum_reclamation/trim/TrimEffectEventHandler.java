@@ -259,6 +259,17 @@ public class TrimEffectEventHandler {
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
             entry.getKey().onTick(player, entry.getValue());
         }
+
+        // 兜底检查：回声碎片纹饰跨重启永久静音恢复
+        // 解决服务器重启后 LivingEquipmentChangeEvent 不触发导致的永久静音问题
+        int echoShardCount = 0;
+        for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
+            if (entry.getKey() instanceof com.spectrum_reclamation.spectrum_reclamation.trim.effect.EchoShardTrimEffect) {
+                echoShardCount = entry.getValue();
+                break;
+            }
+        }
+        com.spectrum_reclamation.spectrum_reclamation.trim.effect.EchoShardTrimEffect.enforceSilenceState(player, echoShardCount);
     }
 
     // ==================== 暴击事件 ====================

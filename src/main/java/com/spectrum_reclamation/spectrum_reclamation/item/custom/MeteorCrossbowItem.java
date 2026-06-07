@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
@@ -102,6 +103,12 @@ public class MeteorCrossbowItem extends CrossbowItem {
                 spear.shootFromRotation(player, player.getXRot(), player.getYRot(),
                         0.0F, 3.0F, 1.0F);
                 level.addFreshEntity(spear);
+
+                // 消耗弩的耐久（发射一次 -1 耐久）
+                crossbowStack.hurtAndBreak(1, player,
+                        player.getUsedItemHand() == InteractionHand.MAIN_HAND
+                                ? EquipmentSlot.MAINHAND
+                                : EquipmentSlot.OFFHAND);
 
                 // 清除装填状态（通过 DataComponents 直接操作 ChargedProjectiles 组件）
                 crossbowStack.set(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY);
