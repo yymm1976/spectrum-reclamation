@@ -59,4 +59,57 @@ public class SRTrimMaterials {
                             Map.of()                                                                 // 不覆盖盔甲材质纹理
                     )
             );
+
+    // ==================== Spectrum 纹饰材料 ====================
+
+    /**
+     * 黑曜石粉纹饰材料 —— onyx_powder。
+     * 效果：对满血目标首击 +8%/件
+     * 调色板纹理路径：trims/palettes/onyx_powder.png
+     */
+    public static final DeferredHolder<TrimMaterial, TrimMaterial> ONYX_POWDER =
+            TRIM_MATERIALS.register(
+                    "onyx_powder",
+                    () -> TrimMaterial.create(
+                            "onyx_powder",                                                         // 调色板资源名
+                            Items.IRON_INGOT,                                                      // 锻造材料：暂用铁锭（Spectrum 物品需联动时替换）
+                            0.6f,                                                                  // 模型颜色索引
+                            Component.translatable("trim_material.spectrum_reclamation.onyx_powder"),
+                            Map.of()
+                    )
+            );
+
+    /**
+     * 午夜碎片纹饰材料 —— midnight_chip。
+     * 效果：攻击无视目标 6%/件 护甲
+     * 调色板纹理路径：trims/palettes/midnight_chip.png
+     */
+    public static final DeferredHolder<TrimMaterial, TrimMaterial> MIDNIGHT_CHIP =
+            TRIM_MATERIALS.register(
+                    "midnight_chip",
+                    () -> TrimMaterial.create(
+                            "midnight_chip",                                                       // 调色板资源名
+                            Items.IRON_INGOT,                                                      // 锻造材料：暂用铁锭
+                            0.4f,                                                                  // 模型颜色索引
+                            Component.translatable("trim_material.spectrum_reclamation.midnight_chip"),
+                            Map.of()
+                    )
+            );
+
+    /**
+     * 毒紫粉纹饰材料 —— quitoxic_powder。
+     * 效果：被攻击时，攻击者中毒；每件 +1 中毒等级
+     * 调色板纹理路径：trims/palettes/quitoxic_powder.png
+     */
+    public static final DeferredHolder<TrimMaterial, TrimMaterial> QUITOXIC_POWDER =
+            TRIM_MATERIALS.register(
+                    "quitoxic_powder",
+                    () -> TrimMaterial.create(
+                            "quitoxic_powder",                                                     // 调色板资源名
+                            Items.IRON_INGOT,                                                      // 锻造材料：暂用铁锭
+                            0.7f,                                                                  // 模型颜色索引
+                            Component.translatable("trim_material.spectrum_reclamation.quitoxic_powder"),
+                            Map.of()
+                    )
+            );
 }

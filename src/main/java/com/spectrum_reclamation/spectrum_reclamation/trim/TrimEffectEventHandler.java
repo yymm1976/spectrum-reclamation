@@ -70,9 +70,10 @@ public class TrimEffectEventHandler {
 
         // 累加所有处理器返回的伤害乘数加算值（多个纹饰效果的加成叠加）
         // 例：石英 +2% 和午夜碎片 +8% → 总加算 = 0.02 + 0.08 = 0.10
+        // 使用带 DamageSource 的重载版本，使 handler 可获取攻击者信息（如中毒纹饰需要）
         float totalDamageBonus = 0.0f;
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
-            totalDamageBonus += entry.getKey().onHurt(entity, entry.getValue(), event.getAmount());
+            totalDamageBonus += entry.getKey().onHurt(entity, entry.getValue(), event.getAmount(), event.getSource());
         }
 
         // 有伤害加成时才修改事件，避免不必要的调用

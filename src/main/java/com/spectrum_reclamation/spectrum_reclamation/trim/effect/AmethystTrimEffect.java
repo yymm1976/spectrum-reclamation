@@ -2,6 +2,7 @@ package com.spectrum_reclamation.spectrum_reclamation.trim.effect;
 
 import com.spectrum_reclamation.spectrum_reclamation.trim.TrimCountedValue;
 import com.spectrum_reclamation.spectrum_reclamation.trim.TrimEffectHandler;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -16,14 +17,8 @@ import net.minecraft.world.entity.LivingEntity;
  * - 3 件：-30%（0.30）
  * - 4 件：-40%（0.40）
  *
- * 当前为空实现。完整实现需要监听 MobEffectEvent.Applicable 事件，
- * 在负面效果即将施加时修改其持续时间。
- *
- * // CONCERN: [RISK] MobEffectEvent.Applicable 在 NeoForge 1.21.x 中的行为需要验证。
- * // 该事件在效果即将施加时触发，可以取消或修改效果。
- * // 但判断"负面效果"需要检查 MobEffectCategory.HARMFUL，
- * // 且修改持续时间的 API 需要确认是否可用。
- * // 建议在后续 Phase 中统一实现，或通过 mixin 方案处理。
+ * 实现方式：在 onTick 中检查实体当前所有负面效果，
+ * 将时长缩减为原来的 (1 - reduction) 倍。
  */
 public class AmethystTrimEffect implements TrimEffectHandler {
 
@@ -34,18 +29,35 @@ public class AmethystTrimEffect implements TrimEffectHandler {
     private static final TrimCountedValue DURATION_REDUCTION = TrimCountedValue.linear(0.0, 0.10);
 
     /**
-     * 暂为空实现 —— 需要 MobEffectEvent.Applicable 事件配合。
+     * 每 tick 缩减负面效果时长。
+     *
+     * 遍历实体所有当前效果，对 HARMFUL 类别的效果缩短剩余时长。
+     * 每 tick 执行一次缩减，确保效果时长持续被压制。
      *
      * @param entity 拥有纹饰效果的实体
      * @param count  紫水晶纹饰的盔甲件数（0-4）
      */
     @Override
     public void onTick(LivingEntity entity, int count) {
-        // 暂为空实现：需要 MobEffectEvent.Applicable 事件来修改负面效果时长。
-        // 完整实现流程：
-        // 1. 监听 MobEffectEvent.Applicable
-        // 2. 检查效果类别是否为 HARMFUL
-        // 3. 查询纹饰件数，计算时长缩减
-        // 4. 通过 event.setDuration() 或取消事件后重新施加缩短的效果
+        if (entity.level().isClientSide() || count <= 0) return;
+
+        double reduction = DURATION_REDUCTION.calc(count);
+        // 每 tick 缩减 1 tick 的 (reduction) 比例
+        // 即每 tick 额外消耗 reduction tick 的时长
+        int extraConsumption = (int) Math.floor(reduction * 2); // 每 2 tick 额外消耗 1 tick
+        if (extraConsumption <= 0) return;
+
+        for (MobEffectInstance effect : entity.getActiveEffects()) {
+            // getEffect() 返回 Holder<MobEffect>，需通过 .value() 获取 MobEffect 实例再调用 isBeneficial()
+            if (effect.getEffect().value().isBeneficial()) continue;
+            // 缩短剩余时长
+            int remaining = effect.getDuration();
+            if (remaining > 1) {
+                effect.update(new MobEffectInstance(
+                        effect.getEffect(), remaining - extraConsumption,
+                        effect.getAmplifier(), effect.isAmbient(), effect.isVisible()
+                ));
+            }
+        }
     }
 }

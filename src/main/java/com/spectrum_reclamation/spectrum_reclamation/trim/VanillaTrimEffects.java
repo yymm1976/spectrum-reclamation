@@ -8,21 +8,23 @@ import com.spectrum_reclamation.spectrum_reclamation.trim.effect.GoldTrimEffect;
 import com.spectrum_reclamation.spectrum_reclamation.trim.effect.HoneycombTrimEffect;
 import com.spectrum_reclamation.spectrum_reclamation.trim.effect.IronTrimEffect;
 import com.spectrum_reclamation.spectrum_reclamation.trim.effect.LapisTrimEffect;
+import com.spectrum_reclamation.spectrum_reclamation.trim.effect.MidnightChipTrimEffect;
 import com.spectrum_reclamation.spectrum_reclamation.trim.effect.NetheriteTrimEffect;
+import com.spectrum_reclamation.spectrum_reclamation.trim.effect.OnyxPowderTrimEffect;
+import com.spectrum_reclamation.spectrum_reclamation.trim.effect.QuitoxicPowderTrimEffect;
 import com.spectrum_reclamation.spectrum_reclamation.trim.effect.QuartzTrimEffect;
 import com.spectrum_reclamation.spectrum_reclamation.trim.effect.RedstoneTrimEffect;
 import com.spectrum_reclamation.spectrum_reclamation.trim.effect.TurtleTrimEffect;
 import net.minecraft.resources.ResourceLocation;
 
 /**
- * 原版纹饰效果的批量注册入口。
+ * 纹饰效果的批量注册入口。
  *
- * 职责：将 12 种原版纹饰材料的效果处理器统一注册到 TrimEffectRegistry。
+ * 职责：将所有纹饰材料（12 种原版 + 3 种 Spectrum）的效果处理器统一注册到 TrimEffectRegistry。
  * 调用时机：在模组主类 SpectrumReclamation 的构造器中调用 register()。
  *
  * 为什么单独拆分为此类：
  * - 主类构造器已包含大量注册调用，保持整洁
- * - 若未来需要添加更多纹饰效果（如 Spectrum 材料），可在此类中扩展
  * - 注册逻辑与效果实现分离，符合 SRP 原则
  *
  * 纹饰材料 ResourceLocation 对应关系（原版 1.21.x）：
@@ -38,6 +40,9 @@ import net.minecraft.resources.ResourceLocation;
  * - minecraft:turtle     → 海龟    （水下呼吸延长）
  * - minecraft:honeycomb  → 蜜脾    （摔落减免 -1 格/件）
  * - minecraft:echo_shard → 回声碎片（声呐探测）
+ * - spectrum_reclamation:onyx_powder      → 黑曜石粉 （对满血目标首击 +8%/件）
+ * - spectrum_reclamation:midnight_chip    → 午夜碎片 （攻击无视目标 6%/件 护甲）
+ * - spectrum_reclamation:quitoxic_powder  → 毒紫粉   （被攻击时攻击者中毒，每件 +1 等级）
  */
 public class VanillaTrimEffects {
 
@@ -121,6 +126,26 @@ public class VanillaTrimEffects {
         TrimEffectRegistry.register(
                 ResourceLocation.fromNamespaceAndPath("minecraft", "echo_shard"),
                 new EchoShardTrimEffect()
+        );
+
+        // ==================== Spectrum 纹饰效果 ====================
+
+        // 黑曜石粉纹饰 —— 对满血目标首击 +8%/件
+        TrimEffectRegistry.register(
+                ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "onyx_powder"),
+                new OnyxPowderTrimEffect()
+        );
+
+        // 午夜碎片纹饰 —— 攻击无视目标 6%/件 护甲
+        TrimEffectRegistry.register(
+                ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "midnight_chip"),
+                new MidnightChipTrimEffect()
+        );
+
+        // 毒紫粉纹饰 —— 被攻击时，攻击者中毒；每件 +1 中毒等级
+        TrimEffectRegistry.register(
+                ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "quitoxic_powder"),
+                new QuitoxicPowderTrimEffect()
         );
     }
 }

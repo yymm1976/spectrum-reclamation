@@ -7,7 +7,10 @@
       ],
       "palette_key": "spectrum_reclamation:trims/palettes/test_palette",
       "permutations": {
-        "spectrum_reclamation:test_trim_material": "spectrum_reclamation:trims/palettes/test_palette"
+        "spectrum_reclamation:test_trim_material": "spectrum_reclamation:trims/palettes/test_palette",
+        "spectrum_reclamation:onyx_powder": "spectrum_reclamation:trims/palettes/onyx_powder",
+        "spectrum_reclamation:midnight_chip": "spectrum_reclamation:trims/palettes/midnight_chip",
+        "spectrum_reclamation:quitoxic_powder": "spectrum_reclamation:trims/palettes/quitoxic_powder"
       }
     }
   ]

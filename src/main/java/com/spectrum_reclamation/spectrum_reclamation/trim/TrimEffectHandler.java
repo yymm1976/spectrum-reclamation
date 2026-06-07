@@ -1,5 +1,6 @@
 package com.spectrum_reclamation.spectrum_reclamation.trim;
 
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -45,6 +46,26 @@ public interface TrimEffectHandler {
      */
     default float onHurt(LivingEntity entity, int count, float damage) {
         return 0.0f; // 默认无伤害加成
+    }
+
+    /**
+     * 受伤时调用（带伤害来源） —— 用于需要知道攻击者身份的纹饰效果。
+     *
+     * 与无参 DamageSource 版本的区别：额外提供 DamageSource 参数，
+     * 使 handler 可以获取攻击者实体信息（如对攻击者施加负面效果）。
+     *
+     * 默认实现委托给无 DamageSource 版本，保持向后兼容 ——
+     * 已有的 handler 无需修改即可正常工作。
+     *
+     * @param entity 受伤的实体
+     * @param count  该纹饰材料在身上的件数（0-4）
+     * @param damage 当前伤害值
+     * @param source 伤害来源，包含攻击者信息（source.getEntity() 可获取攻击者）
+     * @return 伤害乘数加算值，默认委托给 onHurt(entity, count, damage)
+     */
+    default float onHurt(LivingEntity entity, int count, float damage, DamageSource source) {
+        // 默认委托给无 DamageSource 版本，保持向后兼容
+        return onHurt(entity, count, damage);
     }
 
     /**
