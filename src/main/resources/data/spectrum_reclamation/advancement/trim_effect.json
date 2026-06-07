@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": { "item": "minecraft:diamond_chestplate" },
+    "title": "纹饰觉醒",
+    "description": "首次穿着带有纹饰效果的盔甲",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "spectrum_reclamation:root",
+  "criteria": {
+    "get_trimmed_armor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "predicates": { "minecraft:trim": {} } }]
+      }
+    }
+  }
+}

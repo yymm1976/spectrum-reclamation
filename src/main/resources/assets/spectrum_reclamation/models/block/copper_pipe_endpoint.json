@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "spectrum_reclamation:item/copper_pipe_endpoint",
+    "side": "spectrum_reclamation:item/copper_pipe_endpoint"
+  }
+}

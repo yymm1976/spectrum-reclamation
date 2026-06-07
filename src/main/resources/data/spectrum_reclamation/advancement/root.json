@@ -1,0 +1,18 @@
+{
+  "display": {
+    "icon": { "item": "minecraft:black_dye" },
+    "title": "光谱救赎",
+    "description": "让被遗忘之物重获新生",
+    "background": "minecraft:textures/block/deepslate_tiles.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "get_guidebook": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": ["spectrum:guidebook"] }]
+      }
+    }
+  }
+}

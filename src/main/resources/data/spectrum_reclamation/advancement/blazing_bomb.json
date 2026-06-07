@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": { "item": "spectrum_reclamation:blazing_bomb" },
+    "title": "炽光之焰",
+    "description": "首次使用炽光炸弹，点亮黑暗",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "spectrum_reclamation:root",
+  "criteria": {
+    "get_blazing_bomb": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": ["spectrum_reclamation:blazing_bomb"] }]
+      }
+    }
+  }
+}

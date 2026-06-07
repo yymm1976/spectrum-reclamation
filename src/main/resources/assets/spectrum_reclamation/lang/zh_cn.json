@@ -1,7 +1,10 @@
 {
   "itemGroup.spectrum_reclamation": "光谱救赎",
+
   "trim_material.spectrum_reclamation.test_trim_material": "测试纹饰材料",
-  "item.spectrum_reclamation.test_trim_material": "测试纹饰材料",
+  "trim_material.spectrum_reclamation.onyx_powder": "黑曜石粉",
+  "trim_material.spectrum_reclamation.midnight_chip": "午夜碎片",
+  "trim_material.spectrum_reclamation.quitoxic_powder": "毒紫粉",
 
   "effect.spectrum_reclamation.unburden": "卸负",
 
@@ -29,16 +32,17 @@
   "item.spectrum_reclamation.waypoint_compass": "追溯指针",
   "item.spectrum_reclamation.precise_waypoint_compass": "精准追溯指针",
 
+  "item.spectrum_reclamation.heavy_spear": "沉重之矛",
+  "item.spectrum_reclamation.meteor_crossbow": "陨星弩",
+
   "tooltip.spectrum_reclamation.scope_attachment": "§7副手持瞄准镜，主手弓/弩右键附着",
   "tooltip.spectrum_reclamation.waypoint_compass.empty": "§7蹲下+右键记录当前位置",
 
   "message.spectrum_reclamation.scope_attached": "§a瞄准镜已附着",
   "message.spectrum_reclamation.waypoint_recorded": "§a已记录位置：(%s, %s, %s)",
 
-  "item.spectrum_reclamation.heavy_spear": "沉重之矛",
-  "item.spectrum_reclamation.meteor_crossbow": "陨星弩",
-
   "recipeGroup.spectrum_reclamation.coating": "墨水涂装",
+  "recipeGroup.spectrum_reclamation.fletching": "制箭台合成",
 
   "recipe.spectrum_reclamation.coating_red": "红色涂装沉重之矛",
   "recipe.spectrum_reclamation.coating_orange": "橙色涂装沉重之矛",
@@ -55,5 +59,29 @@
   "recipe.spectrum_reclamation.coating_dark_gray": "深灰涂装沉重之矛",
   "recipe.spectrum_reclamation.coating_brown": "棕色涂装沉重之矛",
   "recipe.spectrum_reclamation.coating_light_blue": "浅蓝涂装沉重之矛",
-  "recipe.spectrum_reclamation.coating_lime": "黄绿涂装沉重之矛"
+  "recipe.spectrum_reclamation.coating_lime": "黄绿涂装沉重之矛",
+
+  "advancement.spectrum_reclamation.root.title": "光谱救赎",
+  "advancement.spectrum_reclamation.root.description": "让被遗忘之物重获新生",
+
+  "advancement.spectrum_reclamation.unburden.title": "卸负之始",
+  "advancement.spectrum_reclamation.unburden.description": "首次酿造卸负药水，感受轻盈的力量",
+
+  "advancement.spectrum_reclamation.blazing_bomb.title": "炽光之焰",
+  "advancement.spectrum_reclamation.blazing_bomb.description": "首次使用炽光炸弹，点亮黑暗",
+
+  "advancement.spectrum_reclamation.fletching_table.title": "制箭之道",
+  "advancement.spectrum_reclamation.fletching_table.description": "首次使用制箭台合成箭矢",
+
+  "advancement.spectrum_reclamation.copper_pipe.title": "管道运输",
+  "advancement.spectrum_reclamation.copper_pipe.description": "首次获得铜管，开始构建自动化网络",
+
+  "advancement.spectrum_reclamation.meteor_crossbow.title": "陨星之力",
+  "advancement.spectrum_reclamation.meteor_crossbow.description": "首次合成陨星弩，掌控天降之怒",
+
+  "advancement.spectrum_reclamation.ink_coating.title": "墨染之矛",
+  "advancement.spectrum_reclamation.ink_coating.description": "首次给沉重之矛涂装，赋予其色彩与灵魂",
+
+  "advancement.spectrum_reclamation.trim_effect.title": "纹饰觉醒",
+  "advancement.spectrum_reclamation.trim_effect.description": "首次穿着带有纹饰效果的盔甲"
 }

@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": { "item": "minecraft:potion" },
+    "title": "卸负之始",
+    "description": "首次酿造卸负药水，感受轻盈的力量",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "spectrum_reclamation:root",
+  "criteria": {
+    "get_unburden_potion": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["minecraft:potion"],
+            "predicates": {
+              "minecraft:potion_contents": {
+                "potion": "spectrum_reclamation:unburden"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

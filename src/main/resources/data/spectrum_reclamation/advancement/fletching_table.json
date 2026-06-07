@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": { "item": "minecraft:arrow" },
+    "title": "制箭之道",
+    "description": "首次使用制箭台合成箭矢",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "spectrum_reclamation:root",
+  "criteria": {
+    "get_arrow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": ["minecraft:arrow"] }]
+      }
+    }
+  }
+}
