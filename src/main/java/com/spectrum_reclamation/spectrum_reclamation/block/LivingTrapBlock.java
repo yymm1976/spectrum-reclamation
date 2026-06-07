@@ -187,6 +187,46 @@ public class LivingTrapBlock extends Block {
         }
     }
 
+    // ==================== 方块移除时的清理逻辑 ====================
+
+    /**
+     * 方块被移除时的清理回调 —— 确保被吞入的实体不会"永久消失"。
+     *
+     * 当玩家挖掘、爆炸摧毁或命令移除方块时，scheduleTick 的延迟 tick 不会再触发，
+     * 因此必须在此处手动释放被困实体，避免实体状态永久异常（不可见、无敌、无重力）。
+     *
+     * NeoForge 的 onRemove 机制：
+     * - 当方块被替换或移除时由 Level 调用
+     * - 参数 oldState = 被移除前的方块状态，newState = 新方块状态
+     * - 若方块被同类型方块替换（如通过 setBlock 更新状态），newBlock == this 不触发释放
+     *
+     * @param oldState  被移除前的旧方块状态
+     * @param level     所在世界
+     * @param pos       方块位置
+     * @param newState  新的方块状态（可能是空气，也可能是其他方块）
+     * @param movedByPiston 是否因活塞移动而移除
+     */
+    @Override
+    protected void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        // 仅在方块真正被替换为不同类型时执行清理（排除自身状态更新的情况）
+        if (!oldState.is(newState.getBlock())) {
+            // 仅在冷却状态（即有实体被吞入时）才需要清理
+            if (oldState.getValue(COOLDOWN)) {
+                LivingEntity trapped = TRAPPED_ENTITIES.remove(pos);
+                if (trapped != null) {
+                    // 恢复实体正常状态，防止实体永久卡在不可见/无敌/无重力状态
+                    trapped.setInvisible(false);
+                    trapped.setInvulnerable(false);
+                    trapped.setNoGravity(false);
+                }
+                // trapped == null 的情况：服务器重启后 TRAPPED_ENTITIES 被清空，
+                // 实体引用丢失，此处无法恢复，但实体会在重启时自然重新加载，状态重置
+            }
+        }
+        // 必须调用父类实现，确保方块移除的其他清理逻辑正常执行
+        super.onRemove(oldState, level, pos, newState, movedByPiston);
+    }
+
     // ==================== 实体释放逻辑 ====================
 
     /**
