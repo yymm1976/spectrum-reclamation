@@ -3,7 +3,6 @@ package com.spectrum_reclamation.spectrum_reclamation.client;
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.item.custom.PreciseWaypointCompassItem;
 import com.spectrum_reclamation.spectrum_reclamation.registry.SRDataComponents;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -104,9 +103,9 @@ public class SRClientScopeHandler {
 
         // 检查当前维度是否与 waypoint 维度匹配
         if (!player.level().dimension().location().equals(waypointDim)) {
-            // 跨维度：显示"跨维度，距离未知"
-            tooltip.add(Component.literal(
-                    ChatFormatting.GOLD + "距离：跨维度，无法计算"
+            // 跨维度：使用翻译键替代硬编码中文，支持多语言
+            tooltip.add(Component.translatable(
+                    "spectrum_reclamation.waypoint.cross_dimension"
             ));
         } else {
             // 同维度：计算欧几里得距离
@@ -117,8 +116,9 @@ public class SRClientScopeHandler {
             // 四舍五入到整数格
             int roundedDistance = (int) Math.round(distance);
 
-            tooltip.add(Component.literal(
-                    ChatFormatting.GOLD + "距离：约 " + roundedDistance + " 格"
+            // 使用翻译键替代硬编码中文，支持多语言
+            tooltip.add(Component.translatable(
+                    "spectrum_reclamation.waypoint.distance", roundedDistance
             ));
         }
     }

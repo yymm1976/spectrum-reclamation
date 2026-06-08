@@ -1,6 +1,5 @@
 package com.spectrum_reclamation.spectrum_reclamation.item.custom;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -48,8 +47,9 @@ public class PreciseWaypointCompassItem extends WaypointCompassItem {
         // 精准版显示额外的"精准"标识
         BlockPos waypointPos = getWaypointPos(stack);
         if (waypointPos != null) {
-            tooltip.add(Component.literal(
-                    ChatFormatting.AQUA + "✦ 精准模式"
+            // 使用翻译键替代硬编码中文，支持多语言
+            tooltip.add(Component.translatable(
+                    "spectrum_reclamation.waypoint.precise_mode"
             ));
             // 距离信息由 SRClientEvents 中的 ItemTooltipEvent 在客户端动态添加
             // 因为 appendHoverText 没有 Player 参数，无法计算实时距离

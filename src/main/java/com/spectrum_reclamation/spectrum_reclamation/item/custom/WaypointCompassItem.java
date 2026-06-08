@@ -133,14 +133,24 @@ public class WaypointCompassItem extends CompassItem {
 
             // 同维度时：设置 LODESTONE_TRACKER 指向 waypoint
             if (level.dimension().equals(dimension)) {
-                LodestoneTracker tracker = new LodestoneTracker(
+                // 构造目标 tracker
+                LodestoneTracker newTracker = new LodestoneTracker(
                         Optional.of(GlobalPos.of(dimension, waypointPos)),
                         true
                 );
-                stack.set(DataComponents.LODESTONE_TRACKER, tracker);
+
+                // 读取当前 tracker，仅在目标位置发生变化时才写入，避免每 tick 重复 set 的性能浪费
+                LodestoneTracker currentTracker = stack.get(DataComponents.LODESTONE_TRACKER);
+                if (currentTracker == null || currentTracker.target().isEmpty() ||
+                        !currentTracker.target().get().pos().equals(waypointPos) ||
+                        !currentTracker.target().get().dimension().equals(dimension)) {
+                    stack.set(DataComponents.LODESTONE_TRACKER, newTracker);
+                }
             } else {
-                // 跨维度：移除 LODESTONE_TRACKER，指针随机旋转
-                stack.remove(DataComponents.LODESTONE_TRACKER);
+                // 跨维度：仅在当前存在 tracker 时才移除，避免每 tick 重复 remove 的性能浪费
+                if (stack.has(DataComponents.LODESTONE_TRACKER)) {
+                    stack.remove(DataComponents.LODESTONE_TRACKER);
+                }
             }
         }
     }
@@ -156,15 +166,15 @@ public class WaypointCompassItem extends CompassItem {
         ResourceLocation waypointDim = stack.get(SRDataComponents.WAYPOINT_DIMENSION.get());
 
         if (waypointPos != null && waypointDim != null) {
-            // 显示目标坐标
-            tooltip.add(Component.literal(
-                    ChatFormatting.GRAY + "目标坐标：("
-                            + waypointPos.getX() + ", " + waypointPos.getY() + ", " + waypointPos.getZ() + ")"
-            ));
-            // 显示目标维度
-            tooltip.add(Component.literal(
-                    ChatFormatting.GRAY + "维度：" + waypointDim
-            ));
+            // 显示目标坐标（使用翻译键，支持多语言）
+            tooltip.add(Component.translatable(
+                    "spectrum_reclamation.waypoint.coordinates",
+                    waypointPos.getX(), waypointPos.getY(), waypointPos.getZ()
+            ).withStyle(ChatFormatting.GRAY));
+            // 显示目标维度（使用翻译键，支持多语言）
+            tooltip.add(Component.translatable(
+                    "spectrum_reclamation.waypoint.dimension", waypointDim
+            ).withStyle(ChatFormatting.GRAY));
         } else {
             // 未设置 waypoint 时显示操作提示
             tooltip.add(Component.translatable("tooltip.spectrum_reclamation.waypoint_compass.empty"));
