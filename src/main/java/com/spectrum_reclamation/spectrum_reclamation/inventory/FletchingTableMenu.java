@@ -19,13 +19,13 @@ import java.util.List;
  * 制箭台容器菜单。
  * 实现制箭台的 GUI 容器逻辑，包含 6 个输入槽和 1 个输出槽。
  *
- * 槽位布局（2×3 输入网格 + 右侧输出）：
- * 左侧 2×3 网格：
- *   槽 0 (箭杆)  x=26, y=20    槽 1 (箭头)  x=62, y=20
- *   槽 2 (翎羽)  x=26, y=46    槽 3 (试剂1) x=62, y=46
- *   槽 4 (试剂2) x=26, y=72    槽 5 (试剂3) x=62, y=72
- * 右侧居中：
- *   槽 6 (输出)  x=124, y=42
+ * 槽位布局（3 列 × 2 行输入网格 + 右下输出）：
+ * 第一行（y=17）：
+ *   槽 0 (箭杆)  x=30     槽 1 (箭头)  x=66     槽 2 (翎羽)  x=102
+ * 第二行（y=51）：
+ *   槽 3 (试剂1) x=30     槽 4 (试剂2) x=66     槽 5 (试剂3) x=102
+ * 右下输出：
+ *   槽 6 (输出)  x=143, y=73
  *
  * 配方系统：
  * - 前三个输入槽（箭杆、箭头、翎羽）为必需材料
@@ -109,52 +109,51 @@ public class FletchingTableMenu extends AbstractContainerMenu {
         this.container = container;
         this.tablePos = tablePos;
 
-        // ---------- 输入槽（2×3 网格布局） ----------
-        // 第一行（y=20）：箭杆、箭头
+        // ---------- 输入槽（3 列 × 2 行网格布局） ----------
+        // 第一行（y=17）：箭杆、箭头、翎羽
         // 槽 0：箭杆（必需）
-        this.addSlot(new Slot(container, 0, 26, 20) {
+        this.addSlot(new Slot(container, 0, 30, 17) {
             @Override public boolean mayPlace(ItemStack stack) {
                 // 箭杆槽：后续可替换为 Tag 过滤
                 return true;
             }
         });
         // 槽 1：箭头（必需）
-        this.addSlot(new Slot(container, 1, 62, 20) {
+        this.addSlot(new Slot(container, 1, 66, 17) {
             @Override public boolean mayPlace(ItemStack stack) {
                 return true;
             }
         });
-        // 第二行（y=46）：翎羽、试剂 1
         // 槽 2：翎羽（必需）
-        this.addSlot(new Slot(container, 2, 26, 46) {
+        this.addSlot(new Slot(container, 2, 102, 17) {
             @Override public boolean mayPlace(ItemStack stack) {
                 return true;
             }
         });
+        // 第二行（y=51）：试剂 1、试剂 2、试剂 3
         // 槽 3：试剂 1（可选）
-        this.addSlot(new Slot(container, 3, 62, 46) {
+        this.addSlot(new Slot(container, 3, 30, 51) {
             @Override public boolean mayPlace(ItemStack stack) {
                 return true;
             }
         });
-        // 第三行（y=72）：试剂 2、试剂 3
         // 槽 4：试剂 2（可选）
-        this.addSlot(new Slot(container, 4, 26, 72) {
+        this.addSlot(new Slot(container, 4, 66, 51) {
             @Override public boolean mayPlace(ItemStack stack) {
                 return true;
             }
         });
         // 槽 5：试剂 3（可选）
-        this.addSlot(new Slot(container, 5, 62, 72) {
+        this.addSlot(new Slot(container, 5, 102, 51) {
             @Override public boolean mayPlace(ItemStack stack) {
                 return true;
             }
         });
 
-        // ---------- 输出槽（右侧居中，y=42） ----------
+        // ---------- 输出槽（右下角） ----------
 
         // 槽 6：输出（禁止放入，只能取出，取出时消耗输入材料）
-        this.addSlot(new Slot(container, OUTPUT_SLOT, 124, 42) {
+        this.addSlot(new Slot(container, OUTPUT_SLOT, 143, 73) {
             @Override public boolean mayPlace(ItemStack stack) {
                 return false; // 输出槽禁止放入物品
             }

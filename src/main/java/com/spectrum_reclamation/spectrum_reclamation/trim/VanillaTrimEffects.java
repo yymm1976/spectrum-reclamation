@@ -147,5 +147,8 @@ public class VanillaTrimEffects {
                 ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "quitoxic_powder"),
                 new QuitoxicPowderTrimEffect()
         );
+
+        // 冻结注册表，防止初始化完成后的意外修改
+        TrimEffectRegistry.freeze();
     }
 }

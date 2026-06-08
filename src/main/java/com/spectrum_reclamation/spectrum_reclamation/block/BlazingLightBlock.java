@@ -64,8 +64,11 @@ public class BlazingLightBlock extends Block {
      */
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        // 调度自毁延迟刻（600 ticks = 30 秒）
-        level.scheduleTick(pos, this, SELF_DESTRUCT_DELAY);
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        // 仅服务端调度自毁延迟刻（客户端 scheduleTick 为空操作，但显式检查更清晰）
+        if (!level.isClientSide) {
+            level.scheduleTick(pos, this, SELF_DESTRUCT_DELAY);
+        }
     }
 
     /**

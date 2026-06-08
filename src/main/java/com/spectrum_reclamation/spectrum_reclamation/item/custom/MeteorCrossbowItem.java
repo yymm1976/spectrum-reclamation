@@ -85,11 +85,14 @@ public class MeteorCrossbowItem extends CrossbowItem {
     /**
      * 右键使用物品时调用。
      *
-     * 最小化覆盖：仅添加自带瞄准镜效果，然后委托父类处理。
-     * 父类 CrossbowItem.use() 的完整逻辑：
-     * 1. 已装填 → 调用 performShooting() 发射弹射物
-     * 2. 未装填且背包有弹药 → player.startUsingItem() 开始蓄力
-     * 3. 无弹药 → 返回 fail
+     * 瞄准镜 UX 改造：
+     * - 已装填状态：不立即发射，而是进入瞄准模式（按住右键 = FOV 缩放瞄准）
+     * - 松开右键时（releaseUsing）才发射
+     * - 未装填状态：委托父类处理装填流程
+     *
+     * FOV 缩放由 SRClientScopeHandler.onComputeFovModifier() 自动处理：
+     * 只要玩家正在使用物品（isUsingItem）且物品有 scope_attached，
+     * 就会触发 0.5x FOV 缩放。
      *
      * @param level  世界
      * @param player 使用物品的玩家
@@ -101,12 +104,19 @@ public class MeteorCrossbowItem extends CrossbowItem {
         ItemStack crossbowStack = player.getItemInHand(hand);
 
         // 自带瞄准镜效果：确保 scope_attached 数据组件存在
-        // 首次使用时设置，之后一直保留
         if (!crossbowStack.has(SRDataComponents.SCOPE_ATTACHED.get())) {
             crossbowStack.set(SRDataComponents.SCOPE_ATTACHED.get(), true);
         }
 
-        // 委托父类处理装填/发射状态机
+        // 已装填 → 进入瞄准模式（按住右键），不立即发射
+        // startUsingItem() 会设置 player 的使用物品状态，
+        // 使 SRClientScopeHandler 的 FOV 缩放生效
+        if (isCharged(crossbowStack)) {
+            player.startUsingItem(hand);
+            return InteractionResultHolder.consume(crossbowStack);
+        }
+
+        // 未装填 → 委托父类处理装填流程
         return super.use(level, player, hand);
     }
 
@@ -161,15 +171,11 @@ public class MeteorCrossbowItem extends CrossbowItem {
     // ==================== 装填后处理 ====================
 
     /**
-     * 覆盖释放使用回调 —— 装填完成后保存涂装数据到弩上。
+     * 覆盖释放使用回调。
      *
-     * 父类 CrossbowItem.releaseUsing() 在蓄力完成后调用
-     * tryLoadProjectiles() → draw() 从背包消耗沉重之矛并存入 CHARGED_PROJECTILES。
-     *
-     * draw() 使用 ammo.copyWithCount(1) 复制弹药，保留所有数据组件。
-     * 因此涂装数据已经保存在 CHARGED_PROJECTILES 中的矛物品栈上。
-     * 但为了冗余安全（防止 ChargedProjectiles 序列化丢失自定义组件），
-     * 此处额外将涂装数据保存到弩本身的 SPEAR_COATING 组件上。
+     * 两种场景：
+     * 1. 瞄准模式（已装填）：松开右键 → 发射沉重之矛
+     * 2. 装填模式（未装填）：松开右键 → 委托父类处理装填判定
      *
      * @param stack    弩物品栈
      * @param level    世界
@@ -178,18 +184,27 @@ public class MeteorCrossbowItem extends CrossbowItem {
      */
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity shooter, int timeLeft) {
-        // 委托父类处理装填逻辑（蓄力判定 + tryLoadProjectiles + draw）
-        super.releaseUsing(stack, level, shooter, timeLeft);
-
-        // 装填成功后，将涂装数据额外保存到弩上（冗余备份）
         if (isCharged(stack)) {
-            ChargedProjectiles projectiles = stack.getOrDefault(
-                    DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY);
-            if (!projectiles.isEmpty()) {
-                ItemStack ammo = projectiles.getItems().get(0);
-                String coating = HeavySpearItem.getCoating(ammo);
-                if (coating != null) {
-                    stack.set(SRDataComponents.SPEAR_COATING.get(), coating);
+            // 瞄准模式：松开右键 → 发射
+            if (shooter instanceof Player player) {
+                // performShooting 内部会清空 CHARGED_PROJECTILES、播放音效、消耗耐久
+                this.performShooting(level, player, player.getUsedItemHand(), stack, 3.5F, 1.0F, null);
+                // 涂装数据已在装填时保存到弩上，performShooting → createProjectile 会读取
+            }
+        } else {
+            // 装填模式：委托父类处理装填逻辑
+            super.releaseUsing(stack, level, shooter, timeLeft);
+
+            // 装填成功后，将涂装数据额外保存到弩上（冗余备份）
+            if (isCharged(stack)) {
+                ChargedProjectiles projectiles = stack.getOrDefault(
+                        DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY);
+                if (!projectiles.isEmpty()) {
+                    ItemStack ammo = projectiles.getItems().get(0);
+                    String coating = HeavySpearItem.getCoating(ammo);
+                    if (coating != null) {
+                        stack.set(SRDataComponents.SPEAR_COATING.get(), coating);
+                    }
                 }
             }
         }
@@ -198,19 +213,23 @@ public class MeteorCrossbowItem extends CrossbowItem {
     // ==================== 属性覆盖 ====================
 
     /**
-     * 返回装填所需时间（ticks）。
-     * 普通弩为 25 ticks（1.25 秒），陨星弩为 50 ticks（2.5 秒），
-     * 体现"重型弩"装填更慢的设计。
+     * 返回使用持续时间。
      *
-     * 父类 getUseDuration() 返回 getChargeDuration() + 3。
-     * 此处直接返回 50，跳过附魔修改和 +3 缓冲。
+     * 两种模式：
+     * - 已装填（瞄准模式）：返回 72000（1 小时），允许玩家无限期按住右键瞄准
+     * - 未装填（装填模式）：返回 50 ticks（2.5 秒），装填时间是普通弩的 2 倍
      *
      * @param stack  物品栈
      * @param entity 使用者
-     * @return 装填 ticks（50 = 普通弩的 2 倍）
+     * @return 使用 ticks
      */
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        // 已装填时返回极大值，允许持续瞄准（类似弓的 hold-to-aim 机制）
+        if (isCharged(stack)) {
+            return 72000;
+        }
+        // 未装填时返回装填时间（50 ticks = 2.5 秒）
         return 50;
     }
 }

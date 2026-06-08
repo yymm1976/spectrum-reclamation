@@ -133,17 +133,19 @@ public class LivingTrapBlock extends Block {
     @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(COOLDOWN)) {
-            // 冷却状态：处理释放或冷却重置
+            // COOLDOWN=true 阶段：可能是吞入到期或冷却到期
             String key = trapKey(level, pos);
             LivingEntity trapped = TRAPPED_ENTITIES.remove(key);
 
             if (trapped != null) {
-                // 吞入期结束：释放实体
+                // 吞入期结束（100 ticks）：释放实体，进入 15 秒冷却期
                 releaseEntity(trapped, level, pos);
+                // 保持 COOLDOWN=true，调度 300 ticks 后的冷却结束 tick
+                level.scheduleTick(pos, this, COOLDOWN_DURATION);
+            } else {
+                // 冷却期结束（300 ticks）：重置 COOLDOWN，陷阱恢复待命
+                level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
             }
-            // 无论是否找到被困实体，都立即重置冷却状态
-            // （被困实体已在 TRAPPED_ENTITIES.remove() 时移除，无需等待第二次 tick）
-            level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
         } else {
             // 待命状态：扫描方块上方的实体
             scanAndTrapEntity(state, level, pos);

@@ -1,16 +1,11 @@
 package com.spectrum_reclamation.spectrum_reclamation.trim.effect;
 
 import com.spectrum_reclamation.spectrum_reclamation.trim.TrimCountedValue;
-import com.spectrum_reclamation.spectrum_reclamation.trim.TrimEffectHandler;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.armortrim.ArmorTrim;
 
 /**
  * 铁锭纹饰效果处理器。
@@ -26,71 +21,33 @@ import net.minecraft.world.item.armortrim.ArmorTrim;
  * 仅在装备变化时更新属性修饰器（onEquipmentChange），
  * 避免每 tick 重复操作属性系统。
  */
-public class IronTrimEffect implements TrimEffectHandler {
+public class IronTrimEffect extends AbstractAttributeTrimEffect {
 
     /** 每件纹饰提供的盔甲值 */
     private static final TrimCountedValue ARMOR_BONUS = TrimCountedValue.linear(0.0, 0.5);
 
-    /** 4 个盔甲槽位各自的固定 ResourceLocation 标识符 */
-    private static final ResourceLocation[] SLOT_IDS = {
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_0"),
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_1"),
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_2"),
-            ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron_3")
-    };
-
-    private static final EquipmentSlot[] ARMOR_SLOTS = {
-            EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
-    };
-
-    private static final ResourceLocation IRON_MATERIAL_ID =
-            ResourceLocation.fromNamespaceAndPath("minecraft", "iron");
-
     @Override
-    public void onEquipmentChange(LivingEntity entity, int count) {
-        if (entity.level().isClientSide()) return;
-        updateArmorModifiers(entity);
+    protected Holder<Attribute> getAttribute() {
+        return Attributes.ARMOR;
     }
 
-    private void updateArmorModifiers(LivingEntity entity) {
-        AttributeInstance attrInstance = entity.getAttribute(Attributes.ARMOR);
-        if (attrInstance == null) return;
+    @Override
+    protected ResourceLocation getModifierIdPrefix() {
+        return ResourceLocation.fromNamespaceAndPath("spectrum_reclamation", "trim.iron");
+    }
 
-        int trimCount = 0;
-        for (int i = 0; i < ARMOR_SLOTS.length; i++) {
-            // 先移除旧修饰器
-            attrInstance.removeModifier(SLOT_IDS[i]);
+    @Override
+    protected TrimCountedValue getCountedValue() {
+        return ARMOR_BONUS;
+    }
 
-            // 检查该槽位是否有铁纹饰
-            ItemStack armorStack = entity.getItemBySlot(ARMOR_SLOTS[i]);
-            if (!armorStack.isEmpty()) {
-                ArmorTrim trim = armorStack.get(DataComponents.TRIM);
-                if (trim != null && trim.material().unwrapKey().isPresent()
-                        && trim.material().unwrapKey().get().location().equals(IRON_MATERIAL_ID)) {
-                    trimCount++;
-                }
-            }
-        }
+    @Override
+    protected AttributeModifier.Operation getOperation() {
+        return AttributeModifier.Operation.ADD_VALUE;
+    }
 
-        if (trimCount > 0) {
-            // 总盔甲值 = 0.5 × 件数，均分到每个有纹饰的槽位
-            double totalArmor = ARMOR_BONUS.calc(trimCount);
-            double perSlotValue = totalArmor / trimCount;
-            int idx = 0;
-            for (EquipmentSlot slot : ARMOR_SLOTS) {
-                ItemStack armorStack = entity.getItemBySlot(slot);
-                if (!armorStack.isEmpty()) {
-                    ArmorTrim trim = armorStack.get(DataComponents.TRIM);
-                    if (trim != null && trim.material().unwrapKey().isPresent()
-                            && trim.material().unwrapKey().get().location().equals(IRON_MATERIAL_ID)) {
-                        attrInstance.addPermanentModifier(new AttributeModifier(
-                                SLOT_IDS[idx], perSlotValue,
-                                AttributeModifier.Operation.ADD_VALUE
-                        ));
-                    }
-                }
-                idx++;
-            }
-        }
+    @Override
+    protected ResourceLocation getMaterialId() {
+        return ResourceLocation.fromNamespaceAndPath("minecraft", "iron");
     }
 }

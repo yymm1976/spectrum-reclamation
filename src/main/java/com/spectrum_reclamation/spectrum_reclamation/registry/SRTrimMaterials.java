@@ -8,6 +8,8 @@ import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import net.neoforged.bus.api.IEventBus;
+
 import java.util.Map;
 
 /**
@@ -26,6 +28,16 @@ import java.util.Map;
  * 它内部会自动将 Item 转为 Holder&lt;Item&gt;，参数顺序更直观。
  */
 public class SRTrimMaterials {
+
+    /**
+     * 将纹饰材料的 DeferredRegister 注册到模组事件总线。
+     * 与其他注册类保持一致的封装模式。
+     *
+     * @param modEventBus 模组事件总线（MOD_BUS）
+     */
+    public static void register(IEventBus modEventBus) {
+        TRIM_MATERIALS.register(modEventBus);
+    }
 
     /**
      * 纹饰材料的 DeferredRegister。

@@ -15,6 +15,11 @@ import net.minecraft.world.entity.player.Inventory;
  *   内置了鼠标点击、物品拖拽、Shift+点击等标准交互逻辑。
  * - 泛型参数 FletchingTableMenu 指定了关联的容器菜单类型。
  *
+ * 布局（3 列 × 2 行 + 右下输出）：
+ * 第一行（y=17）：槽 0 箭杆(x=30)、槽 1 箭头(x=66)、槽 2 翎羽(x=102)
+ * 第二行（y=51）：槽 3 试剂1(x=30)、槽 4 试剂2(x=66)、槽 5 试剂3(x=102)
+ * 输出（x=143, y=73）：槽 6
+ *
  * 当前使用彩色矩形区分各槽位区域：
  * - 箭杆/箭头/翎羽区（棕色背景）
  * - 试剂区（浅灰色背景）
@@ -58,13 +63,13 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
      * 绘制 GUI 背景层。
      * 每帧调用一次，在物品和文字之前渲染。
      *
-     * 布局说明（基于 FletchingTableMenu 的 2×3 网格槽位坐标）：
-     * 左侧 2×3 网格：
-     *   槽 0 (箭杆)  x=26, y=20    槽 1 (箭头)  x=62, y=20
-     *   槽 2 (翎羽)  x=26, y=46    槽 3 (试剂1) x=62, y=46
-     *   槽 4 (试剂2) x=26, y=72    槽 5 (试剂3) x=62, y=72
-     * 右侧居中：
-     *   槽 6 (输出)  x=124, y=42（金色边框区域）
+     * 布局说明（基于 FletchingTableMenu 的 3 列 × 2 行槽位坐标）：
+     * 第一行（y=17）：
+     *   槽 0 (箭杆)  x=30     槽 1 (箭头)  x=66     槽 2 (翎羽)  x=102
+     * 第二行（y=51）：
+     *   槽 3 (试剂1) x=30     槽 4 (试剂2) x=66     槽 5 (试剂3) x=102
+     * 右下输出：
+     *   槽 6 (输出)  x=143, y=73（金色边框区域）
      *
      * @param guiGraphics  GUI 图形上下文
      * @param partialTick  帧间插值（未使用）
@@ -79,27 +84,27 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
         // === 1. 整体背景 ===
         guiGraphics.fill(x, y, x + imageWidth, y + imageHeight, COLOR_BG);
 
-        // === 2. 箭杆/箭头/翎羽区域（棕色背景，覆盖前 3 个槽位） ===
-        // 槽 0: x=26,y=20  槽 1: x=62,y=20  槽 2: x=26,y=46
-        // 区域范围：x=17~89, y=12~64
-        guiGraphics.fill(x + 17, y + 12, x + 89, y + 64, COLOR_SHAFT_AREA);
+        // === 2. 箭杆/箭头/翎羽区域（棕色背景，覆盖第一行 3 个槽位） ===
+        // 槽 0: x=30,y=17  槽 1: x=66,y=17  槽 2: x=102,y=17
+        // 区域范围：x=21~120, y=9~35
+        guiGraphics.fill(x + 21, y + 9, x + 120, y + 35, COLOR_SHAFT_AREA);
 
-        // === 3. 试剂区域（浅灰色背景，覆盖后 3 个槽位） ===
-        // 槽 3: x=62,y=46  槽 4: x=26,y=72  槽 5: x=62,y=72
-        // 区域范围：x=17~89, y=38~90
-        guiGraphics.fill(x + 17, y + 38, x + 89, y + 90, COLOR_REAGENT_AREA);
+        // === 3. 试剂区域（浅灰色背景，覆盖第二行 3 个槽位） ===
+        // 槽 3: x=30,y=51  槽 4: x=66,y=51  槽 5: x=102,y=51
+        // 区域范围：x=21~120, y=43~68
+        guiGraphics.fill(x + 21, y + 43, x + 120, y + 68, COLOR_REAGENT_AREA);
 
         // === 4. 输出区域（金色边框 + 深金色背景） ===
-        // 槽 6: x=124, y=42
-        // 区域范围：x=115~149, y=33~67
-        guiGraphics.fill(x + 115, y + 33, x + 149, y + 67, COLOR_OUTPUT_BORDER);
-        guiGraphics.fill(x + 117, y + 35, x + 147, y + 65, COLOR_OUTPUT_BG);
+        // 槽 6: x=143, y=73
+        // 边框范围：x=134~162, y=64~92
+        guiGraphics.fill(x + 134, y + 64, x + 162, y + 92, COLOR_OUTPUT_BORDER);
+        // 背景范围：x=136~160, y=66~90
+        guiGraphics.fill(x + 136, y + 66, x + 160, y + 90, COLOR_OUTPUT_BG);
 
         // === 5. 各槽位内部背景（稍亮的灰色方块，让槽位位置更清晰） ===
         int[][] inputSlots = {
-                {25, 19}, {61, 19},  // 第一行：箭杆、箭头
-                {25, 45}, {61, 45},  // 第二行：翎羽、试剂1
-                {25, 71}, {61, 71}   // 第三行：试剂2、试剂3
+                {29, 16}, {65, 16}, {101, 16},  // 第一行：箭杆、箭头、翎羽
+                {29, 50}, {65, 50}, {101, 50}   // 第二行：试剂1、试剂2、试剂3
         };
         for (int[] slot : inputSlots) {
             guiGraphics.fill(x + slot[0], y + slot[1],
@@ -108,11 +113,11 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
 
         // === 6. 区域标签 ===
         // 箭杆/箭头/翎羽标签
-        guiGraphics.drawString(font, "Arrow", x + 33, y + 5, 0xFFAAAAAA, false);
+        guiGraphics.drawString(font, "Arrow", x + 38, y + 2, 0xFFAAAAAA, false);
         // 试剂标签
-        guiGraphics.drawString(font, "Reagent", x + 30, y + 37, 0xFFAAAAAA, false);
+        guiGraphics.drawString(font, "Reagent", x + 38, y + 36, 0xFFAAAAAA, false);
         // 输出标签
-        guiGraphics.drawString(font, "Out", x + 124, y + 25, 0xFFFFD700, false);
+        guiGraphics.drawString(font, "Out", x + 143, y + 56, 0xFFFFD700, false);
     }
 
     /**

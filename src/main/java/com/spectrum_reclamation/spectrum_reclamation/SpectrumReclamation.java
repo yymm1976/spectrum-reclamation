@@ -64,9 +64,9 @@ public class SpectrumReclamation {
         // 注册实体类型到 MOD_BUS
         SREntities.register(modEventBus);
         // 注册创造模式物品栏到 MOD_BUS
-        SRCreativeModeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        SRCreativeModeTabs.register(modEventBus);
         // 注册纹饰材料到 MOD_BUS
-        SRTrimMaterials.TRIM_MATERIALS.register(modEventBus);
+        SRTrimMaterials.register(modEventBus);
         // 注册状态效果到 MOD_BUS（必须在药水之前，药水依赖效果的 Holder）
         SRMobEffects.register(modEventBus);
         // 注册药水到 MOD_BUS
@@ -90,14 +90,16 @@ public class SpectrumReclamation {
         // 使用类注册方式，会自动发现所有带 @SubscribeEvent 的静态方法。
         NeoForge.EVENT_BUS.register(SREventHandler.class);
 
-        // 注册纹饰效果处理器到 GAME_BUS。
-        // 使用类注册方式，监听实体受伤、经验掉落、摔落、装备变化等事件，
-        // 将事件分发给对应纹饰材料的 TrimEffectHandler。
-        NeoForge.EVENT_BUS.register(TrimEffectEventHandler.class);
-
         // 注册所有原版纹饰效果到 TrimEffectRegistry。
         // 必须在 GAME_BUS 注册之前完成，确保事件触发时注册表已就绪。
         VanillaTrimEffects.register();
+
+        // 注册纹饰效果处理器到 GAME_BUS。
+        // 使用类注册方式，监听实体受伤、经验掉落、摔落、装备变化、Tick 等事件，
+        // 将事件分发给 TrimEffectRegistry 中注册的所有纹饰效果处理器。
+        // 注意：必须在 VanillaTrimEffects.register() 之后注册，
+        // 否则事件触发时注册表为空，处理器无法被正确分发。
+        NeoForge.EVENT_BUS.register(TrimEffectEventHandler.class);
 
         // 注册铜管传输事件处理器到 GAME_BUS。
         // 使用实例注册（而非类注册），因为 CopperPipeTickHandler 的 onServerTick 是实例方法，

@@ -98,18 +98,22 @@ public class CopperPipeEndpointBlockEntity extends BlockEntity {
     /**
      * 当玩家右键切换模式时由 CopperPipeEndpointBlock 调用。
      * 更新网络中的入口/出口注册。
+     * 如果当前无网络关联（如方块加载时相邻管道尚未就绪），尝试重新扫描注册。
      */
     public void onModeChanged() {
         if (level == null || level.isClientSide) return;
         if (networkId == null) {
-            // 首次，尝试注册
+            // 首次或孤立状态：尝试扫描相邻管道并注册
             tryRegisterWithNetwork();
             return;
         }
         CopperPipeNetwork network = CopperPipeNetwork.get(networkId);
-        if (network != null) {
-            registerAsEntryOrExit(network, getBlockState());
+        if (network == null) {
+            // 网络已被清除（如合并后旧网络被删除），重新扫描注册
+            tryRegisterWithNetwork();
+            return;
         }
+        registerAsEntryOrExit(network, getBlockState());
     }
 
     public UUID getNetworkId() {
