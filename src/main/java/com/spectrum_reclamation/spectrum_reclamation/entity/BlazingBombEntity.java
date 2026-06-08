@@ -15,16 +15,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 炽光炸弹弹射物实体。
@@ -39,9 +34,6 @@ import org.slf4j.LoggerFactory;
  * 3. 在着弹点放置炽光灯方块（亮度 15，30 秒自毁）
  */
 public class BlazingBombEntity extends ThrowableItemProjectile {
-
-    /** 调试日志器 */
-    private static final Logger LOGGER = LoggerFactory.getLogger("BlazingBombEntity");
 
     /** 效果作用半径（格） */
     private static final double EFFECT_RADIUS = 8.0;
@@ -101,9 +93,6 @@ public class BlazingBombEntity extends ThrowableItemProjectile {
      */
     @Override
     protected void onHit(HitResult result) {
-        // === 诊断日志：确认 onHit 是否被调用 ===
-        LOGGER.info("[BlazingDebug] onHit called, pos={}", BlockPos.containing(result.getLocation()));
-
         // 基类处理：分发到 onHitEntity/onHitBlock，然后销毁弹射物（仅服务端）
         super.onHit(result);
 
@@ -155,38 +144,34 @@ public class BlazingBombEntity extends ThrowableItemProjectile {
     }
 
     /**
-     * 在着弹点放置炽光灯方块。
+     * 在着弹点正上方放置炽光灯方块。
      *
      * 放置逻辑：
-     * - 方块着弹：放置在被击中面的相邻位置（避免卡在方块内部）
-     * - 实体着弹：放置在着弹坐标对应的方块位置
-     * - 仅在目标位置为空气时放置（避免替换重要方块）
+     * - 使用实体当前位置（this.position()）而非 HitResult 的位置，避免偏移
+     * - 放置在着弹点正上方（above()），避免卡在方块内部
+     * - 使用 flag=3 强制更新并通知客户端，让 Minecraft 自行处理替换逻辑
+     * - 若 setBlock 返回 false（目标方块不可替换），使用 flag=2|16 强制覆盖
+     * - 放置后强制光照引擎更新，确保光源立即生效
      *
      * @param result 着弹结果
      */
     private void placeLightBlock(HitResult result) {
-        BlockPos placePos;
+        // 使用实体实际位置而非 HitResult 位置，避免坐标偏移
+        BlockPos hitPos = BlockPos.containing(this.position());
+        // 放置在着弹点正上方
+        BlockPos placePos = hitPos.above();
 
-        if (result instanceof BlockHitResult blockHit) {
-            // 方块着弹：在被击中面的外侧放置（direction 指向被击中面的法线方向）
-            placePos = blockHit.getBlockPos().relative(blockHit.getDirection());
-        } else {
-            // 实体着弹：在着弹坐标对应的方块位置放置
-            placePos = BlockPos.containing(result.getLocation());
+        // 使用 flag=3（通知客户端 + 方块更新）尝试放置
+        boolean placed = this.level().setBlock(placePos, SRBlocks.BLAZING_LIGHT.get().defaultBlockState(), 3);
+
+        // 若 flag=3 失败（目标方块不可替换），使用 flag=2|16 强制覆盖
+        if (!placed) {
+            this.level().setBlock(placePos, SRBlocks.BLAZING_LIGHT.get().defaultBlockState(), 2 | 16);
         }
 
-        // 仅在目标位置为空气或可替换方块（如水、高草、雪层等）时放置，避免替换玩家建筑或其他重要方块
-        BlockState targetState = this.level().getBlockState(placePos);
-        LOGGER.info("[BlazingDebug] Attempting setBlock at {}, targetState={}, canBeReplaced={}", placePos, targetState, targetState.canBeReplaced());
-        if (targetState.isAir() || targetState.canBeReplaced()) {
-            this.level().setBlock(placePos, SRBlocks.BLAZING_LIGHT.get().defaultBlockState(), 3);
-            LOGGER.info("[BlazingDebug] Block at pos is now: {}", this.level().getBlockState(placePos));
-            // 强制光照引擎更新此位置的光照值（防止光照延迟不生效）
-            if (this.level() instanceof ServerLevel sl) {
-                sl.getLightEngine().checkBlock(placePos);
-            }
-        } else {
-            LOGGER.info("[BlazingDebug] setBlock skipped: target position is not air/replaceable");
+        // 强制光照引擎更新此位置的光照值
+        if (this.level() instanceof ServerLevel sl) {
+            sl.getLightEngine().checkBlock(placePos);
         }
     }
 

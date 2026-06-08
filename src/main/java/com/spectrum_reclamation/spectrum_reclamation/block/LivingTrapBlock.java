@@ -8,7 +8,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,8 +24,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 活体陷阱方块 —— 可捕捉路过的小型生物。
@@ -50,9 +47,6 @@ import org.slf4j.LoggerFactory;
  * 此处使用 Entity.setInvulnerable(boolean) 实现等效的无敌效果。
  */
 public class LivingTrapBlock extends Block {
-
-    /** 调试日志器 */
-    private static final Logger LOGGER = LoggerFactory.getLogger("LivingTrapBlock");
 
     // ==================== 常量定义 ====================
 
@@ -144,18 +138,20 @@ public class LivingTrapBlock extends Block {
             LivingEntity trapped = TRAPPED_ENTITIES.remove(key);
 
             if (trapped != null) {
-                // 吞入期结束：释放实体，调度冷却重置
+                // 吞入期结束：释放实体
                 releaseEntity(trapped, level, pos);
-                level.scheduleTick(pos, this, COOLDOWN_DURATION - SWALLOW_DURATION);
-            } else {
-                // 冷却期结束（或服务器重启后 TRAPPED_ENTITIES 丢失）：恢复待命状态
-                level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
             }
+            // 无论是否找到被困实体，都立即重置冷却状态
+            // （被困实体已在 TRAPPED_ENTITIES.remove() 时移除，无需等待第二次 tick）
+            level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
         } else {
             // 待命状态：扫描方块上方的实体
             scanAndTrapEntity(state, level, pos);
-            // 无论是否触发，每 2 ticks 重新调度扫描（诊断期间缩短间隔，确认后可调回 10）
-            level.scheduleTick(pos, this, 2);
+            // 仅在仍处于待命状态时重新调度扫描
+            // （trapEntity() 可能已将 COOLDOWN 设为 true，此时不应再调度扫描 tick）
+            if (!level.getBlockState(pos).getValue(COOLDOWN)) {
+                level.scheduleTick(pos, this, 2);
+            }
         }
     }
 
@@ -182,12 +178,6 @@ public class LivingTrapBlock extends Block {
 
         List<LivingEntity> candidates = level.getEntitiesOfClass(LivingEntity.class, searchBox);
 
-        // === 诊断日志：输出扫描结果 ===
-        LOGGER.info("[TrapDebug] tick at {}, found {} entities in AABB", pos, candidates.size());
-        for (LivingEntity e : candidates) {
-            LOGGER.info("[TrapDebug]   entity={}, bbWidth={}, isAlive={}", e.getName().getString(), e.getBbWidth(), e.isAlive());
-        }
-
         for (LivingEntity entity : candidates) {
             // 只处理存活的实体
             if (!entity.isAlive()) continue;
@@ -199,7 +189,6 @@ public class LivingTrapBlock extends Block {
             if (TRAPPED_ENTITIES.containsKey(key)) return;
 
             // === 执行吞入 ===
-            LOGGER.info("[TrapDebug] Trapping entity {} at pos {}", entity.getName().getString(), pos);
             trapEntity(entity, level, pos, state);
             return; // 每次扫描最多吞入一个实体
         }
