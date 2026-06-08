@@ -49,6 +49,10 @@
 
   "message.spectrum_reclamation.scope_attached": "§a瞄准镜已附着",
   "message.spectrum_reclamation.waypoint_recorded": "§a已记录位置：(%s, %s, %s)",
+  "spectrum_reclamation.waypoint.no_position": "§7尚未记录位置",
+  "spectrum_reclamation.waypoint.cross_dimension_block": "§c无法跨越维度",
+  "spectrum_reclamation.waypoint.cooldown": "§c传送冷却中",
+  "spectrum_reclamation.waypoint.teleporting": "§e吟唱中……",
   "message.spectrum_reclamation.pipe_endpoint.input": "§7铜管接口：入口模式",
   "message.spectrum_reclamation.pipe_endpoint.output": "§7铜管接口：出口模式",
 
