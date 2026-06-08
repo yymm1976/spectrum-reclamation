@@ -25,6 +25,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 活体陷阱方块 —— 可捕捉路过的小型生物。
@@ -48,6 +50,9 @@ import java.util.Map;
  * 此处使用 Entity.setInvulnerable(boolean) 实现等效的无敌效果。
  */
 public class LivingTrapBlock extends Block {
+
+    /** 调试日志器 */
+    private static final Logger LOGGER = LoggerFactory.getLogger("LivingTrapBlock");
 
     // ==================== 常量定义 ====================
 
@@ -149,8 +154,8 @@ public class LivingTrapBlock extends Block {
         } else {
             // 待命状态：扫描方块上方的实体
             scanAndTrapEntity(state, level, pos);
-            // 无论是否触发，每 10 ticks 重新调度扫描
-            level.scheduleTick(pos, this, 10);
+            // 无论是否触发，每 2 ticks 重新调度扫描（诊断期间缩短间隔，确认后可调回 10）
+            level.scheduleTick(pos, this, 2);
         }
     }
 
@@ -169,13 +174,19 @@ public class LivingTrapBlock extends Block {
      * @param pos   方块位置
      */
     private void scanAndTrapEntity(BlockState state, ServerLevel level, BlockPos pos) {
-        // 构建扫描区域：方块本身 + 上方 1 格（覆盖站在方块上的实体）
+        // 构建扫描区域：方块位置 + 上方 1.5 格（覆盖站在方块上的实体，额外 0.5 格容错）
         net.minecraft.world.phys.AABB searchBox = new net.minecraft.world.phys.AABB(
                 pos.getX(), pos.getY(), pos.getZ(),
-                pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1
+                pos.getX() + 1, pos.getY() + 1.5, pos.getZ() + 1
         );
 
         List<LivingEntity> candidates = level.getEntitiesOfClass(LivingEntity.class, searchBox);
+
+        // === 诊断日志：输出扫描结果 ===
+        LOGGER.info("[TrapDebug] tick at {}, found {} entities in AABB", pos, candidates.size());
+        for (LivingEntity e : candidates) {
+            LOGGER.info("[TrapDebug]   entity={}, bbWidth={}, isAlive={}", e.getName().getString(), e.getBbWidth(), e.isAlive());
+        }
 
         for (LivingEntity entity : candidates) {
             // 只处理存活的实体
@@ -188,6 +199,7 @@ public class LivingTrapBlock extends Block {
             if (TRAPPED_ENTITIES.containsKey(key)) return;
 
             // === 执行吞入 ===
+            LOGGER.info("[TrapDebug] Trapping entity {} at pos {}", entity.getName().getString(), pos);
             trapEntity(entity, level, pos, state);
             return; // 每次扫描最多吞入一个实体
         }
@@ -344,8 +356,8 @@ public class LivingTrapBlock extends Block {
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
         if (!level.isClientSide) {
-            // 启动扫描循环：10 ticks 后开始第一次扫描
-            level.scheduleTick(pos, this, 10);
+            // 启动扫描循环：2 ticks 后开始第一次扫描（诊断期间缩短间隔）
+            level.scheduleTick(pos, this, 2);
             // 恢复残留实体
             recoverStrayEntities(level, pos);
         }

@@ -58,15 +58,15 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
      * 绘制 GUI 背景层。
      * 每帧调用一次，在物品和文字之前渲染。
      *
-     * 布局说明（基于 FletchingTableMenu 的槽位坐标）：
-     * - 箭杆/箭头/翎羽槽：x=16/48/80, y=20（棕色区域）
-     * - 试剂槽：x=128/160/192, y=20（浅灰色区域）
-     * - 输出槽：x=104, y=56（金色边框区域）
-     * - 玩家背包：x=8, y=84（标准偏移）
+     * 布局说明（基于 FletchingTableMenu 的 2×3 网格槽位坐标）：
+     * 左侧 2×3 网格：
+     *   槽 0 (箭杆)  x=26, y=20    槽 1 (箭头)  x=62, y=20
+     *   槽 2 (翎羽)  x=26, y=46    槽 3 (试剂1) x=62, y=46
+     *   槽 4 (试剂2) x=26, y=72    槽 5 (试剂3) x=62, y=72
+     * 右侧居中：
+     *   槽 6 (输出)  x=124, y=42（金色边框区域）
      *
-     * 每个槽位为 16x16 像素（标准物品槽），加 1px 边框后为 18x18。
-     *
-     * @param guiGraphics  GUI 图形上下文（NeoForge 1.21.x 封装的渲染工具）
+     * @param guiGraphics  GUI 图形上下文
      * @param partialTick  帧间插值（未使用）
      * @param mouseX       鼠标 X 坐标（未使用）
      * @param mouseY       鼠标 Y 坐标（未使用）
@@ -79,24 +79,27 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
         // === 1. 整体背景 ===
         guiGraphics.fill(x, y, x + imageWidth, y + imageHeight, COLOR_BG);
 
-        // === 2. 箭杆/箭头/翎羽区域（棕色背景） ===
-        // 覆盖槽 0-2：x=7~97, y=12~38
-        guiGraphics.fill(x + 7, y + 12, x + 97, y + 38, COLOR_SHAFT_AREA);
+        // === 2. 箭杆/箭头/翎羽区域（棕色背景，覆盖前 3 个槽位） ===
+        // 槽 0: x=26,y=20  槽 1: x=62,y=20  槽 2: x=26,y=46
+        // 区域范围：x=17~89, y=12~64
+        guiGraphics.fill(x + 17, y + 12, x + 89, y + 64, COLOR_SHAFT_AREA);
 
-        // === 3. 试剂区域（浅灰色背景） ===
-        // 覆盖槽 3-5：x=119~209, y=12~38
-        guiGraphics.fill(x + 119, y + 12, x + 209, y + 38, COLOR_REAGENT_AREA);
+        // === 3. 试剂区域（浅灰色背景，覆盖后 3 个槽位） ===
+        // 槽 3: x=62,y=46  槽 4: x=26,y=72  槽 5: x=62,y=72
+        // 区域范围：x=17~89, y=38~90
+        guiGraphics.fill(x + 17, y + 38, x + 89, y + 90, COLOR_REAGENT_AREA);
 
         // === 4. 输出区域（金色边框 + 深金色背景） ===
-        // 槽 6 位置：x=104, y=56，加边框后 x=95~127, y=47~83
-        guiGraphics.fill(x + 95, y + 47, x + 127, y + 83, COLOR_OUTPUT_BORDER);
-        guiGraphics.fill(x + 97, y + 49, x + 125, y + 81, COLOR_OUTPUT_BG);
+        // 槽 6: x=124, y=42
+        // 区域范围：x=115~149, y=33~67
+        guiGraphics.fill(x + 115, y + 33, x + 149, y + 67, COLOR_OUTPUT_BORDER);
+        guiGraphics.fill(x + 117, y + 35, x + 147, y + 65, COLOR_OUTPUT_BG);
 
         // === 5. 各槽位内部背景（稍亮的灰色方块，让槽位位置更清晰） ===
-        // 每个槽位 16x16，从槽位坐标偏移 -1（留 1px 边距）
         int[][] inputSlots = {
-                {15, 19}, {47, 19}, {79, 19},  // 箭杆/箭头/翎羽
-                {127, 19}, {159, 19}, {191, 19} // 试剂 1/2/3
+                {25, 19}, {61, 19},  // 第一行：箭杆、箭头
+                {25, 45}, {61, 45},  // 第二行：翎羽、试剂1
+                {25, 71}, {61, 71}   // 第三行：试剂2、试剂3
         };
         for (int[] slot : inputSlots) {
             guiGraphics.fill(x + slot[0], y + slot[1],
@@ -105,11 +108,11 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
 
         // === 6. 区域标签 ===
         // 箭杆/箭头/翎羽标签
-        guiGraphics.drawString(font, "Arrow", x + 30, y + 5, 0xFFAAAAAA, false);
+        guiGraphics.drawString(font, "Arrow", x + 33, y + 5, 0xFFAAAAAA, false);
         // 试剂标签
-        guiGraphics.drawString(font, "Reagent", x + 145, y + 5, 0xFFAAAAAA, false);
+        guiGraphics.drawString(font, "Reagent", x + 30, y + 37, 0xFFAAAAAA, false);
         // 输出标签
-        guiGraphics.drawString(font, "Out", x + 104, y + 40, 0xFFFFD700, false);
+        guiGraphics.drawString(font, "Out", x + 124, y + 25, 0xFFFFD700, false);
     }
 
     /**

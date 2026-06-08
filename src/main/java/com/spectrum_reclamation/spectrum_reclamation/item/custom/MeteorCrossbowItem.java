@@ -74,6 +74,11 @@ public class MeteorCrossbowItem extends CrossbowItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack crossbowStack = player.getItemInHand(hand);
 
+        // === 诊断日志：追踪 use() 调用路径 ===
+        boolean isCharged = CrossbowItem.isCharged(crossbowStack);
+        LOGGER.info("[MeteorDebug] use() called, isClient={}, isCharged={}, getUseDuration={}",
+                level.isClientSide(), isCharged, getUseDuration(crossbowStack, player));
+
         // === 自带瞄准镜效果 ===
         // 确保 scope_attached 数据组件存在，触发客户端 FOV 缩放
         // 首次使用时设置，之后一直保留
@@ -83,6 +88,7 @@ public class MeteorCrossbowItem extends CrossbowItem {
 
         // === 已装填 → 发射 ===
         if (CrossbowItem.isCharged(crossbowStack)) {
+            LOGGER.info("[MeteorDebug] Attempting to fire (isCharged=true)...");
             // 仅在服务端创建和发射弹射物（避免客户端重复生成）
             if (!level.isClientSide()) {
                 // 从弩上读取装填时保存的涂装数据
@@ -131,6 +137,7 @@ public class MeteorCrossbowItem extends CrossbowItem {
         // === 未装填 → 检查弹药并开始装填 ===
         if (!findHeavySpear(player).isEmpty()) {
             // 背包有沉重之矛，开始装填蓄力（播放拉弓动画）
+            LOGGER.info("[MeteorDebug] Starting charge (not charged, has spear)");
             player.startUsingItem(hand);
             return InteractionResultHolder.sidedSuccess(crossbowStack, level.isClientSide());
         }
@@ -161,6 +168,10 @@ public class MeteorCrossbowItem extends CrossbowItem {
 
         int chargeDuration = this.getUseDuration(stack, shooter);
         int chargedTicks = chargeDuration - timeLeft;
+
+        // === 诊断日志：追踪 releaseUsing 调用 ===
+        LOGGER.info("[MeteorDebug] releaseUsing called, chargeDuration={}, timeLeft={}, chargedTicks={}, charged>={}",
+                chargeDuration, timeLeft, chargedTicks, chargedTicks >= chargeDuration);
 
         // 蓄力时间足够（>= chargeDuration），才能装填
         if (chargedTicks >= chargeDuration) {
