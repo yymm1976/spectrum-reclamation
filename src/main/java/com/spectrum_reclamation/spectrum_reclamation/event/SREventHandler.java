@@ -17,7 +17,6 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.RandomSource;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
@@ -249,77 +248,20 @@ public class SREventHandler {
     // ==================== 卸负效果逻辑 ====================
 
     /**
-     * 监听 LivingIncomingDamageEvent（等价于旧版 LivingHurtEvent）。
-     * 当带卸负效果的实体受到伤害时，按等级概率随机脱落一件盔甲。
+     * 监听 LivingIncomingDamageEvent —— 已移除受击掉落逻辑。
      *
-     * @param event 受击事件，包含受伤实体和伤害信息
+     * 原设计：受击时按概率脱落盔甲（等级 I 10%、等级 II 20%），
+     * 与周期性掉落（每 5 秒）叠加后过于激进，15 秒内可掉光全套。
+     *
+     * 修复：砍掉受击掉落来源，仅保留 UnburdenMobEffect.applyEffectTick()
+     * 中的周期性掉落（等级 I 3%、等级 II 6%，每 5 秒）。
+     *
+     * 此事件监听保留用于未来扩展（如受击时增加效果持续时间等），
+     * 当前不做任何处理。
      */
     @SubscribeEvent
     public static void onLivingHurt(LivingIncomingDamageEvent event) {
-        // 仅在服务端处理，避免客户端重复弹出物品
-        if (event.getEntity().level().isClientSide()) {
-            return;
-        }
-
-        // 检查受伤者是否携带卸负效果
-        if (!event.getEntity().hasEffect(SRMobEffects.UNBURDEN)) {
-            return;
-        }
-
-        // 获取卸负效果的等级（amplifier：0 = I 级，1 = II 级）
-        // 使用局部变量保存 getEffect 结果，避免两次调用之间效果被移除导致 NPE
-        var unburdenEffect = event.getEntity().getEffect(SRMobEffects.UNBURDEN);
-        if (unburdenEffect == null) {
-            return;
-        }
-        int amplifier = unburdenEffect.getAmplifier();
-
-        // 脱落概率：等级 I（amplifier=0）为 10%，等级 II（amplifier=1）为 20%
-        float dropChance = 0.10f * (amplifier + 1);
-
-        RandomSource random = event.getEntity().getRandom();
-
-        // 定义 4 个盔甲槽位：头盔、胸甲、护腿、靴子
-        EquipmentSlot[] armorSlots = {
-                EquipmentSlot.HEAD,
-                EquipmentSlot.CHEST,
-                EquipmentSlot.LEGS,
-                EquipmentSlot.FEET
-        };
-
-        // 遍历每个盔甲槽位，按概率触发脱落（每次受击最多脱落一件，避免过度惩罚）
-        for (EquipmentSlot slot : armorSlots) {
-            ItemStack itemStack = event.getEntity().getItemBySlot(slot);
-
-            // 跳过空槽位
-            if (itemStack.isEmpty()) {
-                continue;
-            }
-
-            // 随机判定是否脱落
-            if (random.nextFloat() < dropChance) {
-                // 在实体位置创建掉落物 ItemEntity
-                ItemEntity itemEntity = new ItemEntity(
-                        event.getEntity().level(),
-                        event.getEntity().getX(),
-                        event.getEntity().getY(),
-                        event.getEntity().getZ(),
-                        itemStack.copy()
-                );
-
-                // 设置拾取延迟 40 ticks（2 秒），防止立即被拾取
-                itemEntity.setPickUpDelay(40);
-
-                // 将掉落物添加到世界中
-                event.getEntity().level().addFreshEntity(itemEntity);
-
-                // 清空该槽位
-                event.getEntity().setItemSlot(slot, ItemStack.EMPTY);
-
-                // 每次受击最多脱落一件盔甲，防止单次失去多件装备
-                break;
-            }
-        }
+        // 受击掉落逻辑已移除，仅保留周期性掉落（见 UnburdenMobEffect）
     }
 
     /**

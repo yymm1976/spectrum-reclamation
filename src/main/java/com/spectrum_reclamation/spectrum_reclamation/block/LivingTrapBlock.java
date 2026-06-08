@@ -23,6 +23,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +41,8 @@ import java.util.Map;
  * - 使用 BooleanProperty COOLDOWN 方块状态控制冷却
  * - 使用 scheduleTick 延迟刻实现 5 秒弹出和 15 秒冷却重置
  * - 使用静态 HashMap 跟踪被吞入的实体（方块位置 → 实体引用）
- * - entityInside() 每 tick 触发，通过 COOLDOWN 状态防止重复触发
+ * - 使用 tick() 中的 AABB 扫描替代 entityInside()（noCollission 导致后者不触发）
+ * - 扫描频率：每 10 ticks 一次（性能优化，避免每 tick 扫描）
  *
  * 注意：setInvulnerableTicks() 是 WitherBoss 专属方法，
  * 此处使用 Entity.setInvulnerable(boolean) 实现等效的无敌效果。
@@ -120,80 +122,110 @@ public class LivingTrapBlock extends Block {
     // ==================== 核心陷阱逻辑 ====================
 
     /**
-     * 实体碰撞回调 —— 每 tick 检测实体是否在方块内部。
-     *
-     * 触发条件（全部满足才执行）：
-     * 1. 仅在服务端执行（!level.isClientSide）
-     * 2. 方块未处于冷却状态（!state.getValue(COOLDOWN)）
-     * 3. 实体是 LivingEntity 且存活
-     * 4. 实体碰撞箱宽度 ≤ 0.6（"小型生物"判定标准，涵盖鸡、猫、蝙蝠等）
-     *
-     * NeoForge 的 entityInside 机制：当实体的碰撞箱与方块碰撞箱有重叠时，
-     * 每 tick 都会调用此方法。通过 COOLDOWN 状态防止重复触发。
-     */
-    @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        // 仅服务端处理，客户端不做逻辑
-        if (level.isClientSide) return;
-        // 冷却中不触发
-        if (state.getValue(COOLDOWN)) return;
-        // 只处理存活的 LivingEntity
-        if (!(entity instanceof LivingEntity livingEntity) || !livingEntity.isAlive()) return;
-        // 小型生物判定：碰撞箱宽度 ≤ 0.6 格
-        if (livingEntity.getBbWidth() > 0.6f) return;
-
-        // 检查是否已有实体被困在此位置（防止重复触发覆盖导致实体永久丢失）
-        String key = trapKey(level, pos);
-        if (TRAPPED_ENTITIES.containsKey(key)) {
-            return;
-        }
-
-        // === 执行吞入 ===
-
-        // 1. 设为不可见（客户端会跳过渲染，实体"消失"）
-        livingEntity.setInvisible(true);
-
-        // 2. 设为无敌（Entity.setInvulnerable(true) 阻止所有伤害）
-        //    注意：setInvulnerableTicks() 是 WitherBoss 专属方法，不可用于通用实体
-        livingEntity.setInvulnerable(true);
-
-        // 3. 禁止重力，将实体"钉"在陷阱位置，防止被推开或自然移动
-        livingEntity.setNoGravity(true);
-
-        // 4. 记录被吞入的实体，供延迟 tick 释放时查找
-        TRAPPED_ENTITIES.put(key, livingEntity);
-
-        // 5. 调度 5 秒（100 ticks）后释放实体的延迟 tick
-        level.scheduleTick(pos, this, SWALLOW_DURATION);
-
-        // 6. 设置方块进入冷却状态（flag = 3：通知客户端 + 发送方块更新）
-        level.setBlock(pos, state.setValue(COOLDOWN, true), 3);
-    }
-
-    // ==================== 延迟 Tick 逻辑 ====================
-
-    /**
-     * 延迟 tick 入口 —— 根据当前方块状态决定执行释放实体或重置冷却。
+     * 延迟 tick 入口 —— 根据当前方块状态决定执行释放实体、重置冷却或扫描触发。
      *
      * NeoForge 的 scheduleTick 机制：调用 level.scheduleTick(pos, block, delay) 后，
      * ServerLevel 会在 delay ticks 后调用此 tick() 方法。
      * 如果方块在 tick 前被破坏，此 tick 不会触发（方块已不存在）。
+     *
+     * 同时，此方法也负责在待命状态下周期性调度自身，
+     * 实现 AABB 扫描触发（替代不工作的 entityInside）。
      */
     @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (!state.getValue(COOLDOWN)) return;
+        if (state.getValue(COOLDOWN)) {
+            // 冷却状态：处理释放或冷却重置
+            String key = trapKey(level, pos);
+            LivingEntity trapped = TRAPPED_ENTITIES.remove(key);
 
-        String key = trapKey(level, pos);
-        LivingEntity trapped = TRAPPED_ENTITIES.remove(key);
-
-        if (trapped != null) {
-            // 吞入期结束：释放实体，调度冷却重置
-            releaseEntity(trapped, level, pos);
-            level.scheduleTick(pos, this, COOLDOWN_DURATION - SWALLOW_DURATION);
+            if (trapped != null) {
+                // 吞入期结束：释放实体，调度冷却重置
+                releaseEntity(trapped, level, pos);
+                level.scheduleTick(pos, this, COOLDOWN_DURATION - SWALLOW_DURATION);
+            } else {
+                // 冷却期结束（或服务器重启后 TRAPPED_ENTITIES 丢失）：恢复待命状态
+                level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
+            }
         } else {
-            // 冷却期结束（或服务器重启后 TRAPPED_ENTITIES 丢失）：恢复待命状态
-            level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
+            // 待命状态：扫描方块上方的实体
+            scanAndTrapEntity(state, level, pos);
+            // 无论是否触发，每 10 ticks 重新调度扫描
+            level.scheduleTick(pos, this, 10);
         }
+    }
+
+    /**
+     * 扫描方块上方 AABB 内的小型生物，触发吞入逻辑。
+     *
+     * 替代 entityInside() 的原因：LivingTrapBlock 使用 noOcclusion()，
+     * 这会导致 entityInside() 不被调用（Minecraft 的碰撞系统要求方块有碰撞箱
+     * 才会触发 entityInside 回调）。
+     *
+     * 扫描频率：每 10 ticks（0.5 秒），在 tick() 中通过 scheduleTick 自循环。
+     * 这比每 tick 扫描更节省性能，且 0.5 秒延迟对陷阱触发体验影响极小。
+     *
+     * @param state 当前方块状态
+     * @param level 服务端世界
+     * @param pos   方块位置
+     */
+    private void scanAndTrapEntity(BlockState state, ServerLevel level, BlockPos pos) {
+        // 构建扫描区域：方块本身 + 上方 1 格（覆盖站在方块上的实体）
+        net.minecraft.world.phys.AABB searchBox = new net.minecraft.world.phys.AABB(
+                pos.getX(), pos.getY(), pos.getZ(),
+                pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1
+        );
+
+        List<LivingEntity> candidates = level.getEntitiesOfClass(LivingEntity.class, searchBox);
+
+        for (LivingEntity entity : candidates) {
+            // 只处理存活的实体
+            if (!entity.isAlive()) continue;
+            // 小型生物判定：碰撞箱宽度 ≤ 0.6 格
+            if (entity.getBbWidth() > 0.6f) continue;
+
+            // 检查是否已有实体被困在此位置
+            String key = trapKey(level, pos);
+            if (TRAPPED_ENTITIES.containsKey(key)) return;
+
+            // === 执行吞入 ===
+            trapEntity(entity, level, pos, state);
+            return; // 每次扫描最多吞入一个实体
+        }
+    }
+
+    /**
+     * 执行吞入逻辑 —— 将实体锁定在陷阱位置。
+     *
+     * 吞入步骤：
+     * 1. 设为不可见（客户端跳过渲染，实体"消失"）
+     * 2. 设为无敌（阻止所有伤害）
+     * 3. 禁止重力，将实体"钉"在陷阱位置
+     * 4. 记录被吞入的实体
+     * 5. 调度 5 秒后释放
+     * 6. 设置方块进入冷却状态
+     *
+     * @param entity  被吞入的实体
+     * @param level   世界
+     * @param pos     方块位置
+     * @param state   当前方块状态
+     */
+    private void trapEntity(LivingEntity entity, Level level, BlockPos pos, BlockState state) {
+        // 1. 设为不可见
+        entity.setInvisible(true);
+        // 2. 设为无敌
+        entity.setInvulnerable(true);
+        // 3. 禁止重力，将实体"钉"在陷阱位置
+        entity.setNoGravity(true);
+
+        // 4. 记录被吞入的实体
+        String key = trapKey(level, pos);
+        TRAPPED_ENTITIES.put(key, entity);
+
+        // 5. 调度 5 秒（100 ticks）后释放实体
+        level.scheduleTick(pos, this, SWALLOW_DURATION);
+
+        // 6. 设置方块进入冷却状态（flag = 3：通知客户端 + 发送方块更新）
+        level.setBlock(pos, state.setValue(COOLDOWN, true), 3);
     }
 
     // ==================== 方块移除时的清理逻辑 ====================
@@ -302,14 +334,19 @@ public class LivingTrapBlock extends Block {
     // ==================== 方块行为 ====================
 
     /**
-     * 方块放置时扫描上方残留实体并恢复。
-     * 防止服务器重启后活体陷阱的 TRAPPED_ENTITIES 丢失，
+     * 方块放置时启动扫描循环并恢复残留实体。
+     *
+     * 启动扫描循环：调度第一个 10 ticks 的 tick，之后 tick() 会自循环。
+     * 恢复残留实体：防止服务器重启后 TRAPPED_ENTITIES 丢失，
      * 导致实体永久处于不可见/无敌/无重力状态。
      */
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
         if (!level.isClientSide) {
+            // 启动扫描循环：10 ticks 后开始第一次扫描
+            level.scheduleTick(pos, this, 10);
+            // 恢复残留实体
             recoverStrayEntities(level, pos);
         }
     }

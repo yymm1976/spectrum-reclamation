@@ -17,6 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.minecraft.world.level.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -39,6 +41,9 @@ import java.util.List;
  * 无法在子类中直接覆盖。我们通过重写公开方法来实现自定义弹药逻辑。
  */
 public class MeteorCrossbowItem extends CrossbowItem {
+
+    /** 调试日志器 */
+    private static final Logger LOGGER = LoggerFactory.getLogger("MeteorCrossbowItem");
 
     /**
      * 构造器 —— 创建陨星弩物品。
@@ -256,16 +261,32 @@ public class MeteorCrossbowItem extends CrossbowItem {
      * 在玩家背包中查找沉重之矛弹药。
      * 遍历全部背包槽位（包括快捷栏、主背包、副手），返回第一个匹配项。
      *
+     * 匹配逻辑：使用 ItemStack.is() 方法（基于注册名比较），
+     * 而非 ==（引用比较）或 instanceof（类型比较）。
+     * ItemStack.is(SRItems.HEAVY_SPEAR.get()) 会检查物品的注册名是否匹配，
+     * 这是 Minecraft 推荐的物品比较方式。
+     *
      * @param player 要搜索的玩家
      * @return 找到的沉重之矛 ItemStack，未找到返回 ItemStack.EMPTY
      */
     private ItemStack findHeavySpear(Player player) {
+        // === 诊断日志：排查陨星弩不能发射问题 ===
+        LOGGER.info("[MeteorDebug] Searching for heavy spear in player inventory...");
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (!stack.isEmpty()) {
+                LOGGER.info("[MeteorDebug]   Slot {}: {}", i, stack.getItem());
+            }
+        }
+
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
             if (stack.is(SRItems.HEAVY_SPEAR.get())) {
+                LOGGER.info("[MeteorDebug] Found heavy spear at slot {}", i);
                 return stack;
             }
         }
+        LOGGER.info("[MeteorDebug] No heavy spear found in inventory");
         return ItemStack.EMPTY;
     }
 }

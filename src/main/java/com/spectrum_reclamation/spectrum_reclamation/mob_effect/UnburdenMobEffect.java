@@ -14,8 +14,8 @@ import net.minecraft.util.RandomSource;
  *
  * 效果机制：
  * - 每 100 ticks（5 秒）触发一次
- * - 等级 0（I）：每个盔甲槽位 5% 概率脱落
- * - 等级 1（II）：每个盔甲槽位 10% 概率脱落
+ * - 等级 0（I）：每个盔甲槽位 3% 概率脱落
+ * - 等级 1（II）：每个盔甲槽位 6% 概率脱落
  *
  * 脱落的盔甲会作为 ItemEntity 弹出到世界中，模拟装备被强制卸下的效果。
  */
@@ -53,7 +53,7 @@ public class UnburdenMobEffect extends MobEffect {
      *
      * 脱落机制：
      * 1. 获取当前槽位的物品
-     * 2. 根据等级计算脱落概率（等级 0: 5%，等级 1: 10%）
+     * 2. 根据等级计算脱落概率（等级 0: 3%，等级 1: 6%）
      * 3. 若触发脱落，将物品弹出为 ItemEntity 并清空槽位
      *
      * @param livingEntity 受效果影响的实体
@@ -78,9 +78,10 @@ public class UnburdenMobEffect extends MobEffect {
                 EquipmentSlot.FEET
         };
 
-        // 脱落概率：等级 0 = 5%（0.05），等级 1 = 10%（0.10）
+        // 脱落概率：等级 0 = 3%（0.03），等级 1 = 6%（0.06）
         // amplifier 0 对应等级 I，amplifier 1 对应等级 II
-        float dropChance = 0.05f * (amplifier + 1);
+        // 概率已从 5%/10% 调低，避免与受击掉落叠加后过于激进
+        float dropChance = 0.03f * (amplifier + 1);
 
         // 遍历每个盔甲槽位
         for (EquipmentSlot slot : armorSlots) {

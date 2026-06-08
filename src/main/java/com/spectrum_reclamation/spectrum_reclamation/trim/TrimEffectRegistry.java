@@ -6,6 +6,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.ArmorTrim;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +38,9 @@ import java.util.WeakHashMap;
  * - 可增加优先级排序机制
  */
 public class TrimEffectRegistry {
+
+    /** 调试日志器 */
+    private static final Logger LOGGER = LoggerFactory.getLogger("TrimEffectRegistry");
 
     /**
      * 纹饰效果注册表。
@@ -123,6 +128,16 @@ public class TrimEffectRegistry {
      *         若无任何纹饰则返回空列表
      */
     public static List<TrimEffectHandler> lookupFromArmor(LivingEntity entity) {
+        // === 诊断日志：排查纹饰效果不生效问题 ===
+        LOGGER.info("[TrimDebug] lookupFromArmor called for player {}", entity.getName().getString());
+        for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+            ItemStack stack = entity.getItemBySlot(slot);
+            ArmorTrim trim = stack.get(DataComponents.TRIM);
+            LOGGER.info("[TrimDebug]   Slot {}: item={}, hasTrim={}, material={}",
+                    slot.name(), stack.getItem(), trim != null,
+                    trim != null ? trim.material() : "N/A");
+        }
+
         // 计算当前盔甲 trim 组合的哈希值
         int currentHash = computeTrimHash(entity);
         UUID entityUuid = entity.getUUID();
