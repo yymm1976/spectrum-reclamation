@@ -25,8 +25,10 @@ tasks.wrapper.configure {
 version = mod_version
 group = mod_group_id
 
+// archivesName 只设基础名，Gradle 自动追加 "-${version}" 后缀
+// 最终产物名格式：spectrum_reclamation-1.21.1-0.1.0.jar
 base {
-    archivesName.set("$mod_id-$minecraft_version-$mod_version")
+    archivesName.set("$mod_id-$minecraft_version")
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(21))
