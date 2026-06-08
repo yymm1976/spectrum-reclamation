@@ -5,23 +5,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.Container;
 import com.spectrum_reclamation.spectrum_reclamation.block_entity.CopperPipeEndpointBlockEntity;
@@ -30,20 +21,24 @@ import javax.annotation.Nullable;
 /**
  * 铜管接口方块 —— 贴在容器上，连接铜管网络与容器。
  *
+ * 继承 AbstractCopperPipeBlock，在基类共享逻辑之上提供：
+ * - FACING 属性：决定朝向容器的方向（放置时面向玩家）
+ * - MODE 属性：入口/出口模式，右键切换
+ * - 朝向容器的一面不连接铜管也不添加管道臂
+ *
  * 核心机制：
- * - FACING 属性决定朝向容器的方向（放置时面向玩家）
  * - 朝向容器的一面检测容器方块（BlockEntity 实现 Container 接口）
- * - 其余 5 面可连接铜管（通过 BooleanProperty 动态管理）
+ * - 其余 5 面可连接铜管（通过基类 BooleanProperty 动态管理）
  * - 右键切换模式：入口模式（从容器提取物品 → 传入铜管网络）/ 出口模式（从铜管网络接收物品 → 存入容器）
- * - 支持含水和蜜脾涂蜡
+ * - 支持含水和蜜脾涂蜡（基类实现）
  *
  * 模式说明：
  * - INPUT（入口）：从朝向的容器中提取物品，通过铜管网络传输
  * - OUTPUT（出口）：从铜管网络接收物品，存入朝向的容器
  */
-public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
+public class CopperPipeEndpointBlock extends AbstractCopperPipeBlock {
 
-    // ==================== 方块状态属性定义 ====================
+    // ==================== 接口专属方块状态属性 ====================
 
     /** 朝向容器的方向（6 面均可选） */
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
@@ -56,42 +51,12 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
      */
     public static final EnumProperty<EndpointMode> MODE = EnumProperty.create("mode", EndpointMode.class);
 
-    /** 北面是否连接铜管 */
-    public static final BooleanProperty NORTH = BooleanProperty.create("north");
-    /** 东面是否连接铜管 */
-    public static final BooleanProperty EAST = BooleanProperty.create("east");
-    /** 南面是否连接铜管 */
-    public static final BooleanProperty SOUTH = BooleanProperty.create("south");
-    /** 西面是否连接铜管 */
-    public static final BooleanProperty WEST = BooleanProperty.create("west");
-    /** 上面是否连接铜管 */
-    public static final BooleanProperty UP = BooleanProperty.create("up");
-    /** 下面是否连接铜管 */
-    public static final BooleanProperty DOWN = BooleanProperty.create("down");
-
-    /** 原版含水属性 */
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
-    /** 自定义属性：是否被蜜脾涂蜡 */
-    public static final BooleanProperty WAXED = BooleanProperty.create("waxed");
-
-    /** 方向 → 连接属性映射，方便遍历 */
-    private static final java.util.Map<Direction, BooleanProperty> PROPERTY_BY_DIRECTION =
-            java.util.Map.of(
-                    Direction.NORTH, NORTH,
-                    Direction.EAST, EAST,
-                    Direction.SOUTH, SOUTH,
-                    Direction.WEST, WEST,
-                    Direction.UP, UP,
-                    Direction.DOWN, DOWN
-            );
-
     // ==================== 碰撞箱形状 ====================
 
     /** 接口方块中心核（略大于铜管，12x12x12 像素，方便贴在容器上） */
     private static final VoxelShape CORE = Block.box(2.0, 2.0, 2.0, 14.0, 14.0, 14.0);
 
-    /** 各方向的连接臂（与铜管一致的 4x4 像素臂） */
+    /** 各方向的连接臂（2 像素长，从较大中心核延伸到方块边界） */
     private static final VoxelShape NORTH_ARM = Block.box(4.0, 4.0, 0.0, 12.0, 12.0, 2.0);
     private static final VoxelShape SOUTH_ARM = Block.box(4.0, 4.0, 14.0, 12.0, 12.0, 16.0);
     private static final VoxelShape WEST_ARM = Block.box(0.0, 4.0, 4.0, 2.0, 12.0, 12.0);
@@ -99,7 +64,7 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
     private static final VoxelShape UP_ARM = Block.box(4.0, 14.0, 4.0, 12.0, 16.0, 12.0);
     private static final VoxelShape DOWN_ARM = Block.box(4.0, 0.0, 4.0, 12.0, 2.0, 12.0);
 
-    // ==================== 构造与状态定义 ====================
+    // ==================== 构造与默认状态 ====================
 
     public CopperPipeEndpointBlock(Properties properties) {
         super(properties);
@@ -119,38 +84,56 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
         );
     }
 
-    /**
-     * 注册方块状态属性。
-     * FACING(6) × MODE(2) × 6方向布尔(2^6) × WATERLOGGED(2) × WAXED(2) = 6144 种变体。
-     * 低于 Minecraft 的 2^16 = 65536 上限。
-     */
+    // ==================== 基类抽象方法实现 ====================
+
+    /** 返回接口方块中心核碰撞箱（12x12x12 像素，比铜管大） */
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, MODE, NORTH, EAST, SOUTH, WEST, UP, DOWN, WATERLOGGED, WAXED);
+    protected VoxelShape getCoreShape() {
+        return CORE;
     }
 
-    // ==================== 碰撞箱 ====================
-
-    /**
-     * 根据连接状态动态构建碰撞箱。
-     * 中心核 + 非朝向方向的连接臂。
-     * 朝向容器的方向不添加臂（那面贴在容器上）。
-     */
+    /** 返回指定方向的连接臂碰撞箱（2 像素长） */
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        VoxelShape shape = CORE;
-        Direction facing = state.getValue(FACING);
-        // 遍历 6 个方向，朝向容器的方向跳过（不添加管道臂）
-        for (Direction direction : Direction.values()) {
-            if (direction == facing) continue;
-            if (state.getValue(PROPERTY_BY_DIRECTION.get(direction))) {
-                shape = Shapes.or(shape, getArmShape(direction));
-            }
-        }
-        return shape;
+    protected VoxelShape getArmShape(Direction direction) {
+        return switch (direction) {
+            case NORTH -> NORTH_ARM;
+            case SOUTH -> SOUTH_ARM;
+            case WEST -> WEST_ARM;
+            case EAST -> EAST_ARM;
+            case UP -> UP_ARM;
+            case DOWN -> DOWN_ARM;
+        };
     }
 
-    // ==================== 放置逻辑 ====================
+    // ==================== 基类钩子方法重写 ====================
+
+    /**
+     * 注册接口专属的方块状态属性：FACING 和 MODE。
+     * 基类已添加 8 个公共属性，此处追加 FACING 和 MODE。
+     * 总计：FACING(6) × MODE(2) × 6方向布尔(2^6) × WATERLOGGED(2) × WAXED(2) = 6144 种变体。
+     */
+    @Override
+    protected void defineAdditionalProperties(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, MODE);
+    }
+
+    /**
+     * 朝向容器的方向不添加管道臂（那面贴在容器上，无需管道延伸）。
+     */
+    @Override
+    protected boolean shouldAddArm(Direction direction, BlockState state) {
+        return direction != state.getValue(FACING);
+    }
+
+    /**
+     * 朝向容器的方向不参与铜管连接检测（该方向连接容器，不连接铜管）。
+     */
+    @Override
+    protected boolean shouldConnectTo(Direction direction, BlockState state) {
+        return direction != state.getValue(FACING);
+    }
+
+    // ==================== 放置逻辑重写 ====================
 
     /**
      * 方块被放置时调用 —— 确定朝向和初始连接状态。
@@ -158,92 +141,27 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
      * 朝向规则：放置时 FACING 朝向玩家看的方向（与玩家面对的方向相反），
      * 即接口背面朝向容器，正面朝向玩家。
      * 这样玩家放置后，接口自然贴在身后的容器上。
+     *
+     * 先设置 FACING，再调用基类方法完成公共连接检测和含水处理。
+     * 基类的 getStateForPlacement 会通过 shouldConnectTo() 自动跳过 FACING 方向。
      */
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Level level = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        FluidState fluidState = level.getFluidState(pos);
+        // 先通过基类方法获取初始状态（含连接检测和含水处理）
+        BlockState state = super.getStateForPlacement(context);
+        if (state == null) return null;
 
-        // 朝向玩家看的方向的反方向（接口背面朝向容器）
+        // 设置朝向：接口背面朝向玩家看的方向（即容器方向）
         Direction facing = context.getNearestLookingDirection().getOpposite();
-        BlockState state = this.defaultBlockState().setValue(FACING, facing);
-
-        // 根据相邻铜管计算各方向连接（排除朝向容器的方向）
-        for (Direction direction : Direction.values()) {
-            if (direction == facing) continue; // 朝向容器的方向不连接铜管
-            BooleanProperty property = PROPERTY_BY_DIRECTION.get(direction);
-            state = state.setValue(property, canConnectToPipe(level, pos, direction));
-        }
-
-        // 含水处理
-        state = state.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
-
-        return state;
-    }
-
-    /**
-     * 方块被放置到世界后调用 —— 通知相邻铜管更新连接。
-     */
-    @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (!level.isClientSide) {
-            // 通知相邻方块（铜管）更新连接状态
-            for (Direction direction : Direction.values()) {
-                BlockPos neighborPos = pos.relative(direction);
-                level.blockUpdated(neighborPos, this);
-            }
-        }
-    }
-
-    // ==================== 连接更新逻辑 ====================
-
-    /**
-     * 相邻方块变化时调用 —— 更新铜管连接状态。
-     * 排除朝向容器的方向（该方向连接容器，不连接铜管）。
-     */
-    @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos,
-                                   Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        if (level.isClientSide) return;
-
-        Direction facing = state.getValue(FACING);
-
-        // 计算邻居方向
-        Direction direction = getDirectionFromPos(pos, neighborPos);
-        if (direction == null) return;
-
-        // 朝向容器的方向不做铜管连接判断
-        if (direction == facing) return;
-
-        // 更新该方向的铜管连接状态
-        BooleanProperty property = PROPERTY_BY_DIRECTION.get(direction);
-        boolean canConnect = canConnectToPipe(level, pos, direction);
-        if (state.getValue(property) != canConnect) {
-            level.setBlock(pos, state.setValue(property, canConnect), 3);
-        }
-    }
-
-    /**
-     * 方块被移除时调用 —— 通知相邻铜管断开连接。
-     */
-    @Override
-    protected void onRemove(BlockState oldState, Level level, BlockPos pos,
-                            BlockState newState, boolean movedByPiston) {
-        if (!oldState.is(newState.getBlock())) {
-            if (!level.isClientSide) {
-                // 通知相邻方块更新连接
-                for (Direction direction : Direction.values()) {
-                    BlockPos neighborPos = pos.relative(direction);
-                    level.blockUpdated(neighborPos, this);
-                }
-            }
-        }
-        super.onRemove(oldState, level, pos, newState, movedByPiston);
+        return state.setValue(FACING, facing);
     }
 
     // ==================== EntityBlock 接口实现 ====================
 
+    /**
+     * 创建铜管接口方块实体实例。
+     * CopperPipeEndpointBlockEntity 管理接口与容器之间的物品传输。
+     */
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
@@ -287,37 +205,7 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
         return InteractionResult.SUCCESS;
     }
 
-    // ==================== 含水逻辑 ====================
-
-    @Override
-    protected FluidState getFluidState(BlockState state) {
-        if (state.getValue(WATERLOGGED) && !state.getValue(WAXED)) {
-            return Fluids.WATER.getSource(false);
-        }
-        return super.getFluidState(state);
-    }
-
-    @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
-                                     LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED) && !state.getValue(WAXED)) {
-            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
-    }
-
-    // ==================== 工具方法 ====================
-
-    /**
-     * 判断指定方向是否可以连接铜管。
-     * 可连接条件：该方向的相邻方块是铜管（CopperPipeBlock）或铜管接口（CopperPipeEndpointBlock）。
-     */
-    private boolean canConnectToPipe(LevelAccessor level, BlockPos pos, Direction direction) {
-        BlockPos neighborPos = pos.relative(direction);
-        BlockState neighborState = level.getBlockState(neighborPos);
-        Block neighborBlock = neighborState.getBlock();
-        return neighborBlock instanceof CopperPipeBlock || neighborBlock instanceof CopperPipeEndpointBlock;
-    }
+    // ==================== 容器检测 ====================
 
     /**
      * 检测朝向方向的方块是否是容器。
@@ -337,32 +225,6 @@ public class CopperPipeEndpointBlock extends Block implements SimpleWaterloggedB
         BlockEntity blockEntity = level.getBlockEntity(containerPos);
         // 检测是否实现了 Container 接口（标准 Minecraft 容器接口）
         return blockEntity instanceof Container;
-    }
-
-    /**
-     * 根据两个相邻位置计算方向。
-     */
-    private Direction getDirectionFromPos(BlockPos fromPos, BlockPos toPos) {
-        for (Direction direction : Direction.values()) {
-            if (fromPos.relative(direction).equals(toPos)) {
-                return direction;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 根据方向返回对应的连接臂碰撞箱。
-     */
-    private VoxelShape getArmShape(Direction direction) {
-        return switch (direction) {
-            case NORTH -> NORTH_ARM;
-            case SOUTH -> SOUTH_ARM;
-            case WEST -> WEST_ARM;
-            case EAST -> EAST_ARM;
-            case UP -> UP_ARM;
-            case DOWN -> DOWN_ARM;
-        };
     }
 
     // ==================== 接口模式枚举 ====================
