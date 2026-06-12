@@ -12,7 +12,7 @@
 - [x] Task 7: 修复文本国际化：替换剩余硬编码玩家可见文本，补充 `zh_cn.json` 翻译键。
 - [x] Task 8: 更新审查报告状态：在 `REVIEW.md` 中记录已修复项与必要 `// CONCERN`。
 - [x] Task 9: 构建与质量验收：运行针对性验证和 `./gradlew.bat build --no-daemon`，修复所有由本轮改动导致的问题。
-- [ ] Task 10: 代码审查与最终提交：执行代码审查；通过后按要求 `git add -A`、`git commit`、`git push -u origin main`，并通过 GitHub API 验证远程文件内容与本地一致。
+- [x] Task 10: 代码审查与最终提交：执行代码审查；通过后按要求 `git add -A`、`git commit`、`git push -u origin main`，并通过 GitHub API 验证远程文件内容与本地一致。
 
 # Task Dependencies
 - Task 2 depends on Task 1

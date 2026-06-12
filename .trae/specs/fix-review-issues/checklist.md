@@ -9,4 +9,4 @@
 - [x] 新增或修改的类、方法、关键 NeoForge 逻辑包含精简中文注释。
 - [x] `./gradlew.bat build --no-daemon` 通过。
 - [x] 代码审查无 Critical/Important 阻塞项。
-- [ ] 已按要求提交并推送到 `origin main`，且远程内容已验证与本地一致。
+- [x] 已按要求提交并推送到 `origin main`，且远程内容已验证与本地一致。
