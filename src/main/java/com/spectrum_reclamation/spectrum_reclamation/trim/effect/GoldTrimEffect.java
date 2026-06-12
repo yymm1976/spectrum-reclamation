@@ -26,6 +26,21 @@ public class GoldTrimEffect implements TrimEffectHandler {
     /** 效果持续时间（ticks），每次重刷 40 ticks（2 秒），确保持续生效 */
     private static final int EFFECT_DURATION = 40;
 
+    /** 金纹饰只需要在吸收效果快过期前刷新，按秒执行即可降低每 tick 分发压力。 */
+    private static final int TICK_INTERVAL = 20;
+
+    /**
+     * 获取金纹饰持续效果的执行间隔。
+     *
+     * 吸收效果每次持续 40 ticks，本类已有剩余时间检查，按 20 ticks 刷新不会中断效果。
+     *
+     * @return 每 20 ticks 执行一次
+     */
+    @Override
+    public int getTickInterval() {
+        return TICK_INTERVAL;
+    }
+
     /**
      * 每 tick 为实体施加吸收效果。
      *

@@ -417,8 +417,8 @@ public class ThrownHeavySpear extends AbstractArrow {
      * 紫色涂装 —— 与目标交换位置。
      * Boss 生物（末影龙/凋灵）不触发交换，退回普通击退。
      *
-     * 实现原理：使用 teleportTo() 交换双方坐标。
-     * teleportTo() 会正确同步位置变更到所有追踪客户端，避免视觉不同步。
+     * 实现原理：使用 teleportTo() 交换双方坐标，并清空交换后的残余速度。
+     * 服务端 teleportTo() 会同步坐标，hurtMarked 会要求客户端同步运动状态。
      */
     private void applyPurpleEffect(LivingEntity target, @Nullable LivingEntity shooter) {
         if (shooter == null) return;
@@ -436,9 +436,18 @@ public class ThrownHeavySpear extends AbstractArrow {
         double targetY = target.getY();
         double targetZ = target.getZ();
 
+        Vec3 shooterMovement = shooter.getDeltaMovement();
+        Vec3 targetMovement = target.getDeltaMovement();
+
         // 使用 teleportTo 确保位置变更正确同步到所有追踪客户端
         target.teleportTo(shooterX, shooterY, shooterZ);
         shooter.teleportTo(targetX, targetY, targetZ);
+
+        // 交换位置后同步交换双方运动，避免客户端继续沿旧速度预测导致橡皮筋回弹。
+        target.setDeltaMovement(shooterMovement);
+        shooter.setDeltaMovement(targetMovement);
+        target.hurtMarked = true;
+        shooter.hurtMarked = true;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.spectrum_reclamation.spectrum_reclamation.registry;
 import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import com.spectrum_reclamation.spectrum_reclamation.block_entity.CopperPipeBlockEntity;
 import com.spectrum_reclamation.spectrum_reclamation.block_entity.CopperPipeEndpointBlockEntity;
+import com.spectrum_reclamation.spectrum_reclamation.block_entity.LivingTrapBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -55,6 +56,19 @@ public class SRBlockEntities {
                     () -> BlockEntityType.Builder.of(
                             CopperPipeEndpointBlockEntity::new,
                             SRBlocks.COPPER_PIPE_ENDPOINT.get()
+                    ).build(null)
+            );
+
+    /**
+     * 活体陷阱方块实体类型。
+     * 用于把被困实体 UUID 与剩余时间写入区块存档，避免服务器重启后陷阱状态丢失。
+     */
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LivingTrapBlockEntity>> LIVING_TRAP =
+            BLOCK_ENTITY_TYPES.register(
+                    "living_trap",
+                    () -> BlockEntityType.Builder.of(
+                            LivingTrapBlockEntity::new,
+                            SRBlocks.LIVING_TRAP.get()
                     ).build(null)
             );
 

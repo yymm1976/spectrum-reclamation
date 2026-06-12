@@ -120,8 +120,8 @@ public class CopperPipeTickHandler {
             return;
         }
 
-        // 遍历网络中的所有入口（INPUT 模式的铜管接口位置）
-        for (BlockPos entryPos : network.getEntryPoints()) {
+        // 使用入口快照遍历，端点在传输期间可能被相邻铜管同步，直接遍历原集合有并发修改风险。
+        for (BlockPos entryPos : new ArrayList<>(network.getEntryPoints())) {
             processEntry(network, level, entryPos);
         }
     }
@@ -315,9 +315,11 @@ public class CopperPipeTickHandler {
 
             ItemStack slotStack = container.getItem(i);
             if (slotStack.isEmpty()) {
-                container.setItem(i, remaining);
-                remaining = ItemStack.EMPTY;
-                break;
+                // 放入空槽时按单槽上限写入副本，避免共享引用，也避免超过容器允许的最大堆叠数。
+                int canInsert = Math.min(Math.min(container.getMaxStackSize(), remaining.getMaxStackSize()), remaining.getCount());
+                ItemStack toInsert = remaining.copyWithCount(canInsert);
+                container.setItem(i, toInsert);
+                remaining.shrink(toInsert.getCount());
             }
         }
 

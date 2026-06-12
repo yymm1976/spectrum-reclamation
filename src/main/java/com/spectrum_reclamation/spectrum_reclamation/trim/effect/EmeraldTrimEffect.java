@@ -23,6 +23,21 @@ import net.minecraft.world.entity.LivingEntity;
  */
 public class EmeraldTrimEffect implements TrimEffectHandler {
 
+    /** 绿宝石纹饰当前为空实现，低频分配可避免无意义的每 tick 空调用。 */
+    private static final int TICK_INTERVAL = 20;
+
+    /**
+     * 获取绿宝石纹饰持续效果的执行间隔。
+     *
+     * 当前交易折扣尚未接入具体事件，保留低频空实现以兼容注册结构。
+     *
+     * @return 每 20 ticks 执行一次
+     */
+    @Override
+    public int getTickInterval() {
+        return TICK_INTERVAL;
+    }
+
     /**
      * 暂为空实现 —— 村民交易价格修改需要特殊事件处理。
      *

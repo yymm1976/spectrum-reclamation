@@ -1,12 +1,15 @@
 package com.spectrum_reclamation.spectrum_reclamation.util;
 
+import com.spectrum_reclamation.spectrum_reclamation.SpectrumReclamation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import com.spectrum_reclamation.spectrum_reclamation.block.CopperPipeEndpointBlock;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.*;
 
@@ -122,6 +125,9 @@ public class CopperPipeNetwork {
      * 拓扑变化时（addNode/removeNode/addExitPoint/removeExitPoint）清空。
      */
     private Map<BlockPos, BlockPos> exitCache = new HashMap<>();
+
+    /** BFS 单次遍历节点上限，避免异常大网络在同一 tick 内造成服务端卡顿。 */
+    private static final int BFS_VISIT_LIMIT = 2048;
 
     // ==================== 构造器（私有，通过 getOrCreate 获取） ====================
 
@@ -277,6 +283,14 @@ public class CopperPipeNetwork {
         return Collections.unmodifiableSet(adjacency.keySet());
     }
 
+    /**
+     * 获取网络节点快照。
+     * 合并网络时会一边遍历旧网络、一边向新网络写入节点；快照能避免底层集合变化影响遍历。
+     */
+    public Set<BlockPos> getNodesSnapshot() {
+        return new HashSet<>(adjacency.keySet());
+    }
+
     /** 查询指定位置是否属于此网络 */
     public boolean containsNode(BlockPos pos) {
         return adjacency.containsKey(pos);
@@ -337,6 +351,12 @@ public class CopperPipeNetwork {
         while (!queue.isEmpty()) {
             BlockPos current = queue.poll();
 
+            // 超过守卫上限时停止本次 BFS，并记录网络规模，方便排查超大铜管网络造成的压力。
+            if (visited.size() > BFS_VISIT_LIMIT) {
+                logBfsPressure("findPath", from, visited.size());
+                return null;
+            }
+
             // 遍历当前节点的所有邻居
             Set<BlockPos> neighbors = adjacency.get(current);
             if (neighbors == null) continue;
@@ -395,6 +415,13 @@ public class CopperPipeNetwork {
         BlockPos result = null;
         while (!queue.isEmpty()) {
             BlockPos current = queue.poll();
+
+            // 超过守卫上限时停止本次 BFS；返回 null 会让调用方保留源容器物品，不会吞物品。
+            if (visited.size() > BFS_VISIT_LIMIT) {
+                logBfsPressure("findNearestExit", from, visited.size());
+                break;
+            }
+
             if (!current.equals(from) && exitPoints.contains(current)) {
                 result = current;
                 break;
@@ -415,15 +442,15 @@ public class CopperPipeNetwork {
     }
 
     /**
-     * 物品传输方法 —— 从入口容器提取物品，通过网络"瞬移"到出口容器。
+     * 物品传输方法 —— 验证入口到出口连通后，尝试把调用方已提取的物品放入出口容器。
      *
      * <h3>传输流程</h3>
      * <ol>
      *   <li>验证 from/to 均在网络中，且分别是入口/出口</li>
      *   <li>BFS 查找最短路径</li>
-     *   <li>从入口容器（Container 接口）提取一个物品</li>
-     *   <li>尝试将物品放入出口容器</li>
-     *   <li>如果出口容器满，将物品放回入口容器</li>
+     *   <li>根据出口接口的 FACING 找到它朝向的容器</li>
+     *   <li>尝试将传入物品放入出口容器</li>
+     *   <li>出口放不下时返回 false，不生成掉落物，回退策略由调用方处理</li>
      * </ol>
      *
      * <h3>关于路径</h3>
@@ -431,7 +458,7 @@ public class CopperPipeNetwork {
      *    未来版本可在路径上执行动画或中间处理。</p>
      *
      * @param level     世界实例（用于访问方块实体）
-     * @param itemStack 要传输的物品（由调用方决定从哪个槽位提取）
+     * @param itemStack 要传输的物品（由调用方提前从入口容器提取）
      * @param from      入口位置（铜管接口）
      * @param to        出口位置（铜管接口）
      * @return 传输成功返回 true；无路径或容器操作失败返回 false
@@ -448,48 +475,128 @@ public class CopperPipeNetwork {
             return false;
         }
 
-        // 步骤 2：获取出口处的容器
-        BlockEntity exitBE = level.getBlockEntity(to);
-        if (!(exitBE instanceof Container exitContainer)) {
+        // 步骤 2：尝试插入出口朝向的容器；只有全部放入才算 transfer 成功。
+        Container targetContainer = findEndpointContainer(level, to);
+        if (targetContainer == null || !canFullyInsertIntoContainer(targetContainer, itemStack)) {
             return false;
         }
+        return insertIntoEndpointContainer(level, itemStack, to).isEmpty();
+    }
 
-        // 步骤 3：手动尝试将物品插入出口容器的各个槽位
-        // Container 接口不提供 addItem 方法，需要逐槽位手动尝试插入
-        // 这是 Minecraft 容器操作的标准模式
+    /** 记录 BFS 压力守卫触发信息，帮助玩家定位过大的铜管网络。 */
+    private void logBfsPressure(String operation, BlockPos from, int visitedCount) {
+        SpectrumReclamation.LOGGER.warn(
+                "铜管网络 {} 在 {} 从 {} 遍历 {} 个节点后触发 BFS 守卫，网络节点总数 {}。",
+                networkId,
+                operation,
+                from,
+                visitedCount,
+                adjacency.size()
+        );
+    }
+
+    /**
+     * 按出口端点朝向查找容器并插入物品。
+     * CopperPipeEndpointBlock 的 FACING 指向外部容器，端点方块本身不是容器。
+     */
+    private ItemStack insertIntoEndpointContainer(Level level, ItemStack itemStack, BlockPos endpointPos) {
+        Container container = findEndpointContainer(level, endpointPos);
+        if (container == null) {
+            return itemStack.copy();
+        }
+
+        return insertIntoContainer(container, itemStack);
+    }
+
+    /** 按端点朝向查找外部容器；端点的 FACING 属性指向被连接的容器。 */
+    private Container findEndpointContainer(Level level, BlockPos endpointPos) {
+        BlockState endpointState = level.getBlockState(endpointPos);
+        if (!(endpointState.getBlock() instanceof CopperPipeEndpointBlock)) {
+            return null;
+        }
+
+        Direction facing = endpointState.getValue(CopperPipeEndpointBlock.FACING);
+        BlockEntity blockEntity = level.getBlockEntity(endpointPos.relative(facing));
+        if (!(blockEntity instanceof Container container)) {
+            return null;
+        }
+
+        return container;
+    }
+
+    /**
+     * 只模拟插入容量，不修改真实容器。
+     * transfer 的布尔契约要求 false 表示完全没有写入目标容器，因此正式插入前必须先确认能全量放入。
+     */
+    private boolean canFullyInsertIntoContainer(Container container, ItemStack itemStack) {
         ItemStack remaining = itemStack.copy();
-        for (int i = 0; i < exitContainer.getContainerSize(); i++) {
-            ItemStack slotStack = exitContainer.getItem(i);
 
-            // 如果槽位为空，直接放入
-            if (slotStack.isEmpty()) {
-                exitContainer.setItem(i, remaining);
-                remaining = ItemStack.EMPTY;
-                break;
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            if (remaining.isEmpty()) break;
+
+            ItemStack slotStack = container.getItem(i);
+            if (slotStack.isEmpty()) continue;
+            if (!container.canPlaceItem(i, remaining)) continue;
+
+            if (ItemStack.isSameItemSameComponents(slotStack, remaining)) {
+                int canAdd = Math.min(slotStack.getMaxStackSize() - slotStack.getCount(), remaining.getCount());
+                if (canAdd > 0) {
+                    remaining.shrink(canAdd);
+                }
             }
+        }
 
-            // 如果槽位物品相同且未满，合并
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            if (remaining.isEmpty()) break;
+            if (!container.canPlaceItem(i, remaining)) continue;
+
+            ItemStack slotStack = container.getItem(i);
+            if (slotStack.isEmpty()) {
+                int canInsert = Math.min(Math.min(container.getMaxStackSize(), remaining.getMaxStackSize()), remaining.getCount());
+                remaining.shrink(canInsert);
+            }
+        }
+
+        return remaining.isEmpty();
+    }
+
+    /**
+     * 逐槽位插入物品，先合并同类物品，再放入空槽。
+     * Container 是原版最基础的容器接口，没有统一的 addItem 方法，所以这里必须手动处理。
+     */
+    private ItemStack insertIntoContainer(Container container, ItemStack itemStack) {
+        ItemStack remaining = itemStack.copy();
+
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            if (remaining.isEmpty()) break;
+
+            ItemStack slotStack = container.getItem(i);
+            if (slotStack.isEmpty()) continue;
+            if (!container.canPlaceItem(i, remaining)) continue;
+
             if (ItemStack.isSameItemSameComponents(slotStack, remaining)) {
                 int canAdd = Math.min(slotStack.getMaxStackSize() - slotStack.getCount(), remaining.getCount());
                 if (canAdd > 0) {
                     slotStack.grow(canAdd);
                     remaining.shrink(canAdd);
-                    exitContainer.setItem(i, slotStack); // 触发标记更新
-                    if (remaining.isEmpty()) {
-                        break;
-                    }
+                    container.setItem(i, slotStack);
                 }
             }
         }
 
-        // 步骤 4：如果仍有剩余物品（容器满），掉落为物品实体
-        if (!remaining.isEmpty()) {
-            ItemEntity itemEntity = new ItemEntity(level,
-                    to.getX() + 0.5, to.getY() + 0.5, to.getZ() + 0.5, remaining);
-            level.addFreshEntity(itemEntity);
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            if (remaining.isEmpty()) break;
+            if (!container.canPlaceItem(i, remaining)) continue;
+
+            ItemStack slotStack = container.getItem(i);
+            if (slotStack.isEmpty()) {
+                int canInsert = Math.min(Math.min(container.getMaxStackSize(), remaining.getMaxStackSize()), remaining.getCount());
+                ItemStack toInsert = remaining.copyWithCount(canInsert);
+                container.setItem(i, toInsert);
+                remaining.shrink(toInsert.getCount());
+            }
         }
 
-        // 无论是否有剩余，只要执行了传输就返回 true
-        return true;
+        return remaining;
     }
 }

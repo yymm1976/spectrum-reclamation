@@ -1,5 +1,7 @@
 package com.spectrum_reclamation.spectrum_reclamation.block;
 
+import com.spectrum_reclamation.spectrum_reclamation.block_entity.LivingTrapBlockEntity;
+import com.spectrum_reclamation.spectrum_reclamation.registry.SRBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -12,6 +14,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -21,9 +27,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 活体陷阱方块 —— 可捕捉路过的小型生物。
@@ -38,15 +44,15 @@ import java.util.Map;
  *
  * 技术实现说明：
  * - 使用 BooleanProperty COOLDOWN 方块状态控制冷却
- * - 使用 scheduleTick 延迟刻实现 5 秒弹出和 15 秒冷却重置
- * - 使用静态 HashMap 跟踪被吞入的实体（方块位置 → 实体引用）
- * - 使用 tick() 中的 AABB 扫描替代 entityInside()（noCollission 导致后者不触发）
- * - 扫描频率：每 10 ticks 一次（性能优化，避免每 tick 扫描）
+ * - 使用 LivingTrapBlockEntity 持久化被困实体 UUID 与剩余时间
+ * - 使用方块实体 ticker 实现 5 秒弹出和 15 秒冷却重置
+ * - 使用方块实体 tick 中的 AABB 扫描替代 entityInside()（noCollision 方块不稳定触发该回调）
+ * - 扫描频率：每 2 ticks 一次（避免每 tick 扫描，同时保持触发手感）
  *
  * 注意：setInvulnerableTicks() 是 WitherBoss 专属方法，
  * 此处使用 Entity.setInvulnerable(boolean) 实现等效的无敌效果。
  */
-public class LivingTrapBlock extends Block {
+public class LivingTrapBlock extends Block implements EntityBlock {
 
     // ==================== 常量定义 ====================
 
@@ -54,10 +60,13 @@ public class LivingTrapBlock extends Block {
     public static final BooleanProperty COOLDOWN = BooleanProperty.create("cooldown");
 
     /** 吞入持续时间（5 秒 = 100 ticks） */
-    private static final int SWALLOW_DURATION = 100;
+    public static final int SWALLOW_DURATION = 100;
 
     /** 冷却持续时间（15 秒 = 300 ticks） */
-    private static final int COOLDOWN_DURATION = 300;
+    public static final int COOLDOWN_DURATION = 300;
+
+    /** 待命扫描间隔（2 ticks），由方块实体 ticker 负责循环计时。 */
+    public static final int SCAN_INTERVAL = 2;
 
     /**
      * 低矮碰撞箱形状。
@@ -65,20 +74,6 @@ public class LivingTrapBlock extends Block {
      * 数值单位为 1/16 格（像素），Block 满格为 0~16。
      */
     private static final VoxelShape SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 2.0, 15.0);
-
-    /**
-     * 被吞入实体的追踪表。
-     * Key = "维度ID:方块位置" 字符串，确保跨维度不冲突。
-     * Value = 被吞入的实体引用。
-     *
-     * 使用 ConcurrentHashMap 以提供额外的安全保障（防御潜在的并发访问场景）。
-     */
-    private static final Map<String, LivingEntity> TRAPPED_ENTITIES = new java.util.concurrent.ConcurrentHashMap<>();
-
-    /** 生成维度感知的追踪键 */
-    private static String trapKey(Level level, BlockPos pos) {
-        return level.dimension().location() + ":" + pos.getX() + "," + pos.getY() + "," + pos.getZ();
-    }
 
     // ==================== 构造与状态定义 ====================
 
@@ -121,57 +116,20 @@ public class LivingTrapBlock extends Block {
     // ==================== 核心陷阱逻辑 ====================
 
     /**
-     * 延迟 tick 入口 —— 根据当前方块状态决定执行释放实体、重置冷却或扫描触发。
-     *
-     * NeoForge 的 scheduleTick 机制：调用 level.scheduleTick(pos, block, delay) 后，
-     * ServerLevel 会在 delay ticks 后调用此 tick() 方法。
-     * 如果方块在 tick 前被破坏，此 tick 不会触发（方块已不存在）。
-     *
-     * 同时，此方法也负责在待命状态下周期性调度自身，
-     * 实现 AABB 扫描触发（替代不工作的 entityInside）。
-     */
-    @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (state.getValue(COOLDOWN)) {
-            // COOLDOWN=true 阶段：可能是吞入到期或冷却到期
-            String key = trapKey(level, pos);
-            LivingEntity trapped = TRAPPED_ENTITIES.remove(key);
-
-            if (trapped != null) {
-                // 吞入期结束（100 ticks）：释放实体，进入 15 秒冷却期
-                releaseEntity(trapped, level, pos);
-                // 保持 COOLDOWN=true，调度 300 ticks 后的冷却结束 tick
-                level.scheduleTick(pos, this, COOLDOWN_DURATION);
-            } else {
-                // 冷却期结束（300 ticks）：重置 COOLDOWN，陷阱恢复待命
-                level.setBlock(pos, state.setValue(COOLDOWN, false), 3);
-            }
-        } else {
-            // 待命状态：扫描方块上方的实体
-            scanAndTrapEntity(state, level, pos);
-            // 仅在仍处于待命状态时重新调度扫描
-            // （trapEntity() 可能已将 COOLDOWN 设为 true，此时不应再调度扫描 tick）
-            if (!level.getBlockState(pos).getValue(COOLDOWN)) {
-                level.scheduleTick(pos, this, 2);
-            }
-        }
-    }
-
-    /**
      * 扫描方块上方 AABB 内的小型生物，触发吞入逻辑。
      *
      * 替代 entityInside() 的原因：LivingTrapBlock 使用 noOcclusion()，
      * 这会导致 entityInside() 不被调用（Minecraft 的碰撞系统要求方块有碰撞箱
      * 才会触发 entityInside 回调）。
      *
-     * 扫描频率：每 10 ticks（0.5 秒），在 tick() 中通过 scheduleTick 自循环。
-     * 这比每 tick 扫描更节省性能，且 0.5 秒延迟对陷阱触发体验影响极小。
+     * 扫描频率由 LivingTrapBlockEntity.SCAN_INTERVAL 控制。
+     * 使用方块实体 ticker 的原因：它会随区块加载恢复，不依赖易丢失的延迟刻。
      *
      * @param state 当前方块状态
      * @param level 服务端世界
      * @param pos   方块位置
      */
-    private void scanAndTrapEntity(BlockState state, ServerLevel level, BlockPos pos) {
+    public static void scanAndTrapEntity(ServerLevel level, BlockPos pos, BlockState state) {
         // 构建扫描区域：方块位置 + 上方 1.5 格（覆盖站在方块上的实体，额外 0.5 格容错）
         net.minecraft.world.phys.AABB searchBox = new net.minecraft.world.phys.AABB(
                 pos.getX(), pos.getY(), pos.getZ(),
@@ -186,12 +144,11 @@ public class LivingTrapBlock extends Block {
             // 小型生物判定：碰撞箱宽度 ≤ 0.6 格
             if (entity.getBbWidth() > 0.6f) continue;
 
-            // 检查是否已有实体被困在此位置
-            String key = trapKey(level, pos);
-            if (TRAPPED_ENTITIES.containsKey(key)) return;
+            // 检查此位置是否有方块实体负责持久化状态；没有则不触发，避免吞入后无法释放
+            if (!(level.getBlockEntity(pos) instanceof LivingTrapBlockEntity trapBlockEntity)) return;
 
             // === 执行吞入 ===
-            trapEntity(entity, level, pos, state);
+            trapEntity(entity, level, pos, state, trapBlockEntity);
             return; // 每次扫描最多吞入一个实体
         }
     }
@@ -203,16 +160,15 @@ public class LivingTrapBlock extends Block {
      * 1. 设为不可见（客户端跳过渲染，实体"消失"）
      * 2. 设为无敌（阻止所有伤害）
      * 3. 禁止重力，将实体"钉"在陷阱位置
-     * 4. 记录被吞入的实体
-     * 5. 调度 5 秒后释放
-     * 6. 设置方块进入冷却状态
+     * 4. 将实体 UUID 和倒计时写入方块实体
+     * 5. 设置方块进入冷却状态
      *
      * @param entity  被吞入的实体
      * @param level   世界
      * @param pos     方块位置
      * @param state   当前方块状态
      */
-    private void trapEntity(LivingEntity entity, Level level, BlockPos pos, BlockState state) {
+    private static void trapEntity(LivingEntity entity, ServerLevel level, BlockPos pos, BlockState state, LivingTrapBlockEntity trapBlockEntity) {
         // 1. 设为不可见
         entity.setInvisible(true);
         // 2. 设为无敌
@@ -220,14 +176,10 @@ public class LivingTrapBlock extends Block {
         // 3. 禁止重力，将实体"钉"在陷阱位置
         entity.setNoGravity(true);
 
-        // 4. 记录被吞入的实体
-        String key = trapKey(level, pos);
-        TRAPPED_ENTITIES.put(key, entity);
+        // 4. 记录被吞入实体的 UUID 和倒计时，方块实体会负责持久化到 NBT
+        trapBlockEntity.beginSwallowing(entity);
 
-        // 5. 调度 5 秒（100 ticks）后释放实体
-        level.scheduleTick(pos, this, SWALLOW_DURATION);
-
-        // 6. 设置方块进入冷却状态（flag = 3：通知客户端 + 发送方块更新）
+        // 5. 设置方块进入冷却状态（flag = 3：通知客户端 + 发送方块更新）
         level.setBlock(pos, state.setValue(COOLDOWN, true), 3);
     }
 
@@ -236,7 +188,7 @@ public class LivingTrapBlock extends Block {
     /**
      * 方块被移除时的清理回调 —— 确保被吞入的实体不会"永久消失"。
      *
-     * 当玩家挖掘、爆炸摧毁或命令移除方块时，scheduleTick 的延迟 tick 不会再触发，
+     * 当玩家挖掘、爆炸摧毁或命令移除方块时，方块实体会被移除，
      * 因此必须在此处手动释放被困实体，避免实体状态永久异常（不可见、无敌、无重力）。
      *
      * NeoForge 的 onRemove 机制：
@@ -254,15 +206,12 @@ public class LivingTrapBlock extends Block {
     protected void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         // 仅在方块真正被替换为不同类型时执行清理（排除自身状态更新的情况）
         if (!oldState.is(newState.getBlock())) {
-            // 仅在冷却状态（即有实体被吞入时）才需要清理
-            if (oldState.getValue(COOLDOWN)) {
-                LivingEntity trapped = TRAPPED_ENTITIES.remove(trapKey(level, pos));
-                if (trapped != null) {
-                    releaseEntity(trapped, level instanceof ServerLevel sl ? sl : null, pos);
-                } else if (level instanceof ServerLevel) {
-                    // HashMap 中无记录（服务器重启后丢失），扫描方块上方残留实体
-                    recoverStrayEntities(level, pos);
+            // 仅服务端执行实体释放，客户端只接收服务端同步后的结果
+            if (level instanceof ServerLevel serverLevel) {
+                if (level.getBlockEntity(pos) instanceof LivingTrapBlockEntity trapBlockEntity) {
+                    trapBlockEntity.releaseOnRemove(serverLevel, pos);
                 }
+                restoreStrayEntities(serverLevel, pos);
             }
         }
         // 必须调用父类实现，确保方块移除的其他清理逻辑正常执行
@@ -281,7 +230,7 @@ public class LivingTrapBlock extends Block {
      * 4. 施加 10 秒饥饿 I（amplifier = 0 → 等级 I）
      * 5. 播放音效和生成粒子作为视觉/听觉反馈
      */
-    private void releaseEntity(LivingEntity entity, ServerLevel level, BlockPos pos) {
+    public static void releaseTrappedEntity(LivingEntity entity, ServerLevel level, BlockPos pos) {
         // 恢复实体正常状态
         entity.setInvisible(false);
         entity.setInvulnerable(false);
@@ -337,29 +286,11 @@ public class LivingTrapBlock extends Block {
     // ==================== 方块行为 ====================
 
     /**
-     * 方块放置时启动扫描循环并恢复残留实体。
-     *
-     * 启动扫描循环：调度第一个 10 ticks 的 tick，之后 tick() 会自循环。
-     * 恢复残留实体：防止服务器重启后 TRAPPED_ENTITIES 丢失，
-     * 导致实体永久处于不可见/无敌/无重力状态。
-     */
-    @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        super.onPlace(state, level, pos, oldState, movedByPiston);
-        if (!level.isClientSide) {
-            // 启动扫描循环：2 ticks 后开始第一次扫描（诊断期间缩短间隔）
-            level.scheduleTick(pos, this, 2);
-            // 恢复残留实体
-            recoverStrayEntities(level, pos);
-        }
-    }
-
-    /**
      * 扫描方块上方 1 格范围内的残留异常实体并恢复其状态。
      * 判定条件：invisible=true && invulnerable=true && noGravity=true 且非旁观者。
      * 这些状态组合极不自然，几乎只可能是活体陷阱造成的。
      */
-    private void recoverStrayEntities(Level level, BlockPos pos) {
+    public static void restoreStrayEntities(ServerLevel level, BlockPos pos) {
         net.minecraft.world.phys.AABB searchBox = new net.minecraft.world.phys.AABB(pos).inflate(1.0);
         for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, searchBox)) {
             if (entity.isInvisible() && entity.isInvulnerable() && entity.isNoGravity()
@@ -370,6 +301,36 @@ public class LivingTrapBlock extends Block {
                 entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0, false, true, true));
             }
         }
+    }
+
+    // ==================== EntityBlock 接口实现 ====================
+
+    /**
+     * 创建活体陷阱方块实体。
+     * Minecraft 在方块加载或放置时调用，用它承载持久化状态与服务端 ticker。
+     */
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new LivingTrapBlockEntity(pos, state);
+    }
+
+    /**
+     * 提供服务端方块实体 ticker。
+     * 客户端返回 null，避免客户端直接修改实体可见性、无敌状态等服务端权威数据。
+     */
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        if (level.isClientSide || blockEntityType != SRBlockEntities.LIVING_TRAP.get()) {
+            return null;
+        }
+        return (tickerLevel, pos, tickerState, blockEntity) -> LivingTrapBlockEntity.serverTick(
+                tickerLevel,
+                pos,
+                tickerState,
+                (LivingTrapBlockEntity) blockEntity
+        );
     }
 
     /**

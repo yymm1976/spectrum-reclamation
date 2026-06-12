@@ -31,6 +31,18 @@ public interface TrimEffectHandler {
     }
 
     /**
+     * 获取持续效果的 tick 间隔。
+     *
+     * 返回 1 表示每 tick 执行一次，返回 20 表示每秒执行一次。
+     * 事件分发器会按玩家 UUID 做相位错开，避免所有玩家的低频纹饰效果集中在同一 tick 执行。
+     *
+     * @return tick 间隔，必须大于 0
+     */
+    default int getTickInterval() {
+        return 1;
+    }
+
+    /**
      * 受伤时调用 —— 用于与伤害相关的纹饰效果。
      *
      * 适用场景：石英纹饰的近战伤害加成、击退抗性等。

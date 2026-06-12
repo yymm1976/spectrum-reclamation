@@ -132,6 +132,7 @@ public class SRItems {
     /**
      * 陨星弩物品 —— 继承 CrossbowItem 的重型弩。
      * - 最大堆叠 1（武器类物品不可堆叠）
+     * - 耐久值沿用原版弩 465，确保每次发射会正常损耗
      * - 仅接受沉重之矛作为弹药
      * - 装填速度比普通弩慢 2 倍（50 ticks vs 25 ticks）
      * - 自带瞄准镜效果（FOV 缩放）
@@ -140,7 +141,7 @@ public class SRItems {
     public static final DeferredHolder<Item, Item> METEOR_CROSSBOW =
             ITEMS.register(
                     "meteor_crossbow",
-                    () -> new MeteorCrossbowItem(new Item.Properties().stacksTo(1))
+                    () -> new MeteorCrossbowItem(new Item.Properties().stacksTo(1).durability(465))
             );
 
     /**

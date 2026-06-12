@@ -16,8 +16,7 @@ import java.util.UUID;
  * 铜管接口方块实体 —— 管理端口的网络注册。
  *
  * 每个铜管接口方块持有一个 UUID，指向其相邻铜管所在的网络。
- * 在 onLoad 时根据自身模式（INPUT/OUTPUT）将自己注册为网络的入口或出口。
- * 在模式切换时更新注册。在被移除时注销注册。
+ * 端点自身不决定网络归属，而是由相邻铜管同步；这样能处理端点先于铜管加载的情况。
  */
 public class CopperPipeEndpointBlockEntity extends BlockEntity {
 
@@ -32,7 +31,7 @@ public class CopperPipeEndpointBlockEntity extends BlockEntity {
     public void onLoad() {
         super.onLoad();
         if (level == null || level.isClientSide) return;
-        tryRegisterWithNetwork();
+        syncWithAdjacentPipeNetwork();
     }
 
     @Override
@@ -41,23 +40,34 @@ public class CopperPipeEndpointBlockEntity extends BlockEntity {
             super.setRemoved();
             return;
         }
-        if (!level.isClientSide && networkId != null) {
-            CopperPipeNetwork network = CopperPipeNetwork.get(networkId);
-            if (network != null) {
-                network.removeEntryPoint(worldPosition);
-                network.removeExitPoint(worldPosition);
-            }
+        if (!level.isClientSide) {
+            unregisterFromCurrentNetwork();
         }
         super.setRemoved();
+    }
+
+    /**
+     * 从当前记录的网络中注销此端点。
+     * 切换网络前必须先注销旧入口/出口，否则旧网络会保留一个已经迁移的端点位置。
+     */
+    private void unregisterFromCurrentNetwork() {
+        if (networkId == null) return;
+
+        CopperPipeNetwork network = CopperPipeNetwork.get(networkId);
+        if (network != null) {
+            network.removeEntryPoint(worldPosition);
+            network.removeExitPoint(worldPosition);
+        }
+        networkId = null;
     }
 
     /**
      * 扫描 6 个方向，找到相邻铜管方块实体，获取其网络 UUID，
      * 然后根据当前模式注册为入口或出口。
      */
-    private void tryRegisterWithNetwork() {
+    private boolean tryRegisterWithNetwork() {
         BlockState state = getBlockState();
-        if (!(state.getBlock() instanceof CopperPipeEndpointBlock)) return;
+        if (!(state.getBlock() instanceof CopperPipeEndpointBlock)) return false;
 
         Direction facing = state.getValue(CopperPipeEndpointBlock.FACING);
 
@@ -68,14 +78,32 @@ public class CopperPipeEndpointBlockEntity extends BlockEntity {
             if (level.getBlockEntity(neighborPos) instanceof CopperPipeBlockEntity pipeBE) {
                 UUID pipeNetId = pipeBE.getNetworkId();
                 if (pipeNetId != null) {
+                    if (!pipeNetId.equals(this.networkId)) {
+                        unregisterFromCurrentNetwork();
+                    }
                     this.networkId = pipeNetId;
                     CopperPipeNetwork network = CopperPipeNetwork.getOrCreate(pipeNetId, level.dimension());
                     // 确保此节点也在网络的邻接表中
                     network.addNode(worldPosition, java.util.Set.of(neighborPos));
                     registerAsEntryOrExit(network, state);
-                    return;
+                    return true;
                 }
             }
+        }
+        return false;
+    }
+
+    /**
+     * 由端点自身加载、玩家切换模式或相邻铜管加载/合并后调用。
+     *
+     * 这里会重新扫描相邻铜管并同步网络 ID。NeoForge 的方块实体加载顺序不保证端点
+     * 一定晚于铜管，因此需要铜管在 onLoad 后主动调用这个方法补齐注册。
+     */
+    public void syncWithAdjacentPipeNetwork() {
+        if (level == null || level.isClientSide) return;
+        if (!tryRegisterWithNetwork()) {
+            // 未找到相邻铜管时清理旧注册，防止加载顺序或断开连接后留下幽灵端点。
+            unregisterFromCurrentNetwork();
         }
     }
 
@@ -104,13 +132,14 @@ public class CopperPipeEndpointBlockEntity extends BlockEntity {
         if (level == null || level.isClientSide) return;
         if (networkId == null) {
             // 首次或孤立状态：尝试扫描相邻管道并注册
-            tryRegisterWithNetwork();
+            syncWithAdjacentPipeNetwork();
             return;
         }
         CopperPipeNetwork network = CopperPipeNetwork.get(networkId);
         if (network == null) {
             // 网络已被清除（如合并后旧网络被删除），重新扫描注册
-            tryRegisterWithNetwork();
+            unregisterFromCurrentNetwork();
+            syncWithAdjacentPipeNetwork();
             return;
         }
         registerAsEntryOrExit(network, getBlockState());

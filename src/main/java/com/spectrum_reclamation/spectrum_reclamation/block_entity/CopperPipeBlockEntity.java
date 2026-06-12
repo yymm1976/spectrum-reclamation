@@ -21,7 +21,7 @@ import java.util.UUID;
  *
  * <h2>职责</h2>
  * <ul>
- *   <li>持有并持久化 {@code networkId}（写入 NBT，跨世界保存/加载保持不变）</li>
+ *   <li>持有并持久化 {@code networkId}，加载时会用相邻铜管重新校验，避免旧网络残留</li>
  *   <li>在方块实体首次加载时，将自身注册到 {@link CopperPipeNetwork} 静态管理器</li>
  *   <li>在方块实体被永久移除时（方块被破坏），从网络中注销自身</li>
  *   <li>不存储物品 —— 物品在网络入口/出口之间"瞬移"</li>
@@ -37,8 +37,8 @@ import java.util.UUID;
  *
  * <h2>NBT 持久化</h2>
  * <p>
- *   networkId 以两个 long 值（mostSigBits / leastSigBits）的形式存储在方块实体的 NBT 中，
- *   确保跨世界保存/加载后 UUID 保持不变。
+ *   networkId 使用 CompoundTag.putUUID 保存。它是恢复网络的线索，不是绝对真相；
+ *   区块加载时仍会根据相邻已加载铜管修正，防止合并后的旧 UUID 再创建幽灵网络。
  * </p>
  */
 public class CopperPipeBlockEntity extends BlockEntity {
@@ -108,27 +108,39 @@ public class CopperPipeBlockEntity extends BlockEntity {
         super.onLoad();
         if (level == null || level.isClientSide) return;
 
-        // 首次放置或网络丢失时的自愈逻辑
-        if (networkId == null || CopperPipeNetwork.get(networkId) == null) {
-            UUID neighborNetworkId = findNeighborNetworkId();
-            if (neighborNetworkId != null) {
-                // 加入邻居的网络（覆盖丢失的旧 networkId）
-                networkId = neighborNetworkId;
-            } else {
-                // 没有邻居网络，创建新网络
-                networkId = UUID.randomUUID();
-            }
-        }
+        // 先重校验 NBT 中恢复的 networkId，再注册网络；这样相邻已加载铜管永远是拓扑真相。
+        revalidateNetworkId();
 
         // 注册到静态网络管理器（若网络不存在则创建）
         CopperPipeNetwork network = CopperPipeNetwork.getOrCreate(networkId, level.dimension());
         network.addNode(worldPosition, findConnectedNeighbors());
 
-        // 扫描相邻端点方块，将它们注册到网络的入口/出口
-        registerAdjacentEndpoints(network);
-
         // 合并相邻的不同网络
         mergeNeighborNetworks(network);
+
+        // 合并完成后同步端点，避免端点先加载时因为相邻铜管未就绪而永久孤立。
+        registerAdjacentEndpoints(network);
+    }
+
+    /**
+     * 重新校验当前铜管的网络 UUID。
+     *
+     * NeoForge 加载区块时，旧 NBT 可能比静态网络管理器更早恢复。
+     * 若相邻已加载铜管已有网络，就以邻居网络为准；否则保留仍存在的旧网络，
+     * 最后才为孤立铜管创建新 UUID。
+     */
+    private void revalidateNetworkId() {
+        UUID neighborNetworkId = findNeighborNetworkId();
+        if (neighborNetworkId != null) {
+            networkId = neighborNetworkId;
+            return;
+        }
+
+        if (networkId != null && CopperPipeNetwork.get(networkId) != null) {
+            return;
+        }
+
+        networkId = UUID.randomUUID();
     }
 
     /**
@@ -172,8 +184,8 @@ public class CopperPipeBlockEntity extends BlockEntity {
         for (UUID oldId : networksToMerge) {
             CopperPipeNetwork oldNetwork = CopperPipeNetwork.get(oldId);
             if (oldNetwork != null) {
-                // 将旧网络的所有节点和端点迁移到当前网络
-                for (BlockPos node : oldNetwork.getNodes()) {
+                // 使用旧网络快照迁移，避免 addNode 修改邻接表时影响正在遍历的集合。
+                for (BlockPos node : oldNetwork.getNodesSnapshot()) {
                     currentNetwork.addNode(node, oldNetwork.getNeighbors(node));
                 }
                 for (BlockPos entry : oldNetwork.getEntryPoints()) {
@@ -185,12 +197,13 @@ public class CopperPipeBlockEntity extends BlockEntity {
                 // 删除旧网络
                 CopperPipeNetwork.remove(oldId);
 
-                // 更新旧网络中所有铜管方块实体的 networkId
-                for (BlockPos node : currentNetwork.getNodes()) {
+                // 只更新旧网络中当前已加载的铜管，未加载铜管会在下次 onLoad 时通过重校验自愈。
+                for (BlockPos node : oldNetwork.getNodesSnapshot()) {
                     if (level.getBlockEntity(node) instanceof CopperPipeBlockEntity nodeBE) {
                         nodeBE.networkId = this.networkId;
                     }
                 }
+                registerAdjacentEndpoints(currentNetwork);
             }
         }
     }
@@ -203,8 +216,8 @@ public class CopperPipeBlockEntity extends BlockEntity {
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = worldPosition.relative(direction);
             if (level.getBlockEntity(neighborPos) instanceof CopperPipeEndpointBlockEntity endpointBE) {
-                // 触发端点的网络注册（端点会自行检查模式并注册为入口或出口）
-                endpointBE.onModeChanged();
+                // 触发端点重扫相邻铜管，端点会先注销旧网络再注册到当前有效网络。
+                endpointBE.syncWithAdjacentPipeNetwork();
             }
         }
     }

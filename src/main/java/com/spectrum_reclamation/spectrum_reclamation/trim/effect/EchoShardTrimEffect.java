@@ -31,6 +31,21 @@ public class EchoShardTrimEffect implements TrimEffectHandler {
     /** 激活完全无声效果所需的最低纹饰件数 */
     private static final int FULL_SET_COUNT = 4;
 
+    /** 回响碎片只检查静音状态，不需要每 tick 重复写入实体 silent 标记。 */
+    private static final int TICK_INTERVAL = 20;
+
+    /**
+     * 获取回响碎片纹饰持续效果的执行间隔。
+     *
+     * 静音状态是实体布尔状态，按秒兜底同步即可，避免每 tick 重复 setSilent(true)。
+     *
+     * @return 每 20 ticks 执行一次
+     */
+    @Override
+    public int getTickInterval() {
+        return TICK_INTERVAL;
+    }
+
     /**
      * 每 tick 检查纹饰件数，控制静音状态。
      *

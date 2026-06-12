@@ -36,6 +36,46 @@ import java.util.Map;
  */
 public class TrimEffectEventHandler {
 
+    /** 最小 tick 间隔，防止处理器返回 0 或负数导致取模异常。 */
+    private static final int MIN_TICK_INTERVAL = 1;
+
+    /**
+     * 将盔甲纹饰处理器列表收敛为「处理器 → 件数」映射。
+     *
+     * lookupFromArmor 会按每件盔甲返回处理器，同一种纹饰穿多件时会出现重复处理器。
+     * 所有事件统一使用此方法计数，避免每个事件各写一遍 HashMap 聚合逻辑而产生不一致。
+     *
+     * @param entity 需要读取盔甲纹饰的实体
+     * @return 每个处理器对应的纹饰件数
+     */
+    private static Map<TrimEffectHandler, Integer> countHandlersFromArmor(LivingEntity entity) {
+        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(entity);
+        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
+        for (TrimEffectHandler handler : handlers) {
+            countMap.merge(handler, 1, Integer::sum);
+        }
+        return countMap;
+    }
+
+    /**
+     * 判断某个持续纹饰效果是否应在当前 tick 执行。
+     *
+     * 低频效果通过玩家 UUID 的哈希值错开相位，避免所有玩家在同一个游戏刻集中执行。
+     * 这是纯服务端分配逻辑，不改变效果数值，只改变无需逐 tick 运行的效果触发时机。
+     *
+     * @param entity 触发 tick 的实体
+     * @param handler 纹饰效果处理器
+     * @return true 表示当前 tick 应执行该处理器
+     */
+    private static boolean shouldRunTick(LivingEntity entity, TrimEffectHandler handler) {
+        int interval = Math.max(MIN_TICK_INTERVAL, handler.getTickInterval());
+        if (interval == MIN_TICK_INTERVAL) {
+            return true;
+        }
+        long phase = Math.floorMod(entity.getUUID().hashCode(), interval);
+        return Math.floorMod(entity.level().getGameTime() + phase, interval) == 0;
+    }
+
     // ==================== 事件监听方法 ====================
 
     /**
@@ -62,28 +102,16 @@ public class TrimEffectEventHandler {
 
         // === 1. 攻击侧纹饰效果（检查攻击者护甲） ===
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-            List<TrimEffectHandler> attackerHandlers = TrimEffectRegistry.lookupFromArmor(attacker);
-            if (!attackerHandlers.isEmpty()) {
-                Map<TrimEffectHandler, Integer> attackerCountMap = new HashMap<>();
-                for (TrimEffectHandler handler : attackerHandlers) {
-                    attackerCountMap.merge(handler, 1, Integer::sum);
-                }
-                for (Map.Entry<TrimEffectHandler, Integer> entry : attackerCountMap.entrySet()) {
-                    totalDamageBonus += entry.getKey().onDealDamage(attacker, entity, entry.getValue(), event.getAmount());
-                }
+            Map<TrimEffectHandler, Integer> attackerCountMap = countHandlersFromArmor(attacker);
+            for (Map.Entry<TrimEffectHandler, Integer> entry : attackerCountMap.entrySet()) {
+                totalDamageBonus += entry.getKey().onDealDamage(attacker, entity, entry.getValue(), event.getAmount());
             }
         }
 
         // === 2. 防御侧纹饰效果（检查被攻击方护甲） ===
-        List<TrimEffectHandler> defenderHandlers = TrimEffectRegistry.lookupFromArmor(entity);
-        if (!defenderHandlers.isEmpty()) {
-            Map<TrimEffectHandler, Integer> defenderCountMap = new HashMap<>();
-            for (TrimEffectHandler handler : defenderHandlers) {
-                defenderCountMap.merge(handler, 1, Integer::sum);
-            }
-            for (Map.Entry<TrimEffectHandler, Integer> entry : defenderCountMap.entrySet()) {
-                totalDamageBonus += entry.getKey().onHurt(entity, entry.getValue(), event.getAmount(), event.getSource());
-            }
+        Map<TrimEffectHandler, Integer> defenderCountMap = countHandlersFromArmor(entity);
+        for (Map.Entry<TrimEffectHandler, Integer> entry : defenderCountMap.entrySet()) {
+            totalDamageBonus += entry.getKey().onHurt(entity, entry.getValue(), event.getAmount(), event.getSource());
         }
 
         // 有伤害加成时才修改事件
@@ -118,17 +146,8 @@ public class TrimEffectEventHandler {
             return;
         }
 
-        // 从攻击者的盔甲纹饰中查找处理器
-        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(attackingPlayer);
-        if (handlers.isEmpty()) {
-            return;
-        }
-
-        // 统计每种处理器的件数
-        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
-        for (TrimEffectHandler handler : handlers) {
-            countMap.merge(handler, 1, Integer::sum);
-        }
+        // 从攻击者的盔甲纹饰中查找处理器并统一统计件数
+        Map<TrimEffectHandler, Integer> countMap = countHandlersFromArmor(attackingPlayer);
 
         // 累加所有处理器返回的额外经验值（多个纹饰效果的经验加成叠加）
         int totalExtraExp = 0;
@@ -162,17 +181,8 @@ public class TrimEffectEventHandler {
             return;
         }
 
-        // 获取该实体盔甲上所有纹饰对应的处理器
-        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(entity);
-        if (handlers.isEmpty()) {
-            return;
-        }
-
-        // 统计每种处理器的件数
-        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
-        for (TrimEffectHandler handler : handlers) {
-            countMap.merge(handler, 1, Integer::sum);
-        }
+        // 获取该实体盔甲上所有纹饰对应的处理器并统一统计件数
+        Map<TrimEffectHandler, Integer> countMap = countHandlersFromArmor(entity);
 
         // 累加所有处理器返回的摔落距离减免量（多个纹饰效果的减免叠加）
         float totalFallReduction = 0.0f;
@@ -206,17 +216,8 @@ public class TrimEffectEventHandler {
         // 装备变化时清除缓存，确保下次 lookupFromArmor 重新计算
         TrimEffectRegistry.clearCache(entity.getUUID());
 
-        // 获取该实体盔甲上所有纹饰对应的处理器
-        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(entity);
-        if (handlers.isEmpty()) {
-            return;
-        }
-
-        // 统计每种处理器的件数
-        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
-        for (TrimEffectHandler handler : handlers) {
-            countMap.merge(handler, 1, Integer::sum);
-        }
+        // 获取该实体盔甲上所有纹饰对应的处理器并统一统计件数
+        Map<TrimEffectHandler, Integer> countMap = countHandlersFromArmor(entity);
 
         // 分发给每个处理器
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
@@ -246,21 +247,14 @@ public class TrimEffectEventHandler {
             return;
         }
 
-        // 获取该玩家盔甲上所有纹饰对应的处理器
-        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(player);
-        if (handlers.isEmpty()) {
-            return;
-        }
-
-        // 统计每种处理器的件数
-        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
-        for (TrimEffectHandler handler : handlers) {
-            countMap.merge(handler, 1, Integer::sum);
-        }
+        // 获取该玩家盔甲上所有纹饰对应的处理器并统一统计件数
+        Map<TrimEffectHandler, Integer> countMap = countHandlersFromArmor(player);
 
         // 分发给每个处理器的 onTick 方法
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
-            entry.getKey().onTick(player, entry.getValue());
+            if (shouldRunTick(player, entry.getKey())) {
+                entry.getKey().onTick(player, entry.getValue());
+            }
         }
 
         // 兜底检查：回声碎片纹饰跨重启永久静音恢复
@@ -297,17 +291,8 @@ public class TrimEffectEventHandler {
             return;
         }
 
-        // 获取攻击者盔甲上所有纹饰对应的处理器
-        List<TrimEffectHandler> handlers = TrimEffectRegistry.lookupFromArmor(player);
-        if (handlers.isEmpty()) {
-            return;
-        }
-
-        // 统计每种处理器的件数
-        Map<TrimEffectHandler, Integer> countMap = new HashMap<>();
-        for (TrimEffectHandler handler : handlers) {
-            countMap.merge(handler, 1, Integer::sum);
-        }
+        // 获取攻击者盔甲上所有纹饰对应的处理器并统一统计件数
+        Map<TrimEffectHandler, Integer> countMap = countHandlersFromArmor(player);
 
         // 获取被攻击目标
         LivingEntity target = event.getTarget() instanceof LivingEntity living ? living : null;

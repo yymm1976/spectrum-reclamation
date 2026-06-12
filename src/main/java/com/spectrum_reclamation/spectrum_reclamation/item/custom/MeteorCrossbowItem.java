@@ -25,6 +25,7 @@ import java.util.function.Predicate;
  * 3. 自带瞄准镜效果（scope_attached 数据组件，触发 FOV 缩放）
  * 4. 发射 ThrownHeavySpear 实体（高伤害、强击退、钉穿机制）
  * 5. 射击速度 3.5（比普通弩 1.6 更强，匹配矛的重量）
+ * 6. 创造模式无弹药时自动使用虚拟沉重之矛，保留原版创造体验
  *
  * 实现思路：
  * 委托父类 CrossbowItem 处理完整的装填/发射状态机，
@@ -89,6 +90,9 @@ public class MeteorCrossbowItem extends CrossbowItem {
      * - 已装填状态：不立即发射，而是进入瞄准模式（按住右键 = FOV 缩放瞄准）
      * - 松开右键时（releaseUsing）才发射
      * - 未装填状态：委托父类处理装填流程
+     * 创造模式没有沉重之矛时，手动写入一支虚拟弹药。
+     * 原版 getProjectile() 对自定义弹药不会自动提供无限弹药，
+     * 因此这里只在创造模式兜底，避免影响生存模式弹药消耗。
      *
      * FOV 缩放由 SRClientScopeHandler.onComputeFovModifier() 自动处理：
      * 只要玩家正在使用物品（isUsingItem）且物品有 scope_attached，
@@ -112,6 +116,14 @@ public class MeteorCrossbowItem extends CrossbowItem {
         // startUsingItem() 会设置 player 的使用物品状态，
         // 使 SRClientScopeHandler 的 FOV 缩放生效
         if (isCharged(crossbowStack)) {
+            player.startUsingItem(hand);
+            return InteractionResultHolder.consume(crossbowStack);
+        }
+
+        if (player.getAbilities().instabuild && player.getProjectile(crossbowStack).isEmpty()) {
+            // 创造模式弹药兜底：直接装填虚拟沉重之矛，下一次右键即可进入瞄准并发射。
+            crossbowStack.set(DataComponents.CHARGED_PROJECTILES,
+                    ChargedProjectiles.of(new ItemStack(SRItems.HEAVY_SPEAR.get())));
             player.startUsingItem(hand);
             return InteractionResultHolder.consume(crossbowStack);
         }
