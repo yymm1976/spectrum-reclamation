@@ -88,7 +88,16 @@ public class EchoShardTrimEffect implements TrimEffectHandler {
     }
 
     /**
-     * 兜底恢复静音状态（供 TrimEffectEventHandler.onPlayerTick 调用）。
+     * 覆写接口兜底方法 —— 供 TrimEffectEventHandler.onPlayerTick 统一调用，
+     * 无需分发器 instanceof 检查具体实现类。
+     */
+    @Override
+    public void enforceState(LivingEntity entity, int count) {
+        enforceSilenceState(entity, count);
+    }
+
+    /**
+     * 兜底恢复静音状态（供 enforceState 和外部直接调用）。
      *
      * 解决服务器重启后 LivingEquipmentChangeEvent 不触发导致的永久静音问题：
      * 玩家以 4 件装备登录 → 服务器崩溃 → 重启 → 脱下 1 件 → 事件不触发 → 永久静音

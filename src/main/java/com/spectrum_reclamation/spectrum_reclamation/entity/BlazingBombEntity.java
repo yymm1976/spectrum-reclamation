@@ -96,9 +96,9 @@ public class BlazingBombEntity extends ThrowableItemProjectile {
         // 基类处理：分发到 onHitEntity/onHitBlock，然后销毁弹射物（仅服务端）
         super.onHit(result);
 
-        // 仅在服务端执行效果逻辑
-        if (!this.level().isClientSide) {
-            ServerLevel serverLevel = (ServerLevel) this.level();
+        // 仅在服务端执行效果逻辑，使用 instanceof 模式匹配安全获取 ServerLevel
+        // 避免直接强转 (ServerLevel) this.level()，与同文件 placeLightBlock 风格一致
+        if (this.level() instanceof ServerLevel serverLevel) {
             Vec3 hitPos = result.getLocation();
             BlockPos hitBlockPos = BlockPos.containing(hitPos);
 

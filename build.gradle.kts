@@ -250,7 +250,7 @@ val reviewFixGuards = tasks.register("reviewFixGuards") {
         )
         requireContains(
             trimEffectEventHandler,
-            "EchoShardTrimEffect.enforceSilenceState(player, echoShardCount);",
+            "entry.getKey().enforceState(player, entry.getValue());",
             "回响碎片纹饰缺少每 tick 静音兜底恢复，重启后可能永久静音。"
         )
 
@@ -425,10 +425,13 @@ val reviewFixGuards = tasks.register("reviewFixGuards") {
             "new ArrayList<>(network.getEntryPoints())",
             "铜管 tick 遍历入口时必须使用快照，避免传输过程中端点同步修改集合导致遍历异常。"
         )
+
+        // insertIntoContainer 已从 CopperPipeTickHandler 迁移到 CopperPipeNetwork，
+        // 以下检查合并到已有的 copperPipeNetwork 变量块中
         requireContains(
-            copperPipeTickHandler,
+            copperPipeNetwork,
             "ItemStack toInsert = remaining.copyWithCount(canInsert);",
-            "铜管 tick 插入空槽必须写入 ItemStack 副本，避免容器槽位与剩余返回值共享引用。"
+            "铜管插入空槽必须写入 ItemStack 副本，避免容器槽位与剩余返回值共享引用。"
         )
     }
 }

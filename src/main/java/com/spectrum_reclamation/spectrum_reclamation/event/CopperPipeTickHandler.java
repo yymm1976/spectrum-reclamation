@@ -170,7 +170,7 @@ public class CopperPipeTickHandler {
             if (exitPos == null) {
                 // 无可用出口：将物品还回源容器，不执行传输
                 // 这保证了物品安全——不会凭空消失
-                ItemStack leftover = insertIntoContainer(sourceContainer, extracted);
+                ItemStack leftover = CopperPipeNetwork.insertIntoContainer(sourceContainer, extracted);
                 if (!leftover.isEmpty()) {
                     // 还回失败（容器被其他操作修改导致满），丢弃为掉落物
                     ItemEntity entity = new ItemEntity(
@@ -203,9 +203,8 @@ public class CopperPipeTickHandler {
                 return;
             }
 
-            // 尝试将物品放入出口容器
-            // 手动逐槽位尝试插入，Container 接口不提供 addItem 方法
-            ItemStack remaining = insertIntoContainer(exitContainer, extracted);
+            // 尝试将物品放入出口容器（委托 CopperPipeNetwork 统一方法，避免重复代码）
+            ItemStack remaining = CopperPipeNetwork.insertIntoContainer(exitContainer, extracted);
 
             if (!remaining.isEmpty()) {
                 // 出口容器已满，溢出部分以掉落物形式丢弃在出口容器位置
@@ -255,8 +254,8 @@ public class CopperPipeTickHandler {
      * @param containerPos 容器位置（用于生成掉落物）
      */
     private void returnToSource(Container source, ItemStack itemStack, Level level, BlockPos containerPos) {
-        // 手动逐槽位尝试合并到已有槽位
-        ItemStack leftover = insertIntoContainer(source, itemStack);
+        // 手动逐槽位尝试合并到已有槽位（委托 CopperPipeNetwork 统一方法）
+        ItemStack leftover = CopperPipeNetwork.insertIntoContainer(source, itemStack);
         if (!leftover.isEmpty()) {
             // 源容器也满了（极端情况），丢弃为掉落物
             ItemEntity entity = new ItemEntity(
@@ -268,62 +267,6 @@ public class CopperPipeTickHandler {
             );
             level.addFreshEntity(entity);
         }
-    }
-
-    /**
-     * 尝试将物品插入容器的各个槽位。
-     * Container 接口不提供 addItem 方法，需要逐槽位手动尝试插入。
-     * 这是 Minecraft 容器操作的标准模式，与 CopperPipeNetwork.transfer() 一致。
-     *
-     * 插入策略：
-     * 1. 优先找到相同物品类型的非满槽位进行合并
-     * 2. 其次找到空槽位直接放入
-     * 3. 返回无法放入的剩余物品
-     *
-     * @param container 目标容器
-     * @param itemStack 要插入的物品（不会被修改，内部使用副本）
-     * @return 无法放入的剩余物品，全部放入时返回 ItemStack.EMPTY
-     */
-    private ItemStack insertIntoContainer(Container container, ItemStack itemStack) {
-        ItemStack remaining = itemStack.copy();
-
-        // 第一遍：优先合并同类物品（isSameItemSameComponents 且未满）
-        for (int i = 0; i < container.getContainerSize(); i++) {
-            if (remaining.isEmpty()) break;
-
-            ItemStack slotStack = container.getItem(i);
-            if (slotStack.isEmpty()) continue; // 空槽第二遍处理
-
-            if (!container.canPlaceItem(i, remaining)) continue;
-
-            if (ItemStack.isSameItemSameComponents(slotStack, remaining)) {
-                int canAdd = Math.min(slotStack.getMaxStackSize() - slotStack.getCount(), remaining.getCount());
-                if (canAdd > 0) {
-                    slotStack.grow(canAdd);
-                    remaining.shrink(canAdd);
-                    container.setItem(i, slotStack);
-                    if (remaining.isEmpty()) break;
-                }
-            }
-        }
-
-        // 第二遍：寻找空槽位放入
-        for (int i = 0; i < container.getContainerSize(); i++) {
-            if (remaining.isEmpty()) break;
-
-            if (!container.canPlaceItem(i, remaining)) continue;
-
-            ItemStack slotStack = container.getItem(i);
-            if (slotStack.isEmpty()) {
-                // 放入空槽时按单槽上限写入副本，避免共享引用，也避免超过容器允许的最大堆叠数。
-                int canInsert = Math.min(Math.min(container.getMaxStackSize(), remaining.getMaxStackSize()), remaining.getCount());
-                ItemStack toInsert = remaining.copyWithCount(canInsert);
-                container.setItem(i, toInsert);
-                remaining.shrink(toInsert.getCount());
-            }
-        }
-
-        return remaining;
     }
 
     /**

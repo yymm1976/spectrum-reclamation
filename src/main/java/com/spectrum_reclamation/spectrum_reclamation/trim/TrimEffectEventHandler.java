@@ -257,16 +257,12 @@ public class TrimEffectEventHandler {
             }
         }
 
-        // 兜底检查：回声碎片纹饰跨重启永久静音恢复
-        // 解决服务器重启后 LivingEquipmentChangeEvent 不触发导致的永久静音问题
-        int echoShardCount = 0;
+        // 兜底检查：统一调用各处理器的 enforceState，
+        // 解决服务器重启后 LivingEquipmentChangeEvent 不触发导致的状态不同步问题。
+        // 例如回声碎片纹饰的永久静音问题。通过接口多态调用，无需 instanceof 硬编码。
         for (Map.Entry<TrimEffectHandler, Integer> entry : countMap.entrySet()) {
-            if (entry.getKey() instanceof com.spectrum_reclamation.spectrum_reclamation.trim.effect.EchoShardTrimEffect) {
-                echoShardCount = entry.getValue();
-                break;
-            }
+            entry.getKey().enforceState(player, entry.getValue());
         }
-        com.spectrum_reclamation.spectrum_reclamation.trim.effect.EchoShardTrimEffect.enforceSilenceState(player, echoShardCount);
     }
 
     // ==================== 暴击事件 ====================

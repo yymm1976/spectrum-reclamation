@@ -84,6 +84,13 @@ public abstract class AbstractAttributeTrimEffect implements TrimEffectHandler {
     // ==================== TrimEffectHandler 接口实现 ====================
 
     /**
+     * 属性修饰器低频兜底间隔（ticks）：每 100 ticks（5 秒）验证一次。
+     * 解决 keepInventory 场景下玩家重生后 LivingEquipmentChangeEvent 不触发
+     * 导致属性修饰器丢失的问题。
+     */
+    private static final int MODIFIER_VERIFY_INTERVAL = 100;
+
+    /**
      * 装备变化时调用，触发属性修饰器更新。
      * 客户端侧直接跳过，避免客户端和服务端属性系统冲突。
      */
@@ -91,6 +98,31 @@ public abstract class AbstractAttributeTrimEffect implements TrimEffectHandler {
     public void onEquipmentChange(LivingEntity entity, int count) {
         if (entity.level().isClientSide()) return;
         updateModifiers(entity);
+    }
+
+    /**
+     * 低频兜底：确保属性修饰器与当前装备一致。
+     *
+     * 场景：keepInventory 开启时，玩家死亡后重生仍穿着盔甲，
+     * 但 LivingEquipmentChangeEvent 不一定在重生时触发，
+     * 导致属性修饰器丢失。此方法每 100 ticks 验证一次，
+     * 确保修饰器始终与装备同步。
+     */
+    @Override
+    public void onTick(LivingEntity entity, int count) {
+        if (entity.level().isClientSide()) return;
+        // 仅在低频间隔时执行，避免每 tick 重复计算
+        if (Math.floorMod(entity.level().getGameTime(), MODIFIER_VERIFY_INTERVAL) != 0) return;
+        updateModifiers(entity);
+    }
+
+    /**
+     * 属性修饰器 tick 间隔：使用 MODIFIER_VERIFY_INTERVAL，
+     * 事件分发器会按此间隔调度 onTick。
+     */
+    @Override
+    public int getTickInterval() {
+        return MODIFIER_VERIFY_INTERVAL;
     }
 
     // ==================== 核心逻辑 ====================

@@ -172,4 +172,18 @@ public interface TrimEffectHandler {
     default float onDealDamage(LivingEntity attacker, LivingEntity target, int count, float damage) {
         return 0.0f;
     }
+
+    /**
+     * 跨重启状态兜底 —— 在玩家 tick 中低频调用，确保纹饰效果状态与装备一致。
+     *
+     * 适用场景：服务器重启后 LivingEquipmentChangeEvent 不触发，
+     * 导致某些纹饰效果的状态（如回声碎片的静音）与装备不同步。
+     * 默认空实现，需要兜底的效果处理器覆写此方法。
+     *
+     * @param entity 拥有纹饰效果的实体
+     * @param count  该纹饰材料在身上的件数（0-4）
+     */
+    default void enforceState(LivingEntity entity, int count) {
+        // 默认空实现，子类按需覆写
+    }
 }

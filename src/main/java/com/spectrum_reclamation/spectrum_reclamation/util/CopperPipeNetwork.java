@@ -563,8 +563,15 @@ public class CopperPipeNetwork {
     /**
      * 逐槽位插入物品，先合并同类物品，再放入空槽。
      * Container 是原版最基础的容器接口，没有统一的 addItem 方法，所以这里必须手动处理。
+     *
+     * 公开静态方法：CopperPipeTickHandler 也需要相同的容器插入逻辑，
+     * 统一放在此处避免代码重复（DRY 原则）。
+     *
+     * @param container 目标容器
+     * @param itemStack 要插入的物品（不会被修改，内部使用副本）
+     * @return 无法放入的剩余物品，全部放入时返回 ItemStack.EMPTY
      */
-    private ItemStack insertIntoContainer(Container container, ItemStack itemStack) {
+    public static ItemStack insertIntoContainer(Container container, ItemStack itemStack) {
         ItemStack remaining = itemStack.copy();
 
         for (int i = 0; i < container.getContainerSize(); i++) {
