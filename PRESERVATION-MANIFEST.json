@@ -2255,78 +2255,117 @@
   "excludedCacheFiles": [
     {
       "group": "spectrum_reclamation-1.21.1",
+      "path": ".codegraph/.gitignore",
+      "bytes": 173,
+      "matchesSecretName": false
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".codegraph/codegraph.db",
+      "bytes": 3919872,
+      "matchesSecretName": false
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".codegraph/codegraph.db-shm",
+      "bytes": 32768,
+      "matchesSecretName": false
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".codegraph/codegraph.db-wal",
+      "bytes": 0,
+      "matchesSecretName": false
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/checksums/checksums.lock",
-      "bytes": 17
+      "bytes": 17,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/checksums/md5-checksums.bin",
-      "bytes": 18547
+      "bytes": 18547,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/checksums/sha1-checksums.bin",
-      "bytes": 18659
+      "bytes": 18659,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/executionHistory/executionHistory.bin",
-      "bytes": 1343929
+      "bytes": 1343929,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/executionHistory/executionHistory.lock",
-      "bytes": 17
+      "bytes": 17,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/fileChanges/last-build.bin",
-      "bytes": 1
+      "bytes": 1,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/fileHashes/fileHashes.bin",
-      "bytes": 72265
+      "bytes": 72265,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/fileHashes/fileHashes.lock",
-      "bytes": 17
+      "bytes": 17,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/fileHashes/resourceHashesCache.bin",
-      "bytes": 27609
+      "bytes": 27609,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/9.2.1/gc.properties",
-      "bytes": 0
+      "bytes": 0,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/buildOutputCleanup/buildOutputCleanup.lock",
-      "bytes": 17
+      "bytes": 17,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/buildOutputCleanup/cache.properties",
-      "bytes": 53
+      "bytes": 53,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/buildOutputCleanup/outputFiles.bin",
-      "bytes": 19847
+      "bytes": 19847,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/file-system.probe",
-      "bytes": 8
+      "bytes": 8,
+      "matchesSecretName": false
     },
     {
       "group": "spectrum_reclamation-1.21.1",
       "path": ".gradle/vcs-1/gc.properties",
-      "bytes": 0
+      "bytes": 0,
+      "matchesSecretName": false
     }
   ],
   "links": [],
