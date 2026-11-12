@@ -1,0 +1,40 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+logoFile = ""
+description = '''
+光谱救赎 - 一个基于光谱的魔法模组附属
+'''
+
+[[mixins]]
+config = "${mod_id}.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
+
+[[dependencies.${mod_id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "${neo_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+# Spectrum 模组前置依赖 —— 本模组作为 Spectrum 附属，必须在其之后加载
+[[dependencies.${mod_id}]]
+modId = "spectrum"
+type = "required"
+versionRange = "[1.11.8,)"
+ordering = "AFTER"
+side = "BOTH"

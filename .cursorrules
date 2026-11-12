@@ -1,0 +1,25 @@
+## rtk (Rust Token Killer) 工具链规则
+
+rtk 已安装在 `C:\Users\杨铭\bin\rtk.exe`（已在用户 PATH 中）。每次会话开始时执行：
+```
+$env:PATH = $env:PATH + ";C:\Users\杨铭\bin"; rtk --version
+```
+
+### 强制命令映射（禁止裸调用）
+
+| 原始命令 | 必须改为 |
+|----------|---------|
+| `gradlew build/test/runData` | `rtk gradlew build/test/runData` |
+| `git status/diff/log` | `rtk git status/diff/log` |
+| `cat file.java` | `rtk read file.java` |
+| `grep "pattern"` | `rtk grep "pattern"` |
+| `find . -name "*.java"` | `rtk find "*.java" .` |
+
+### 例外（可裸调用）
+`git add`、`git commit`、`git push`、Minecraft 启动、客户端测试
+
+### 红线
+- 禁止直接调用 gradlew/gradle.bat/git 执行映射操作
+- 禁止直接用 Read 工具读 .java 文件
+- 禁止直接用 Grep 工具搜索
+- 构建完成后执行 `rtk gain` 显示节省统计

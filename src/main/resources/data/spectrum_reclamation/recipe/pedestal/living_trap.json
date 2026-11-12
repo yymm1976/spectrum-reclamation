@@ -1,0 +1,11 @@
+{
+  "type": "spectrum:pedestal",
+  "ingredients": [
+    { "item": "minecraft:pitcher_pod" },
+    { "item": "spectrum:quitoxic_powder" }
+  ],
+  "result": {
+    "item": "spectrum_reclamation:living_trap",
+    "count": 1
+  }
+}

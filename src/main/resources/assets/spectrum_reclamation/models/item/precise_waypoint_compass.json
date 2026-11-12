@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spectrum_reclamation:item/precise_waypoint_compass"
+  }
+}

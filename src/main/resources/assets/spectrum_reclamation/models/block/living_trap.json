@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "spectrum_reclamation:block/living_trap",
+    "up":       "spectrum_reclamation:block/living_trap",
+    "down":     "spectrum_reclamation:block/living_trap",
+    "north":    "spectrum_reclamation:block/living_trap",
+    "south":    "spectrum_reclamation:block/living_trap",
+    "east":     "spectrum_reclamation:block/living_trap",
+    "west":     "spectrum_reclamation:block/living_trap"
+  },
+  "elements": [
+    {
+      "from": [ 1, 0, 1 ],
+      "to":   [ 15, 2, 15 ],
+      "faces": {
+        "down":  { "texture": "#down",  "cullface": "down" },
+        "up":    { "texture": "#up" },
+        "north": { "texture": "#north" },
+        "south": { "texture": "#south" },
+        "west":  { "texture": "#west" },
+        "east":  { "texture": "#east" }
+      }
+    }
+  ]
+}

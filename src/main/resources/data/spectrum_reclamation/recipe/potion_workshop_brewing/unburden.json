@@ -1,0 +1,15 @@
+{
+  "type": "spectrum:potion_workshop_brewing",
+  "effect": "spectrum_reclamation:unburden",
+  "base_duration_ticks": 3600,
+  "potency_modifier": 0.7,
+  "potency_hard_cap": 1,
+  "ingredient1": { "item": "minecraft:nether_wart" },
+  "ingredient2": { "item": "spectrum:quitoxic_powder" },
+  "ingredient3": { "item": "spectrum:bottle_of_ruin" },
+  "ink_color": "black",
+  "ink_cost": 8,
+  "applicable_to_potions": true,
+  "applicable_to_tipped_arrows": true,
+  "applicable_to_potion_fillables": true
+}

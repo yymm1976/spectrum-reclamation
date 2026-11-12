@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": { "item": "spectrum_reclamation:copper_pipe" },
+    "title": "管道运输",
+    "description": "首次获得铜管，开始构建自动化网络",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "spectrum_reclamation:root",
+  "criteria": {
+    "get_copper_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": ["spectrum_reclamation:copper_pipe"] }]
+      }
+    }
+  }
+}

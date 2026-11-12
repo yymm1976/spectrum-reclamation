@@ -1,0 +1,598 @@
+query: Spectrum mod Potion Workshop potion effects wiki GitHub
+
+answer:
+  The Potion Workshop in the Spectrum mod allows players to create potions, tipped arrows, and fillable items like potion pendants [1]. Unlike vanilla brewing stands, this station utilizes a wide range of reagents to modify potion properties such as duration and potency [1]. Recipes are defined by the status effect identifier, a base duration in ticks, and a potency modifier [1]. Documentation for these recipes, including specific reagents and their effects, is maintained on the official Spectrum GitHub wiki [1][2]. Modpack creators can also integrate support for additional reagents through compatibility with other mods like Botania and Conjuring [2][3].
+
+sources (5):
+
+1. Custom Potion Workshop Brewing Recipes - DaFuqs/Spectrum GitHub Wiki
+   https://github-wiki-see.page/m/DaFuqs/Spectrum/wiki/Custom-Potion-Workshop-Brewing-Recipes
+   Custom Potion Workshop Brewing Recipes - DaFuqs/Spectrum GitHub Wiki
+📅Last Modified: Wed, 15 May 2024 18:17:11 GMT
+# Custom Potion Workshop Brewing Recipes - DaFuqs/Spectrum GitHub Wiki
+The Potion Workshop is Spectrums Way of creating various Potions and Tipped Arrows. Here the Potion Pendant can be filled with Effects, too. The main differences to the vanilla Brewing Stand are:
+* Instead of Blaze Powder, crafting requires a Mermaids Gem per crafting cycle
+* Brewing is done in a single step
+* Players can choose from a wide range of Reagents to increase the properties of their Potions
+* Cheaper Creation of Tipped Arrows, more similar to Bedrock Edition efficiency
+![Potion Workshop Brewing](https://github.com/DaFuqs/Spectrum/raw/1.20.1-main/images/wiki/potion_workshop_brewing.png?raw=true)
+## [](#properties)Properties
+|Entry|Type|Default|Description|
+group|string|empty|A string that represents a recipe group. Recipes with a common group will only trigger a single unlock popup, if multiple are unlocked at once. Add a localization string "recipeGroup.spectrum.<<<<your\_group\_string>>>>" so the toast popup is properly localized|
+secret|boolean|false|If true, the recipe will never be listed in recipe listing mods, like REI|
+required\_advancement|advancement\_identifier|empty|The advancement a player needs to have to be able to craft this recipe. Spectrum will automatically show a toast to the player when this advancement has been unlocked and reached the set tier|
+time|int|200|The brewing time in ticks|
+effect|status\_effect\_identifier||The effect the potion will have when brewed|
+ingredient1|ingredient||Brewing ingredient. For most potions you should use "minecraft:nether\_wart"|
+ingredient2|ingredient||Brewing ingredient|
+ingredient3|ingredient||Brewing Ingredient. If it is a Potion with negative efect you should use "minecraft:fermented\_spider\_eye"|
+base\_duration\_ticks||1600|The default duration of this potions effect. This value can be increased / shortened by the player using reagents|
+potency\_modifier|float|1.0|How hard it should be to get Potions with higher level effects. Use values <1.0 for powerful Potions, like Wither, or >1.0 for weak effects, like Slowness (Vanilla uses Slowness IV as its improved Potion effect). Use 0.0 for effects that have no increased state, like Invisibility or Fire Resistance|
+potency\_hard\_cap|int|-1|The max potency (level-1) this recipe can yield after all modifiers have been applied. The default of -1 does not limit the potency|
+applicable\_to\_potions|boolean|true|If Potions can be brewed by this recipe|
+applicable\_to\_tipped\_arrows|boolean|true|If tipped arrows can be created by this recipe|
+applicable\_to\_potion\_fillables|boolean|true|If Potion Fillables, like Potion Pendants, can be filled by this recipe|
+ink\_color|string|true|The color of Ink items infused with this effect should consume (see[Color Symbolism](https://github.com/DaFuqs/Spectrum/wiki/Color-Symbolism))|
+ink\_cost|int|true|The amount of Ink items infused with this effect should consume (varies per item; should be 1 (glowing), 2, 4, 8 (resistance), or 16 (wither) depending on the effects strength|
+## [](#example)Example
+The builtin recipe for Spectrums way of brewing Fire Resistance Potions. It uses the same ingredients like brewing in a Brewing Stand and the same base duration of 3.600 ticks. It can be brewed as soon as the potion workshop is unlocked (`required\_advancement`not set).
+```
+`{
+"type": "spectrum:potion\_workshop\_brewing",
+"group": "vanilla\_potions",
+"ingredient1": {
+"item": "minecraft:nether\_wart"
+},
+"ingredient2": {
+"item": "minecraft:magma\_cream"
+},
+"effect": "minecraft:fire\_resistance",
+"base\_duration\_ticks": 3600,
+"potency\_modifier": 0.0,
+"applicable\_to\_potions": true,
+"applicable\_to\_tipped\_arrows": true,
+"applicable\_to\_potion\_fillables": true,
+"ink\_color": "orange",
+"ink\_cost": 4
+}`
+```
+
+2. DaFuqs/Spectrum
+   https://github.com/DaFuqs/Spectrum
+   # Repository: DaFuqs/Spectrum
+
+A full-feature minecraft mod about harnessing the powers of color
+
+- Stars: 151
+- Forks: 94
+- Watchers: 151
+- Open issues: 26
+- Primary language: Java
+- Languages: Java (98.0%), PowerShell (2.0%), GLSL
+- License: Other (NOASSERTION)
+- Topics: minecraft, mod
+- Default branch: 1.21.1-neoforge
+- Created: 2020-12-05T16:48:16Z
+- Last push: 2026-04-02T19:05:32Z
+- Contributors: 60 (top: DaFuqs, Electro593, Azzyypaaras, Noaaan, f-raZ0R, Robotgiggle, imreallybadatnames, KatTheFox, SkulldierGuy, sudo-CuriousLad)
+
+---
+
+![Spectrum's Banner](/images/readme/banner.png)
+
+## Overview
+
+Spectrum is a progression and exploration-based magic mod where you combine colors to create magical tools and machines,
+with the ultimate goal of discovering what lies beneath the once-impenetrable Bedrock floor.
+
+In the process, you will gain a new perspective and knowledge of things that have always been around you. Things you
+have always noticed as being out of place, but have never been able to put your finger on because you have lacked the
+knowledge and tools to observe them. Now is the time!
+
+Spectrum is progression-based and tries not to give everything away at first glance.
+Your journey through its advancement trees will be cluttered by realizations, puzzles and lots of "aaaaaah"s.
+Each step of your journey will be hinted at through advancements and the in-game guidebook you receive as soon as you
+find your first geode.
+
+There is no hand-holding, so everything will require a fair bit of experimentation or exploration.
+This also means that it may not be the best fit for everyone. Everyone plays Minecraft differently and that is perfectly
+fine!
+
+**_Spectrum is not meant to be rushed or grinded through. It is best played alongside your playthrough._**
+
+## Everything you ever wanted in a Magic Mod
+
+- handcrafted progression & revelation system
+- lots of new magical equipment, items, blocks, decorations
+- lots of new enchantments & potion effects
+- New fluids with full collision & unique effects
+- build your own, customizable crafting structures
+- lots of handcrafted new sounds and particles
+- new unique ores, plants and geodes
+- custom structures with intriguing puzzles
+
+![Item Showcase](/images/readme/showcase.png)
+
+## Revelations
+
+Just because something looks like stone doesn't mean it is...
+
+![Obscured Items](/images/readme/obscured_items.png)
+
+There is a lot to uncover and lots of discoveries to be made.
+
+![Revelations](/images/readme/revelation.png)
+
+## Is this mod for me?
+
+**You might enjoy Spectrum if you like the following:** Outer Wilds; Myst; Thaumcraft; Chromaticraft; figuring out how
+and why things work
+
+**You will probably hate Spectrum if you like the following:** Generic tech mod #7 with linear progression that tells
+you exactly what to do at every step; following video tutorials 1:1
+
+# Progressing through the mod
+
+You may notice that most items only show up with a locked recipe in your recipe viewer.
+In Spectrum, recipes and their matching guidebook entries are unlocked step by step, giving you something new to toy
+with, with each new discovery you made.
+
+Everything will be hinted at via advancements and the guidebook gifted to you when you stumble upon your first geode:
+your own, personal notebook.
+Everything you stumble upon, every recipe you unlock, every discovery you make you will note there.
+
+![Guidebook](/images/readme/guidebook.png)
+
+## New ways to craft
+
+Spectrum features lots of new ways to express yourself.
+Its multiblock structures are designed in a way to feel satisfying, fun to play with and to give you the opportunity to
+express your creativity by giving you lots of freedom on how to construct and personalize them.
+
+![Pedestal Crafting](/images/readme/pedestal_crafting.webp)
+
+# Spectrum's Discord
+
+You will find a lot of helpful people on Spectrum's Discord.
+There are always friendly and helpful people around.
+Feel free to swing by if you like!
+
+https://discord.com/invite/EXU9XFXT8a
+
+## Lots of room to tinker for modpack makers
+
+Pretty much everything is configurable, from recipes to the whole progression path.
+Spectrum also comes with lots of new advancement criteria.
+
+The full and extensive documentation for modpack makers is available
+in [Spectrum's Wiki](https://github.com/DaFuqs/Spectrum/wiki).
+Players will find everything they need in the extensive ingame guidebook.
+
+## Want to contribute?
+
+Every single input and be it just feedback or a bug report is greatly appreciated!
+
+## Mod Integration
+
+- AE2: Lots of additional Recipes; Crystal Apothecary compat
+- Alloy Forgery: New forges, recipes & fuel
+- Biome Makeover: Special handling for items that have been 'cursed'; potion recipes
+- Botania: New custom items, Black Hole Talisman support, additional recipes & Potion Workshop reagents
+- Chalk: Making Chalk unbreakable
+- Common Protection API: Claims compat for all mods that support this CPA
+- Conjuring: additional recipes & Potion Workshop reagents
+- Create: Additional recipes
+- [Enchantment Descriptions](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions): Descriptions for all of
+
+Spectrum's enchantments
+
+- EMI: Integration for all of Spectrum's recipe types
+- Extra Alchemy: Potion recipes
+- Geode Plus: Crystal Apothecary compat
+- Go Fish: Full compat for Go Fish enchants & loot tables; enchantment recipes
+- Gobber: Additional recipes
+- Hexcasting: Alternate recipes and usages for edified leaves & charged amethyst
+- Little Ants: Ants will collect rare resources if they get hold of Spectrum's leaves
+- More Geodes: Crystal Apothecary compat
+- Mythis Upgrades: Crystal Apothecary compat
+- Oh the Biomes You'll Go: Crystal Apothecary compat
+- [Paginated Advancements & Custom Frames](https://github.com/DaFuqs/PaginatedAdvancements): Custom advancement frames
+- [RoughlyEnoughItems](https://github.com/shedaniel/RoughlyEnoughItems): Integration for all of Spectrum's recipe types
+- [Starry Skies](https://github.com/DaFuqs/StarrySkies): Additional spheres
+- Tech Reborn: Additional Grinder & Industrial Grinder recipes
+- Traveler's Backpacks: All of Spectrum's fluids are drinkable
+- Vein mining: Enchanter recipe
+- Victus: Potion recipes
+
+3. 1.5.0-magic - Spectrum
+   https://modrinth.com/mod/spectrum/version/1.5.0
+   1.5.0-magic - Spectrum
+
+?
+
+1.5.0-magic - Spectrum
+?
+[](https://modrinth.com/)
+Discover contentDiscover
+[ Host a server](https://modrinth.com/hosting)
+[Get Modrinth AppModrinth App](https://modrinth.com/app)
+[ Sign in](https://modrinth.com/auth/sign-in?redirect=/mod/spectrum/version/1.5.0)
+[](https://modrinth.com/settings)
+[Mods](https://modrinth.com/discover/mods)[Plugins](https://modrinth.com/discover/plugins)[Data Packs](https://modrinth.com/discover/datapacks)[Shaders](https://modrinth.com/discover/shaders)[Resource Packs](https://modrinth.com/discover/resourcepacks)[Modpacks](https://modrinth.com/discover/modpacks)[Servers](https://modrinth.com/discover/servers)
+[ Sign in](https://modrinth.com/auth/sign-in?redirect=/mod/spectrum/version/1.5.0)
+[ Settings](https://modrinth.com/settings)Change theme
+[](https://modrinth.com/) Search
+![Spectrum](https://cdn.modrinth.com/data/3rc31Hgo/56d7be3b232cc8f7ac57a6ec38c0ce3ee2eda649_96.webp)
+# Spectrum
+A full-feature minecraft mod about harnessing the powers of color
+210.3K
+453
+AdventureEquipmentMagic
+Download
+[](https://modrinth.com/auth/sign-in?redirect=/mod/spectrum/version/1.5.0)
+[](https://modrinth.com/auth/sign-in?redirect=/mod/spectrum/version/1.5.0)
+210.3K
+453
+AdventureEquipmentMagic
+## Compatibility
+### Minecraft: Java Edition
+1.21.1
+1.20.1
+1.19.2
+1.18.1–1.18.2
+### Platforms
+FabricNeoForgeQuilt
+### Supported environments
+Client and server
+[![Host your next server with Modrinth Hosting](https://cdn-raw.modrinth.com/modrinth-hosting-medal-light.webp)![Host your next server with Modrinth Hosting](https://cdn-raw.modrinth.com/modrinth-hosting-medal-dark.webp)](https://modrinth.com/hosting?plan&ref=medal)
+## Links
+[ Report issues ](https://github.com/DaFuqs/Spectrum/issues)[ View source ](https://github.com/DaFuqs/Spectrum)[ Visit wiki ](https://github.com/DaFuqs/Spectrum/wiki)[ Join Discord server ](https://discord.gg/EXU9XFXT8a)
+[Donate on Ko-fi](https://ko-fi.com/dafuqs)
+## Tags
+AdventureEquipmentMagicDecorationFoodWorld Generation
+## Creators
+## Details
+Licensed LGPL-3.0-only
+Published 4 years ago
+## 1.5.0-magic
+[ Download ](https://cdn.modrinth.com/data/3rc31Hgo/versions/1.5.0/spectrum-1.5.0-1.18.2-magic.jar)
+[ Report ](https://modrinth.com/auth/sign-in?redirect=/mod/spectrum/version/1.5.0)
+### Changelog
+# Lots and lots of revamped models & textures
+Believe me, @Azzy outdid herself with this one.
+There have been improvements all over the place, with new models for Pigment Pedestal, Enchanter, the Colored Trees, lots of equipment and so much more.
+Special thanks to @Noaan for getting the new Bedrock Armor model implemented code-wise and @Jas for doing all the color variations.
+On that note: You can find the old textures activating the "Programmer Art" texture packs. Even there has been some work. @Jenny77 made some programmer art, that looks kinda nice, actually. Check it out!
+# Energy System
+At the start of midgame, the player now unlocks the Color Picker, which is able to convert Pigment to Ink.
+Ink comes in all 16 Colors and can be stored in a range of items to power your equipment. For example, Ink can be used to power the Nature's/Radiance Staff, additionally to Sparklestone/Vegetal.
+Most of the Trinkets will be changed to require Ink, but this will come later, until existing players had the chance to catch up with this update and get their hands on some Ink. Currently the use of Ink is still pretty sparse, but a lot is in the works.
+Note: With "Ink" resembling a fluid, it very much behaves like one when transferring.
+# The Paintbrush
+A new tool for your arsenal as an Ink Artist. Your main working tool will gradually unlock more and more abilities as you progress.
+For now, aspiring artists are able to color blocks in-world using Pigment and fling colored projectiles around. I added a few tricks to make flinging your Ink extra satisfying, of course <3
+Crouch-Use to bring up the color selection.
+This toolset will gradually improved upon as the magic and spell building system get's added.
+You can also hit your Pigment Pedestal with it to start crafting, as an alternative for Redstone. (it still seems to react to redstone)
+# Boostable Trinkets
+These aren't your mundane trinkets. They will get more powerful the more Ink you pump into them.
+This includes a new Trinket Slot: Gloves!
+# The Cinderhearth
+An Ink-powered blast furnace that can be enhanced with upgrades to smelt blazingly fast, double smelting output, grant lots of XP or consume less Ink.
+It only comes with 2 positions slots. Which ones will you choose?
+For modpack makers: The Cinderhearth recipe type supports more than one output per input, including chance based output.
+# Guidebook Improvements
+* A new Checklist-Type page type. Used for automatically ticking off collected Pigments and Gemstone Armor ingredients as you collect them
+* Guidebook pages for disabled recipes are now automatically hidden
+* Pictures have been updated to match the new textures.
+* Pages that are still WIP are now hidden by default. Now you can actually guess how much there is left to unlock
+* Upgrades have been condensed into a single chapter. This chapter also features 3D renderers, where to place them in each structure that supports upgrades
+* A new category for mod compat. All recipes and interactions that are added with other mods present are documented here and unlock organically as they get relevant - as long as the corresponding mod is installed, of course
+* Lots and lots of other improvements
+Mod compat:
+* Little Ants (by @MastroCaleb) can be tempted to give you Pigment/Dye, if they collected Colored Leaves
+* Recipes in REI now have animated arrows, where recipes are not instant
+* AE2 compat (anvil crushing, creating charged certus quartz, ...)
+* Alloy Forgery compat (Lava Sponges as fuel, smelting of Stratine)
+* Lots of recipes for Spectrum's items in Tech Reborn machines
+* Lots and lots of Botania recipes (Anvil Crushing, creation of Overgrowth Seeds, using Petals in the Color Picker, potion reagents ...)
+* Conjouring compat, like a new, powerful Potion Reagent
+* Gemstone Blocks automatically register themselves as emissive lights in the Shimmer mod
+* Blacklisted the Indestructible enchantment from the Dark Enchanter
+* Something for all the lazy modpack makers out there: Quitoxic Reeds now generate in terralith & byg swamps by default
+* All wepons come with presets for the Better Combat mod
+Misc Improvements:
+* Loads of new advancements
+* C/M/Y Pedestal recipes have been changed to match the new models
+* The Bottomless Bundle can now be locked
+* Earlygame tool recipes are use Smooth Basalt instead of Sticks
+* Crimtane is now called Stratite. Why? Because it sounds just so much cooler
+* The Pedestal structure can now be built using Chiseled Onyx
+* The Spirit Instiller Structure is now less tedious to build
+* Moved Jade Vine Leaf blocks to the decoration category
+* Buffed the Take-Off Belt
+* Increased the generation frequency of the Nether ore
+* Lots of improvements on how the Spirit Instiller handles it's recipes
+* Hint-Pages for the Midnight Chip
+* Greatly improved the handling of recipe remainders
+* Dike Gates now have a hitbox when holding one (great for creative building)
+* The Wither status effect can now be cured with Trinket/Drink'et
+* Lightning Stones on the ground are now replaceable. That way players that can not see them aren't confused
+* The guidebook now has progress markers for Midnight Chips & stepping into Liquid Crystal
+* Ancient Ruins are a bit more common
+* Pedestal output does not get blocked by blocks without hitbox anymore (like playing a torch on it)
+* Removed Sparklestone Light's collision boxes
+* Improved Chinese Translation. Thank you @Wudji !
+* All armor values are now configurable
+* Pedestal GUI has gotten a pretty up
+Bug Fixes:
+* The Fusion Shrine does not play a sound anymore when trying to put in an item, but it's already full
+* Fixed the Black Hole Chest putting common items into the Knowledge Gem slot when all other clots w
+
+4. Spectrum - Minecraft Mods - CurseForge
+   https://www.curseforge.com/minecraft/mc-mods/spectrum
+   Spectrum - Minecraft Mods - CurseForge
+
+Spectrum - Minecraft Mods - CurseForge
+[![promotional banner](https://media.forgecdn.net/banners-image-urls/banners-image-url_9dfca4ef-10e0-46bf-863d-b36752144b59.webp)![mobile promotional banner](https://media.forgecdn.net/banners-image-urls/banners-image-url_0073bd0d-c3cf-4e5c-a0ef-48166d14336d.webp)](https://links.curseforge.com/subnautica_contest_top_banner)
+[![Spectrum logo](https://media.forgecdn.net/avatars/thumbnails/594/305/64/64/637967898279966491.png)](#project-logo)
+# Spectrum
+* By
+[![DaFuqsy](https://static-cdn.jtvnw.net/user-default-pictures-uv/13e5fa74-defa-11e9-809c-784f43822e80-profile_image-150x150.png)DaFuqsy](https://www.curseforge.com/members/dafuqsy)
+*
+* [Mods](https://www.curseforge.com/minecraft/search?class=mc-mods&page=1&pageSize=20&sortBy=relevancy)
+A full-feature mod about harnessing the powers of color
+Total Downloads2.7M
+Last UpdateMay 4, 2026
+More Details
+Spectrum
+Download
+[](#follow)
+### Details
+Downloads2,769,216Created
+4 years ago
+Updated
+20 days ago
+Project ID
+556967
+License[GNU Lesser General Public License version 3 (LGPLv3)](#license)
+### Game Versions
+[Server](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&version=Server&showAlphaFiles=hide)[Client](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&version=Client&showAlphaFiles=hide)[1.21.1](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&version=1.21.1&showAlphaFiles=hide)[1.20.1](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&version=1.20.1&showAlphaFiles=hide)[1.19.2](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&version=1.19.2&showAlphaFiles=hide)[+ 2 Versions](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&showAlphaFiles=hide)
+### Mod Loaders
+* [Fabric](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&gameVersionTypeId=4&showAlphaFiles=hide)
+* [Quilt](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&gameVersionTypeId=5&showAlphaFiles=hide)
+* [NeoForge](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&gameVersionTypeId=6&showAlphaFiles=hide)
+[![informative placeholder](https://media.forgecdn.net/banners-image-urls/banners-image-url_8e4588f7-e549-4f05-b52a-c113b4f4ff75.webp)](https://links.curseforge.com/subnautica_contest_fallback_banner)
+### Categories
+* [Magic](https://www.curseforge.com/minecraft/search?class=mc-mods&page=1&pageSize=20&sortBy=relevancy&categories=magic)
+* [Utility & QoL](https://www.curseforge.com/minecraft/search?class=mc-mods&page=1&pageSize=20&sortBy=relevancy&categories=utility-qol)
+* [World Gen](https://www.curseforge.com/minecraft/search?class=mc-mods&page=1&pageSize=20&sortBy=relevancy&categories=world-gen)
+* [Adventure and RPG](https://www.curseforge.com/minecraft/search?class=mc-mods&page=1&pageSize=20&sortBy=relevancy&categories=adventure-rpg)
+* [Food](https://www.curseforge.com/minecraft/search?class=mc-mods&page=1&pageSize=20&sortBy=relevancy&categories=mc-food)
+### Links
+[Wiki](https://github.com/DaFuqs/Spectrum/wiki)
+[Source](https://github.com/DaFuqs/Spectrum)
+### Main File
+#### 1.21.1
+[
+1.11.8-1.21.1-neo
+Latest release
+*
+R
+* 1.21.1
+* NeoForge
+* May 4, 2026](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/8037133)
+### Recent Files[View all](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/all?page=1&pageSize=20&showAlphaFiles=hide&sortBy=dateCreated&sortOrder=desc)
+#### Minecraft 1.21
+[
+1.11.8-1.21.1-neo
+Latest release
+*
+R
+* 1.21.1
+* NeoForge
+* May 4, 2026](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/8037133)[
+1.10.5-1.21.1-fabric
+Latest release
+*
+R
+* 1.21.1
+* Fabric
+* Apr 25, 2026](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/7983032)[
+1.9.0-neo-alpha-4
+Latest release
+*
+A
+* 1.21.1
+* NeoForge
+* Feb 17, 2026](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/7640479)#### Minecraft 1.20
+[
+1.8.13-1.20.1
+Latest release
+*
+R
+* 1.20.1
+* Fabric
+* Mar 17, 2026](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/7770630)[
+1.8.0-alpha3
+Latest release
+*
+A
+* 1.20.1
+* Fabric
+* Sep 4, 2024](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/5693070)#### Minecraft 1.19
+[
+1.7.12-1.19.2
+Latest release
+*
+R
+* 1.19.2
+* Fabric
+* Oct 21, 2024](https://www.curseforge.com/minecraft/mc-mods/spectrum/files/5831571)
+[Report](#report)
+Download
+[](#follow)
+* [Description](https://www.curseforge.com/minecraft/mc-mods/spectrum)
+* [Comments (438)](https://www.curseforge.com/minecraft/mc-mods/spectrum/comments)
+* [Files](https://www.curseforge.com/minecraft/mc-mods/spectrum/files?page=1&pageSize=20&showAlphaFiles=hide)
+* [Gallery (12)](https://www.curseforge.com/minecraft/mc-mods/spectrum/gallery)
+* [Relations](https://www.curseforge.com/minecraft/mc-mods/spectrum/relations/dependencies)
+* [Issues](https://github.com/DaFuqs/Spectrum/issues)
+![featuring individualizeable multiblock structures](https://media.forgecdn.net/attachments/493/137/2022-08-13_10.png)
+featuring individualizeable multiblock structures
+![item image](https://media.forgecdn.net/attachments/415/850/scattered_item_name.png)
+![Unlock new entries as you discover](https://media.forgecdn.net/attachments/493/136/guidebook_new.png)
+Unlock new entries as you discover
+![They generate with ores around them to make you finding them even easier](https://media.forgecdn.net/attachments/493/142/citrine_geodes.png)
+They generate with ores around them to make you finding them even easier
+![What secrets do they hold?](https://media.forgecdn.net/attachments/493/140/2022-08-13_10.png)
+What secrets do they hold?
+![Your structures grow with you](https://media.forgecdn.net/attachments/493/139/2022-08-13_10.png)
+Your structures grow with you
+![Were they here all along?](https://media.forgecdn.net/attachments/493/141/2022-08-13_10.png)
+Were they here all along?
+* ![Thumbnail featuring individualizeable multiblock structures](https://media.forgecdn.net/attachments/493/137/2022-08-13_10.png)
+* ![screenshot thumbnail](https://media.forgecdn.net/attachments/415/850/scattered_item_name.png)
+* ![Thumbnail Unlock new entries as you discover](https://media.forgecdn.net/attachments/493/136/guidebook_new.png)
+* ![Thumbnail They generate with ores around them to make you finding them even easier](https://media.forgecdn.net/attachments/493/142/citrine_geodes.png)
+* ![Thumbnail What secrets do they hold?](https://media.forgecdn.net/attachments/493/140/2022-08-13_10.png)
+* ![Thumbnail Your structures grow with you](https://media.forgecdn.net/attachments/493/139/2022-08-13_10.png)
+* ![Thumbnail Were they here all along?](https://media.forgecdn.net/attachments/493/141/2022-08-13_10.png)
+## Description
+![Spectrum's Banner](https://media.forgecdn.net/attachments/908/447/banner.png)
+## Overview
+Spectrum is a colour-themed magic mod all about discovery and exploration. You will combine the sixteen colours and magical resources you discover on your journey to create magical tools and machines. The ultimate goal is to discover what lies beneath the once impenetrable bedrock floor.
+In the process, you will gain a new perspective on things that have always been around you. You will notice things that have always seemed out of place, but you have never been able to identify them because you lacked the knowledge and tools to observe them. Now is the time!
+Spectrum is progression-based and doesn't give everything away at first glance. As you progress through its advancement trees, you will have many realizations and solve lots of puzzles. Each step of your journey will be hinted at through advancements and the in-game guidebook that you will receive as soon as you find your first geode.
+There is no hand-holding, so you will need to experiment and explore quite a lot. This also means that it may not be the best
+
+5. Spectrum 1.7.0-deeper-down-alpha20 - Spectrum
+   https://modrinth.com/mod/spectrum/version/L5DFvhhu
+   Spectrum 1.7.0-deeper-down-alpha20 - Spectrum
+?
+[](https://modrinth.com/)
+Discover contentDiscover
+[Host a server](https://modrinth.com/servers)
+[Get Modrinth AppModrinth App](https://modrinth.com/app)
+[Sign in](https://modrinth.com/auth/sign-in)
+[](https://modrinth.com/settings)
+[Mods](https://modrinth.com/mods)[Plugins](https://modrinth.com/plugins)[Data Packs](https://modrinth.com/datapacks)[Shaders](https://modrinth.com/shaders)[Resource Packs](https://modrinth.com/resourcepacks)[Modpacks](https://modrinth.com/modpacks)
+[Sign in](https://modrinth.com/auth/sign-in)
+[Settings](https://modrinth.com/settings)Change theme
+[](https://modrinth.com/)Search
+![Spectrum](https://cdn.modrinth.com/data/3rc31Hgo/56d7be3b232cc8f7ac57a6ec38c0ce3ee2eda649_96.webp)
+# Spectrum
+A full-feature minecraft mod about harnessing the powers of color
+112.7k
+321
+AdventureEquipmentMagic
+Download
+[](https://modrinth.com/auth/sign-in)
+[](https://modrinth.com/auth/sign-in)
+## Compatibility
+### Minecraft: Java Edition
+1.20.1
+1.19.2
+1.18.1–1.18.2
+### Platforms
+FabricQuilt
+### Supported environments
+Client and server
+75% of ad revenue goes to creators
+[Support creators and Modrinth ad-free withModrinth+](https://modrinth.com/plus)
+## Links
+[Report issues](https://github.com/DaFuqs/Spectrum/issues)[View source](https://github.com/DaFuqs/Spectrum)[Visit wiki](https://github.com/DaFuqs/Spectrum/wiki)[Join Discord server](https://discord.gg/EXU9XFXT8a)
+[Donate on Ko-fi](https://ko-fi.com/dafuqs)
+## Creators
+[![DaFuqs](https://avatars1.githubusercontent.com/u/26429514?v=4)
+DaFuqsOwner
+](https://modrinth.com/user/DaFuqs)[![Azazelthedemonlord](https://cdn.modrinth.com/user/HWwDgvNO/3f43b52c24a899d5c69c51cdc482454829005507.png)
+AzazelthedemonlordMember
+](https://modrinth.com/user/Azazelthedemonlord)
+## Details
+LicensedLGPL-3.0-only
+Published 3 years ago
+Updated last week
+## Spectrum 1.7.0-deeper-down-alpha20
+[Download](https://cdn.modrinth.com/data/3rc31Hgo/versions/L5DFvhhu/spectrum-1.7.0-deeper-down-alpha20.jar)
+[Report](https://modrinth.com/auth/sign-in)
+### Changelog
+## Underground Cities
+The Underground Cities have gotten a big expansion.
+@800020h invested a lot of effort creating interesting and unique structures.
+You can now find various new pieces in the cities, including a new rare and highly protected one.
+## Unique Present Unwrap Interactions
+Presents have gotten a rework.
+Unwrapping some items now plays special effects... positive as well as... surprising ones.
+Some fun examples:
+* Unwrapping a Firework will immediately shoot that firework
+* Unwrapping a Memory will immediately manifest it## Finished Erasers & Eraser Nerf
+* Erasers have gotten their final model & animations
+* Made Erasers exclusive to black langast & dragonrot swamp
+* Nerfed Rraser view range and potion effect potencies
+* Added Eraser head & spawn egg
+* Added Eraser guidebook entry
+* Added Bucket of Eraser## Modular Explosives
+Added both a mine type explosive (Threat Conflux), as wenn as a thowable &/ wall-mountable one (Parametric Mining Device).
+They are modular in the way that you can enhance their explosions with various modifiers - kind of like potion reagents.
+## Primordial Fire Improvements
+made primordial fire hurt, improved the rendering & added damage type & death message
+primordial fire renders entities on primordial fire. Added fluid interaction
+## New Mermaid's Brush textures & lots of other missing ones
+Mermaids Brushes & their Gems have gotten a new look.
+Do you like them? Let's hear some feedback!
+Personally, I adore the Staff of Remembrance's texture. <3
+## Potion Workshop Recipe / Reagent Rework
+The guidebook / recipe viewer entries were always pretty vague. Plus, there has been some confusion about how multiplicative bonuses work previously.
+The explanations have been completely redone, stating exact values what each reagent does.
+* Increased the base durations of some potions
+* Potion Workshop recipe for Scarred (ty, Red!)## Shapeless Pedestal Recipes
+* Added Shapeless Pedestal Recipe type. All recipes where it makes sense have been updated (like the CMY pedestal upgrade)
+* Moved lots of recipes from crafting table to Tier1-Pedestal## Worldgen & Dimension Improvements
+* Added more lizard den variants.
+* New algorithm to place underground structures - should make Preservation Ruins show up exposed in caves a lot more often.
+* Performance improvements for Black Langast
+* Tweaked DD biome gen. Increased chance for Dripstone Caves. Slightly lowered Dragonrot Swamp generation
+* Fixed some rare cases of the DD cave carver not replacing ore vein blocks
+* Removed log spam with item frames in structures (vanilla bug MC-252934)## Improvements
+* Added Blackslag slabs, stairs & walls
+* Most sword enchants can now be applied to axes, too
+* Moved not available items into creative item group
+* Lizards & kindlings regenerate health very slowly
+* Lizards can now be 'tamed'
+* Lots of new sounds & sound event subtitles
+* Improved Light Shard targeting
+* Finished boss movement & attacks
+* Storm Stone potion reagent does not work on instant effects anymore
+* Handle stack aware recipe remainders in Cinderhearth, Item Bowls, Pedestal & Titration Barrel
+* Mining projectiles cause a moonstone strike (making them able to break dragonbone)
+* Incandescent Amalgam explosion power now gets bigger the longer it ferments
+* Renamed malachite\_crystal to refined\_malachite to match Bloodstone && Azurite. Added Raw Bloodstone
+* Added recipes for Glass Ampoules
+* The Nature's Staff got a new active ability: Luring animals
+* Reworked Bud & Cluster loot tables, Jadeite & Nephrite interactions & loot tables
+* Mermaids Brushes can now be planted on Clay
+* Spirit Instiller recalculates its recipe when being loaded, making players able to revive themselves while in spectator
+* Pedestals can use structures of higher tiers; improved Pedestal structure cache (better performance)
+* Interacting with the Crystallarieum prioritizes retrieving the ink container, instead of the catalysts
+* Made Doomblooms flowers (can now be used in suspicious stew + brew)
+* The Suspicious Brew recipe can now be used with all small flowers, even if their corresponding mod forgot to put them into the flowers tag
+* Circlet of Arrogance now gives a tad weaker version of divinity & does not show particles anymore
+* Reworked Dragonrot fluid interactions
+* Reworked the internals and tooltips of the Constructors & Exchanging Staff. They now recognise more blocks as being suitable replacements (not having grass? Placing dirt instead)
+* Inventory Insertion triggers in more edge cases (exchanging staff, various other vanilla things that directly insert into the inventory)
+* Made Dike Gates transparent when in creative
+* Put #spectrum:fishing\_rods in #c:fishing\_rods (ty, @800020h)
+* Made Amaranth reveal a tad earlier (when entering the structure instead of when picking it up). Makes them not show up as ferns in the Preservation Chest, making players potentially miss it
+* Made Resonance modular. IT can now both retain block states & block entity nbt. Other mods are now able to register their own Resonance Drop behaviors## Fixes
+* Fixed Glass Crest Greatsword ground slam able to be used without ink; make it quieter
+* Fixed being able to trick the Enchanter to put enchants on tools that are not suitable for them (ty, @ZapRabbit!)
+* Fixed Tequila having swiftness twice (ty, @A\_Wild\_Butterfly!)
+* Removed leather horse armor recipe since vanilla has that (ty, @Seba808!)
+* Fixed Moonstone Temple loot table giving unenchanted Enchanted Books (ty, @ZapRabbit!)
+* Fixed Slush guidebook page never unlocking
+* Unified the hardness of Bone Ash blocks (ZapRabbit)
+* Fixed Doomblooms being preserved when exploded in claimed & explosion protected chunks (ty, @ZapRabbit!)
+* Fixed Sawblade Holly now growing fully without the use of Bone Meal (ty, @ZapRabbit!)
+* Fixed Malachite tools unlocking before the Crystallarieum (ty, @SpaceGuy!)## Mod Integration
+* Lots of additional Resonance

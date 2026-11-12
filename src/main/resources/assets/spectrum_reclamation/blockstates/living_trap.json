@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "cooldown=false": { "model": "spectrum_reclamation:block/living_trap" },
+    "cooldown=true":  { "model": "spectrum_reclamation:block/living_trap" }
+  }
+}

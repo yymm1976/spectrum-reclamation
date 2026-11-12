@@ -1,0 +1,189 @@
+package com.spectrum_reclamation.spectrum_reclamation.trim;
+
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+
+/**
+ * 纹饰效果处理器接口。
+ *
+ * 每种纹饰材料（如石英、铁锭、钻石等）注册一个或多个 TrimEffectHandler，
+ * 当玩家穿戴带有该纹饰的盔甲时，对应 handler 的方法会在合适的时机被调用。
+ *
+ * 所有方法均为 default 空实现 —— 调用方只需覆盖关心的方法，
+ * 未覆盖的方法不会执行任何逻辑，避免强制实现不需要的回调。
+ *
+ * count 参数表示玩家身上携带该纹饰材料的盔甲件数（0-4），
+ * handler 内部可通过 TrimCountedValue.linear(base, perPiece).calc(count) 计算最终效果值。
+ */
+public interface TrimEffectHandler {
+
+    /**
+     * 每 tick 或定时调用 —— 用于持续性效果（如属性修饰器的动态增减）。
+     *
+     * 适用场景：移速加成、护甲值加成等需要持续生效的效果。
+     * 注意：高频调用，避免在此方法中执行耗时操作。
+     *
+     * @param entity 拥有纹饰效果的实体
+     * @param count  该纹饰材料在身上的件数（0-4）
+     */
+    default void onTick(LivingEntity entity, int count) {
+        // 默认空实现，子类按需覆盖
+    }
+
+    /**
+     * 获取持续效果的 tick 间隔。
+     *
+     * 返回 1 表示每 tick 执行一次，返回 20 表示每秒执行一次。
+     * 事件分发器会按玩家 UUID 做相位错开，避免所有玩家的低频纹饰效果集中在同一 tick 执行。
+     *
+     * @return tick 间隔，必须大于 0
+     */
+    default int getTickInterval() {
+        return 1;
+    }
+
+    /**
+     * 受伤时调用 —— 用于与伤害相关的纹饰效果。
+     *
+     * 适用场景：石英纹饰的近战伤害加成、击退抗性等。
+     * 对应 NeoForge 事件：LivingIncomingDamageEvent
+     *
+     * 返回值语义：伤害乘数加算值（1.0 = 无变化，0.08 = +8% 伤害加成）
+     * 多个 handler 的返回值会在事件分发器中累加后统一应用。
+     *
+     * @param entity 受伤的实体
+     * @param count  该纹饰材料在身上的件数（0-4）
+     * @param damage 当前伤害值
+     * @return 伤害乘数加算值（如 0.02 表示 +2% 伤害），默认 0.0f 表示无变化
+     */
+    default float onHurt(LivingEntity entity, int count, float damage) {
+        return 0.0f; // 默认无伤害加成
+    }
+
+    /**
+     * 受伤时调用（带伤害来源） —— 用于需要知道攻击者身份的纹饰效果。
+     *
+     * 与无参 DamageSource 版本的区别：额外提供 DamageSource 参数，
+     * 使 handler 可以获取攻击者实体信息（如对攻击者施加负面效果）。
+     *
+     * 默认实现委托给无 DamageSource 版本，保持向后兼容 ——
+     * 已有的 handler 无需修改即可正常工作。
+     *
+     * @param entity 受伤的实体
+     * @param count  该纹饰材料在身上的件数（0-4）
+     * @param damage 当前伤害值
+     * @param source 伤害来源，包含攻击者信息（source.getEntity() 可获取攻击者）
+     * @return 伤害乘数加算值，默认委托给 onHurt(entity, count, damage)
+     */
+    default float onHurt(LivingEntity entity, int count, float damage, DamageSource source) {
+        // 默认委托给无 DamageSource 版本，保持向后兼容
+        return onHurt(entity, count, damage);
+    }
+
+    /**
+     * 暴击时调用 —— 用于暴击相关的纹饰效果。
+     *
+     * 适用场景：钻石纹饰的暴击伤害加成。
+     * 对应 NeoForge 事件：CriticalHitEvent
+     *
+     * @param attacker 发起暴击的攻击者
+     * @param target   被暴击的目标
+     * @param count    攻击者身上该纹饰材料的件数（0-4）
+     */
+    default void onCriticalHit(LivingEntity attacker, LivingEntity target, int count) {
+        // 默认空实现，子类按需覆盖
+    }
+
+    /**
+     * 经验掉落时调用 —— 用于经验加成相关的纹饰效果。
+     *
+     * 适用场景：青金石纹饰的经验加成。
+     * 对应 NeoForge 事件：LivingExperienceDropEvent
+     *
+     * 返回值语义：额外经验值（0 = 无变化，5 = 额外增加 5 点经验）
+     * 多个 handler 的返回值会在事件分发器中累加后统一应用。
+     *
+     * @param entity 被击杀的实体
+     * @param count  击杀者身上该纹饰材料的件数（0-4）
+     * @param amount 当前经验掉落量
+     * @return 额外经验值，0 表示无变化
+     */
+    default int onExperienceDrop(LivingEntity entity, int count, int amount) {
+        return 0; // 默认无额外经验
+    }
+
+    /**
+     * 摔落时调用 —— 用于摔落相关的纹饰效果。
+     *
+     * 适用场景：蜜脾纹饰的摔落有效高度减免。
+     * 对应 NeoForge 事件：LivingFallEvent
+     *
+     * 返回值语义：摔落距离减免量（方块数），0 = 无变化
+     * 多个 handler 的返回值会在事件分发器中累加后从距离中减去。
+     *
+     * @param entity   摔落的实体
+     * @param count    该纹饰材料在身上的件数（0-4）
+     * @param distance 摔落距离（方块数）
+     * @return 摔落距离减免量（方块数），0 表示无减免
+     */
+    default float onFall(LivingEntity entity, int count, float distance) {
+        return 0.0f; // 默认无摔落减免
+    }
+
+    /**
+     * 装备变化时调用 —— 用于装备变化相关的纹饰效果。
+     *
+     * 适用场景：铜锭纹饰的耐久免消耗判定（需要在装备切换时重置计数器）。
+     * 对应 NeoForge 事件：LivingEquipmentChangeEvent
+     *
+     * @param entity 装备变化的实体
+     * @param count  该纹饰材料在身上的件数（0-4）
+     */
+    default void onEquipmentChange(LivingEntity entity, int count) {
+        // 默认空实现，子类按需覆盖
+    }
+
+    /**
+     * 获取暴击伤害乘数 —— 用于暴击相关的纹饰效果。
+     *
+     * 适用场景：钻石纹饰的暴击伤害加成。
+     * 返回值语义：暴击伤害乘数（1.0 = 无变化，1.20 = +20% 暴击伤害）
+     * 多个 handler 的返回值会在事件分发器中累积相乘。
+     *
+     * @param count 该纹饰材料在身上的件数（0-4）
+     * @return 暴击伤害乘数，默认 1.0f 表示无变化
+     */
+    default float getCritDamageMultiplier(int count) {
+        return 1.0f;
+    }
+
+    /**
+     * 造成伤害时调用 —— 用于增加攻击者输出伤害的纹饰效果。
+     *
+     * 与 onHurt 的区别：onHurt 检查被攻击方（防御方）的纹饰，
+     * 此方法检查攻击方的纹饰，用于石英（近战伤害加成）等攻击侧效果。
+     *
+     * @param attacker 发起攻击的实体（穿戴攻击型纹饰的一方）
+     * @param target   被攻击的目标
+     * @param count    攻击者身上该纹饰材料的件数（0-4）
+     * @param damage   当前伤害值
+     * @return 伤害乘数加算值（如 0.02 表示 +2% 伤害），默认 0.0f
+     */
+    default float onDealDamage(LivingEntity attacker, LivingEntity target, int count, float damage) {
+        return 0.0f;
+    }
+
+    /**
+     * 跨重启状态兜底 —— 在玩家 tick 中低频调用，确保纹饰效果状态与装备一致。
+     *
+     * 适用场景：服务器重启后 LivingEquipmentChangeEvent 不触发，
+     * 导致某些纹饰效果的状态（如回声碎片的静音）与装备不同步。
+     * 默认空实现，需要兜底的效果处理器覆写此方法。
+     *
+     * @param entity 拥有纹饰效果的实体
+     * @param count  该纹饰材料在身上的件数（0-4）
+     */
+    default void enforceState(LivingEntity entity, int count) {
+        // 默认空实现，子类按需覆写
+    }
+}

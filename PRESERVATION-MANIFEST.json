@@ -1,0 +1,2345 @@
+{
+  "schema": "dsh112.desktop-minecraft-preservation-manifest.v1",
+  "generatedAt": "2026-11-12T18:28:26.323058+00:00",
+  "repository": "yymm1976/spectrum-reclamation",
+  "sourceRoot": "C:\\Users\\杨铭\\Desktop\\MC模组开发",
+  "groups": [
+    {
+      "name": "spectrum_reclamation-1.21.1",
+      "path": "C:\\Users\\杨铭\\Desktop\\MC模组开发\\spectrum_reclamation-1.21.1",
+      "originalGit": {
+        "head": "c6a42530ddff8fbe84ac25f4cabb959d8ec6ca49",
+        "branch": "main",
+        "upstream": "@{upstream}",
+        "remotes": {
+          "origin": "https://github.com/yymm1976/spectrum-reclamation.git"
+        },
+        "thirdPartyOrigin": false,
+        "gitDirectoryBytes": 883269,
+        "trackedCount": 150,
+        "untrackedCount": 4,
+        "ignoredCount": 255,
+        "untracked": [
+          ".codegraph/.gitignore",
+          ".cursorrules",
+          ".trae-cn/rules/project_rules.md",
+          "AGENTS.md"
+        ],
+        "ignored": [
+          ".codegraph/codegraph.db",
+          ".codegraph/codegraph.db-shm",
+          ".codegraph/codegraph.db-wal",
+          ".gradle/9.2.1/checksums/checksums.lock",
+          ".gradle/9.2.1/checksums/md5-checksums.bin",
+          ".gradle/9.2.1/checksums/sha1-checksums.bin",
+          ".gradle/9.2.1/executionHistory/executionHistory.bin",
+          ".gradle/9.2.1/executionHistory/executionHistory.lock",
+          ".gradle/9.2.1/fileChanges/last-build.bin",
+          ".gradle/9.2.1/fileHashes/fileHashes.bin",
+          ".gradle/9.2.1/fileHashes/fileHashes.lock",
+          ".gradle/9.2.1/fileHashes/resourceHashesCache.bin",
+          ".gradle/9.2.1/gc.properties",
+          ".gradle/buildOutputCleanup/buildOutputCleanup.lock",
+          ".gradle/buildOutputCleanup/cache.properties",
+          ".gradle/buildOutputCleanup/outputFiles.bin",
+          ".gradle/file-system.probe",
+          ".gradle/vcs-1/gc.properties",
+          ".reasonix/blueprint.md",
+          ".reasonix/truncated-results/1780762752759-a1ddf897-web_search.txt",
+          ".reasonix/truncated-results/1780762762921-3ce93f88-web_search.txt",
+          ".reasonix/truncated-results/1780763527456-9252b25f-web_search.txt",
+          ".reasonix/truncated-results/1780763534408-756d7639-web_search.txt",
+          ".reasonix/truncated-results/1780763534506-171240f6-web_search.txt",
+          ".vscode/launch.json",
+          ".vscode/settings.json",
+          "bin/main/META-INF/accesstransformer.cfg",
+          "bin/main/META-INF/neoforge.mods.toml",
+          "bin/main/assets/spectrum_reclamation/atlases/armor_trims.json",
+          "bin/main/assets/spectrum_reclamation/lang/zh_cn.json",
+          "bin/main/assets/spectrum_reclamation/textures/trims/palettes/test_palette.png",
+          "bin/main/com/spectrum_reclamation/spectrum_reclamation/SpectrumReclamation.class",
+          "bin/main/com/spectrum_reclamation/spectrum_reclamation/event/SREventHandler.class",
+          "bin/main/com/spectrum_reclamation/spectrum_reclamation/mob_effect/UnburdenMobEffect.class",
+          "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRCreativeModeTabs.class",
+          "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRMobEffects.class",
+          "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRPotions.class",
+          "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRTrimMaterials.class",
+          "bin/main/data/spectrum_reclamation/recipe/potion_workshop_brewing/unburden.json",
+          "bin/main/spectrum_reclamation.mixins.json",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/SpectrumReclamation.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/AbstractCopperPipeBlock.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/BlazingLightBlock.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeBlock$1.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeBlock.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeEndpointBlock$1.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeEndpointBlock$EndpointMode.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeEndpointBlock.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/LivingTrapBlock.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block_entity/CopperPipeBlockEntity.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block_entity/CopperPipeEndpointBlockEntity.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block_entity/LivingTrapBlockEntity.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/client/HeavySpearRenderer.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/client/SRClientEvents.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/client/SRClientScopeHandler.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/entity/BlazingBombEntity.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/entity/ThrownHeavySpear.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/event/CopperPipeTickHandler.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/event/SREventHandler.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$1.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$2.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$3.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$4.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$5.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$6.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$7.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$ArrowRecipe.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/BlazingBombItem.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/HeavySpearItem.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/LivingTrapItem.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/MeteorCrossbowItem.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/PreciseWaypointCompassItem.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/ScopeAttachmentItem.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/WaypointCompassItem.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/mixin/FletchingTableMixin$1.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/mixin/FletchingTableMixin.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/mob_effect/UnburdenMobEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRBlockEntities.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRBlocks.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRCreativeModeTabs.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRDataComponents.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SREntities.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRItems.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRMenuTypes.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRMobEffects.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRPotions.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRTrimMaterials.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/screen/FletchingTableScreen.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimCountedValue.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectEventHandler.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectHandler.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectRegistry$CachedEffects.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectRegistry.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/VanillaTrimEffects.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/AbstractAttributeTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/AmethystTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/DiamondTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/EchoShardTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/EmeraldTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/GoldTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/HoneycombTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/IronTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/LapisTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/MidnightChipTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/NetheriteTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/OnyxPowderTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/QuartzTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/QuitoxicPowderTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/RedstoneTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/TurtleTrimEffect.class",
+          "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/util/CopperPipeNetwork.class",
+          "build/generated/sources/modMetadata/META-INF/accesstransformer.cfg",
+          "build/generated/sources/modMetadata/META-INF/neoforge.mods.toml",
+          "build/libs/mod_id-minecraft_version-mod_version-0.1.0.jar",
+          "build/libs/spectrum_reclamation-1.21.1-0.1.0-0.1.0.jar",
+          "build/libs/spectrum_reclamation-1.21.1-0.1.0.jar",
+          "build/moddev/artifacts/neoforge-21.1.218-client-extra-aka-minecraft-resources.jar",
+          "build/moddev/artifacts/neoforge-21.1.218-merged.jar",
+          "build/moddev/artifacts/neoforge-21.1.218-sources.jar",
+          "build/moddev/artifacts/neoforge-21.1.218.jar",
+          "build/moddev/artifacts/net/neoforged/neoforge/event/entity/living/LivingExperienceDropEvent.java",
+          "build/moddev/artifacts/net/neoforged/neoforge/event/entity/living/LivingFallEvent.java",
+          "build/moddev/artifacts/net/neoforged/neoforge/event/entity/living/LivingIncomingDamageEvent.java",
+          "build/moddev/clientLegacyClasspath.txt",
+          "build/moddev/clientLog4j2.xml",
+          "build/moddev/clientRunProgramArgs.txt",
+          "build/moddev/clientRunVmArgs.txt",
+          "build/moddev/dataLegacyClasspath.txt",
+          "build/moddev/dataLog4j2.xml",
+          "build/moddev/dataRunProgramArgs.txt",
+          "build/moddev/dataRunVmArgs.txt",
+          "build/moddev/gameTestServerLegacyClasspath.txt",
+          "build/moddev/gameTestServerLog4j2.xml",
+          "build/moddev/gameTestServerRunProgramArgs.txt",
+          "build/moddev/gameTestServerRunVmArgs.txt",
+          "build/moddev/minecraft_assets.properties",
+          "build/moddev/serverLegacyClasspath.txt",
+          "build/moddev/serverLog4j2.xml",
+          "build/moddev/serverRunProgramArgs.txt",
+          "build/moddev/serverRunVmArgs.txt",
+          "build/reports/problems/problems-report.html",
+          "build/resources/main/META-INF/accesstransformer.cfg",
+          "build/resources/main/META-INF/neoforge.mods.toml",
+          "build/resources/main/assets/spectrum_reclamation/atlases/armor_trims.json",
+          "build/resources/main/assets/spectrum_reclamation/blockstates/blazing_light.json",
+          "build/resources/main/assets/spectrum_reclamation/blockstates/copper_pipe.json",
+          "build/resources/main/assets/spectrum_reclamation/blockstates/copper_pipe_endpoint.json",
+          "build/resources/main/assets/spectrum_reclamation/blockstates/living_trap.json",
+          "build/resources/main/assets/spectrum_reclamation/lang/zh_cn.json",
+          "build/resources/main/assets/spectrum_reclamation/models/block/blazing_light.json",
+          "build/resources/main/assets/spectrum_reclamation/models/block/copper_pipe.json",
+          "build/resources/main/assets/spectrum_reclamation/models/block/copper_pipe_endpoint.json",
+          "build/resources/main/assets/spectrum_reclamation/models/block/living_trap.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/blazing_bomb.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/copper_pipe.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/copper_pipe_endpoint.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/heavy_spear.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/living_trap.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/meteor_crossbow.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/precise_waypoint_compass.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/scope_attachment.json",
+          "build/resources/main/assets/spectrum_reclamation/models/item/waypoint_compass.json",
+          "build/resources/main/assets/spectrum_reclamation/textures/block/blazing_light.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/block/living_trap.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/blazing_bomb.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/copper_pipe.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/copper_pipe_endpoint.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/heavy_spear.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/living_trap.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/meteor_crossbow.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/precise_waypoint_compass.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/scope_attachment.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/item/waypoint_compass.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/midnight_chip.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/onyx_powder.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/quitoxic_powder.png",
+          "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/test_palette.png",
+          "build/resources/main/data/spectrum_reclamation/advancement/blazing_bomb.json",
+          "build/resources/main/data/spectrum_reclamation/advancement/copper_pipe.json",
+          "build/resources/main/data/spectrum_reclamation/advancement/fletching_table.json",
+          "build/resources/main/data/spectrum_reclamation/advancement/ink_coating.json",
+          "build/resources/main/data/spectrum_reclamation/advancement/meteor_crossbow.json",
+          "build/resources/main/data/spectrum_reclamation/advancement/root.json",
+          "build/resources/main/data/spectrum_reclamation/advancement/trim_effect.json",
+          "build/resources/main/data/spectrum_reclamation/advancement/unburden.json",
+          "build/resources/main/data/spectrum_reclamation/loot_table/blocks/living_trap.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/crafting_table/scope_attachment.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/fusion_shrine/meteor_crossbow.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/pedestal/blazing_bomb.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/pedestal/copper_pipe.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/pedestal/copper_pipe_endpoint.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/pedestal/heavy_spear.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/pedestal/living_trap.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_brewing/unburden.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_black.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_blue.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_brown.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_cyan.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_dark_gray.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_green.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_light_blue.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_light_gray.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_lime.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_magenta.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_orange.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_pink.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_purple.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_red.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_white.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_yellow.json",
+          "build/resources/main/data/spectrum_reclamation/recipe/smithing/precise_waypoint_compass.json",
+          "build/resources/main/spectrum_reclamation.mixins.json",
+          "build/tmp/compileJava/compileTransaction/stash-dir/AbstractAttributeTrimEffect.class.uniqueId1",
+          "build/tmp/compileJava/compileTransaction/stash-dir/AmethystTrimEffect.class.uniqueId7",
+          "build/tmp/compileJava/compileTransaction/stash-dir/BlazingBombEntity.class.uniqueId17",
+          "build/tmp/compileJava/compileTransaction/stash-dir/BlazingBombItem.class.uniqueId29",
+          "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeBlockEntity.class.uniqueId0",
+          "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeEndpointBlockEntity.class.uniqueId28",
+          "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeNetwork.class.uniqueId12",
+          "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeTickHandler.class.uniqueId22",
+          "build/tmp/compileJava/compileTransaction/stash-dir/DiamondTrimEffect.class.uniqueId15",
+          "build/tmp/compileJava/compileTransaction/stash-dir/EchoShardTrimEffect.class.uniqueId20",
+          "build/tmp/compileJava/compileTransaction/stash-dir/EmeraldTrimEffect.class.uniqueId9",
+          "build/tmp/compileJava/compileTransaction/stash-dir/GoldTrimEffect.class.uniqueId10",
+          "build/tmp/compileJava/compileTransaction/stash-dir/HoneycombTrimEffect.class.uniqueId23",
+          "build/tmp/compileJava/compileTransaction/stash-dir/IronTrimEffect.class.uniqueId6",
+          "build/tmp/compileJava/compileTransaction/stash-dir/LapisTrimEffect.class.uniqueId21",
+          "build/tmp/compileJava/compileTransaction/stash-dir/MidnightChipTrimEffect.class.uniqueId11",
+          "build/tmp/compileJava/compileTransaction/stash-dir/NetheriteTrimEffect.class.uniqueId3",
+          "build/tmp/compileJava/compileTransaction/stash-dir/OnyxPowderTrimEffect.class.uniqueId19",
+          "build/tmp/compileJava/compileTransaction/stash-dir/QuartzTrimEffect.class.uniqueId18",
+          "build/tmp/compileJava/compileTransaction/stash-dir/QuitoxicPowderTrimEffect.class.uniqueId24",
+          "build/tmp/compileJava/compileTransaction/stash-dir/RedstoneTrimEffect.class.uniqueId16",
+          "build/tmp/compileJava/compileTransaction/stash-dir/SRClientEvents.class.uniqueId26",
+          "build/tmp/compileJava/compileTransaction/stash-dir/SREntities.class.uniqueId5",
+          "build/tmp/compileJava/compileTransaction/stash-dir/SpectrumReclamation.class.uniqueId30",
+          "build/tmp/compileJava/compileTransaction/stash-dir/ThrownHeavySpear.class.uniqueId13",
+          "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectEventHandler.class.uniqueId27",
+          "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectHandler.class.uniqueId2",
+          "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectRegistry$CachedEffects.class.uniqueId8",
+          "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectRegistry.class.uniqueId4",
+          "build/tmp/compileJava/compileTransaction/stash-dir/TurtleTrimEffect.class.uniqueId14",
+          "build/tmp/compileJava/compileTransaction/stash-dir/VanillaTrimEffects.class.uniqueId25",
+          "build/tmp/compileJava/previous-compilation-data.bin",
+          "build/tmp/createMinecraftArtifacts/nfrt-problem-report.json",
+          "build/tmp/createMinecraftArtifacts/nfrt_artifact_manifest.properties",
+          "build/tmp/downloadAssets/nfrt_artifact_manifest.properties",
+          "build/tmp/event-sources/LivingEquipmentChangeEvent.java",
+          "build/tmp/event-sources/LivingExperienceDropEvent.java",
+          "build/tmp/event-sources/LivingFallEvent.java",
+          "build/tmp/event-sources/LivingIncomingDamageEvent.java",
+          "build/tmp/jar/MANIFEST.MF",
+          "build/tmp/neoformruntime/20260613-001556_applyDevTransforms/ats/accesstransformer.cfg",
+          "build/tmp/neoformruntime/20260613-001556_applyDevTransforms/console_output.txt"
+        ],
+        "statusNulRecords": 89,
+        "refs": [
+          {
+            "ref": "refs/heads/main",
+            "objectId": "c6a42530ddff8fbe84ac25f4cabb959d8ec6ca49",
+            "objectType": "commit",
+            "subject": "fix: code review fixes - Side safety, attribute fallback, DRY, OCP"
+          }
+        ],
+        "stashReflog": []
+      },
+      "fileCount": 409,
+      "bytes": 82852925
+    }
+  ],
+  "gitFiles": [
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".cursorrules",
+      "bytes": 899
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gitattributes",
+      "bytes": 78
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gitignore",
+      "bytes": 101
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".reasonix/blueprint.md",
+      "bytes": 3346
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".reasonix/truncated-results/1780762752759-a1ddf897-web_search.txt",
+      "bytes": 50161
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".reasonix/truncated-results/1780762762921-3ce93f88-web_search.txt",
+      "bytes": 35371
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".reasonix/truncated-results/1780763527456-9252b25f-web_search.txt",
+      "bytes": 38115
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".reasonix/truncated-results/1780763534408-756d7639-web_search.txt",
+      "bytes": 30727
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".reasonix/truncated-results/1780763534506-171240f6-web_search.txt",
+      "bytes": 45203
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".trae-cn/rules/project_rules.md",
+      "bytes": 1717
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".trae/specs/fix-review-issues/checklist.md",
+      "bytes": 1084
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".trae/specs/fix-review-issues/spec.md",
+      "bytes": 5098
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".trae/specs/fix-review-issues/tasks.md",
+      "bytes": 2191
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".trae/specs/review-current-project/checklist.md",
+      "bytes": 909
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".trae/specs/review-current-project/spec.md",
+      "bytes": 3222
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".trae/specs/review-current-project/tasks.md",
+      "bytes": 1369
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".vscode/launch.json",
+      "bytes": 3367
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".vscode/settings.json",
+      "bytes": 54
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "AGENTS.md",
+      "bytes": 983
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "CODE_REVIEW_CROSS_REPORT.md",
+      "bytes": 19438
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "CODE_REVIEW_REPORT.md",
+      "bytes": 16752
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "REVIEW.md",
+      "bytes": 12807
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "blueprint.md",
+      "bytes": 13796
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build.gradle.kts",
+      "bytes": 18958
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "gradle.properties",
+      "bytes": 477
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "bytes": 43764
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "bytes": 252
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "gradlew",
+      "bytes": 8733
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "gradlew.bat",
+      "bytes": 2843
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "net/minecraft/world/item/CrossbowItem.java",
+      "bytes": 14732
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "settings.gradle.kts",
+      "bytes": 163
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/SpectrumReclamation.java",
+      "bytes": 6076
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block/AbstractCopperPipeBlock.java",
+      "bytes": 14040
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block/BlazingLightBlock.java",
+      "bytes": 3488
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeBlock.java",
+      "bytes": 4892
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeEndpointBlock.java",
+      "bytes": 11025
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block/LivingTrapBlock.java",
+      "bytes": 15351
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block_entity/CopperPipeBlockEntity.java",
+      "bytes": 12408
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block_entity/CopperPipeEndpointBlockEntity.java",
+      "bytes": 6332
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/block_entity/LivingTrapBlockEntity.java",
+      "bytes": 8737
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/client/HeavySpearRenderer.java",
+      "bytes": 1075
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/client/SRClientEvents.java",
+      "bytes": 3480
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/client/SRClientScopeHandler.java",
+      "bytes": 5323
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/entity/BlazingBombEntity.java",
+      "bytes": 7937
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/entity/ThrownHeavySpear.java",
+      "bytes": 28935
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/event/CopperPipeTickHandler.java",
+      "bytes": 13151
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/event/SREventHandler.java",
+      "bytes": 13040
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu.java",
+      "bytes": 15869
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/item/custom/BlazingBombItem.java",
+      "bytes": 3330
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/item/custom/HeavySpearItem.java",
+      "bytes": 2305
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/item/custom/LivingTrapItem.java",
+      "bytes": 1071
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/item/custom/MeteorCrossbowItem.java",
+      "bytes": 10662
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/item/custom/PreciseWaypointCompassItem.java",
+      "bytes": 10033
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/item/custom/ScopeAttachmentItem.java",
+      "bytes": 1577
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/item/custom/WaypointCompassItem.java",
+      "bytes": 8996
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/mixin/FletchingTableMixin.java",
+      "bytes": 4546
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/mob_effect/UnburdenMobEffect.java",
+      "bytes": 4654
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRBlockEntities.java",
+      "bytes": 3770
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRBlocks.java",
+      "bytes": 5273
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRCreativeModeTabs.java",
+      "bytes": 3821
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRDataComponents.java",
+      "bytes": 4434
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SREntities.java",
+      "bytes": 2939
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRItems.java",
+      "bytes": 6392
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRMenuTypes.java",
+      "bytes": 2203
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRMobEffects.java",
+      "bytes": 2084
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRPotions.java",
+      "bytes": 2951
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/registry/SRTrimMaterials.java",
+      "bytes": 6822
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/screen/FletchingTableScreen.java",
+      "bytes": 6443
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/TrimCountedValue.java",
+      "bytes": 1560
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectEventHandler.java",
+      "bytes": 13393
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectHandler.java",
+      "bytes": 7917
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectRegistry.java",
+      "bytes": 7538
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/VanillaTrimEffects.java",
+      "bytes": 7082
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/AbstractAttributeTrimEffect.java",
+      "bytes": 8508
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/AmethystTrimEffect.java",
+      "bytes": 3130
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/DiamondTrimEffect.java",
+      "bytes": 2323
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/EchoShardTrimEffect.java",
+      "bytes": 4269
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/EmeraldTrimEffect.java",
+      "bytes": 2127
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/GoldTrimEffect.java",
+      "bytes": 2821
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/HoneycombTrimEffect.java",
+      "bytes": 1947
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/IronTrimEffect.java",
+      "bytes": 1618
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/LapisTrimEffect.java",
+      "bytes": 1942
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/MidnightChipTrimEffect.java",
+      "bytes": 2445
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/NetheriteTrimEffect.java",
+      "bytes": 1611
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/OnyxPowderTrimEffect.java",
+      "bytes": 2410
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/QuartzTrimEffect.java",
+      "bytes": 1902
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/QuitoxicPowderTrimEffect.java",
+      "bytes": 3926
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/RedstoneTrimEffect.java",
+      "bytes": 2161
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/trim/effect/TurtleTrimEffect.java",
+      "bytes": 1601
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/java/com/spectrum_reclamation/spectrum_reclamation/util/CopperPipeNetwork.java",
+      "bytes": 22133
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/atlases/armor_trims.json",
+      "bytes": 652
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/blockstates/blazing_light.json",
+      "bytes": 88
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/blockstates/copper_pipe.json",
+      "bytes": 39446
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/blockstates/copper_pipe_endpoint.json",
+      "bytes": 572950
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/blockstates/living_trap.json",
+      "bytes": 177
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/lang/zh_cn.json",
+      "bytes": 5646
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/block/blazing_light.json",
+      "bytes": 118
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/block/copper_pipe.json",
+      "bytes": 171
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/block/copper_pipe_endpoint.json",
+      "bytes": 189
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/block/living_trap.json",
+      "bytes": 846
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/blazing_bomb.json",
+      "bytes": 119
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/copper_pipe.json",
+      "bytes": 118
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/copper_pipe_endpoint.json",
+      "bytes": 127
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/heavy_spear.json",
+      "bytes": 118
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/living_trap.json",
+      "bytes": 57
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/meteor_crossbow.json",
+      "bytes": 122
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/precise_waypoint_compass.json",
+      "bytes": 131
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/scope_attachment.json",
+      "bytes": 123
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/models/item/waypoint_compass.json",
+      "bytes": 123
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/block/blazing_light.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/block/living_trap.png",
+      "bytes": 70
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/blazing_bomb.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/copper_pipe.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/copper_pipe_endpoint.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/heavy_spear.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/living_trap.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/meteor_crossbow.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/precise_waypoint_compass.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/scope_attachment.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/item/waypoint_compass.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/trims/palettes/midnight_chip.png",
+      "bytes": 156
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/trims/palettes/onyx_powder.png",
+      "bytes": 156
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/trims/palettes/quitoxic_powder.png",
+      "bytes": 156
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/assets/spectrum_reclamation/textures/trims/palettes/test_palette.png",
+      "bytes": 141
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/blazing_bomb.json",
+      "bytes": 491
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/copper_pipe.json",
+      "bytes": 497
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/fletching_table.json",
+      "bytes": 442
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/ink_coating.json",
+      "bytes": 546
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/meteor_crossbow.json",
+      "bytes": 503
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/root.json",
+      "bytes": 456
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/trim_effect.json",
+      "bytes": 479
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/advancement/unburden.json",
+      "bytes": 673
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/loot_table/blocks/living_trap.json",
+      "bytes": 321
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/crafting_table/scope_attachment.json",
+      "bytes": 299
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/fusion_shrine/meteor_crossbow.json",
+      "bytes": 281
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/pedestal/blazing_bomb.json",
+      "bytes": 263
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/pedestal/copper_pipe.json",
+      "bytes": 517
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/pedestal/copper_pipe_endpoint.json",
+      "bytes": 190
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/pedestal/heavy_spear.json",
+      "bytes": 258
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/pedestal/living_trap.json",
+      "bytes": 223
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_brewing/unburden.json",
+      "bytes": 499
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_black.json",
+      "bytes": 502
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_blue.json",
+      "bytes": 502
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_brown.json",
+      "bytes": 508
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_cyan.json",
+      "bytes": 504
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_dark_gray.json",
+      "bytes": 516
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_green.json",
+      "bytes": 506
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_light_blue.json",
+      "bytes": 518
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_light_gray.json",
+      "bytes": 519
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_lime.json",
+      "bytes": 506
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_magenta.json",
+      "bytes": 513
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_orange.json",
+      "bytes": 511
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_pink.json",
+      "bytes": 507
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_purple.json",
+      "bytes": 511
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_red.json",
+      "bytes": 505
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_white.json",
+      "bytes": 509
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_yellow.json",
+      "bytes": 511
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/data/spectrum_reclamation/recipe/smithing/precise_waypoint_compass.json",
+      "bytes": 300
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/resources/spectrum_reclamation.mixins.json",
+      "bytes": 326
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/templates/META-INF/accesstransformer.cfg",
+      "bytes": 0
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "src/main/templates/META-INF/neoforge.mods.toml",
+      "bytes": 874
+    }
+  ],
+  "releaseFiles": [
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/META-INF/accesstransformer.cfg",
+      "bytes": 0
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/META-INF/neoforge.mods.toml",
+      "bytes": 874
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/assets/spectrum_reclamation/atlases/armor_trims.json",
+      "bytes": 355
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/assets/spectrum_reclamation/lang/zh_cn.json",
+      "bytes": 726
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/assets/spectrum_reclamation/textures/trims/palettes/test_palette.png",
+      "bytes": 141
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/com/spectrum_reclamation/spectrum_reclamation/SpectrumReclamation.class",
+      "bytes": 1741
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/com/spectrum_reclamation/spectrum_reclamation/event/SREventHandler.class",
+      "bytes": 5140
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/com/spectrum_reclamation/spectrum_reclamation/mob_effect/UnburdenMobEffect.class",
+      "bytes": 2716
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRCreativeModeTabs.class",
+      "bytes": 3948
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRMobEffects.class",
+      "bytes": 2508
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRPotions.class",
+      "bytes": 2779
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRTrimMaterials.class",
+      "bytes": 2767
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/data/spectrum_reclamation/recipe/potion_workshop_brewing/unburden.json",
+      "bytes": 499
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "bin/main/spectrum_reclamation.mixins.json",
+      "bytes": 276
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/SpectrumReclamation.class",
+      "bytes": 3232
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/AbstractCopperPipeBlock.class",
+      "bytes": 11335
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/BlazingLightBlock.class",
+      "bytes": 2807
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeBlock$1.class",
+      "bytes": 975
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeBlock.class",
+      "bytes": 3751
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeEndpointBlock$1.class",
+      "bytes": 999
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeEndpointBlock$EndpointMode.class",
+      "bytes": 1944
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/CopperPipeEndpointBlock.class",
+      "bytes": 9039
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block/LivingTrapBlock.class",
+      "bytes": 12704
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block_entity/CopperPipeBlockEntity.class",
+      "bytes": 7443
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block_entity/CopperPipeEndpointBlockEntity.class",
+      "bytes": 6074
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/block_entity/LivingTrapBlockEntity.class",
+      "bytes": 6984
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/client/HeavySpearRenderer.class",
+      "bytes": 1798
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/client/SRClientEvents.class",
+      "bytes": 4088
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/client/SRClientScopeHandler.class",
+      "bytes": 4345
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/entity/BlazingBombEntity.class",
+      "bytes": 5461
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/entity/ThrownHeavySpear.class",
+      "bytes": 17943
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/event/CopperPipeTickHandler.class",
+      "bytes": 7158
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/event/SREventHandler.class",
+      "bytes": 10833
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$1.class",
+      "bytes": 1268
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$2.class",
+      "bytes": 1268
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$3.class",
+      "bytes": 1268
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$4.class",
+      "bytes": 1268
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$5.class",
+      "bytes": 1268
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$6.class",
+      "bytes": 1268
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$7.class",
+      "bytes": 1952
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu$ArrowRecipe.class",
+      "bytes": 2686
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/inventory/FletchingTableMenu.class",
+      "bytes": 8781
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/BlazingBombItem.class",
+      "bytes": 3286
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/HeavySpearItem.class",
+      "bytes": 1606
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/LivingTrapItem.class",
+      "bytes": 888
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/MeteorCrossbowItem.class",
+      "bytes": 6709
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/PreciseWaypointCompassItem.class",
+      "bytes": 7448
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/ScopeAttachmentItem.class",
+      "bytes": 1720
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/item/custom/WaypointCompassItem.class",
+      "bytes": 8055
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/mixin/FletchingTableMixin$1.class",
+      "bytes": 2071
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/mixin/FletchingTableMixin.class",
+      "bytes": 3733
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/mob_effect/UnburdenMobEffect.class",
+      "bytes": 2651
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRBlockEntities.class",
+      "bytes": 5327
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRBlocks.class",
+      "bytes": 4494
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRCreativeModeTabs.class",
+      "bytes": 4620
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRDataComponents.class",
+      "bytes": 4420
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SREntities.class",
+      "bytes": 4279
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRItems.class",
+      "bytes": 5187
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRMenuTypes.class",
+      "bytes": 3162
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRMobEffects.class",
+      "bytes": 2487
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRPotions.class",
+      "bytes": 2715
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/registry/SRTrimMaterials.class",
+      "bytes": 3681
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/screen/FletchingTableScreen.class",
+      "bytes": 2879
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimCountedValue.class",
+      "bytes": 1965
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectEventHandler.class",
+      "bytes": 9119
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectHandler.class",
+      "bytes": 1981
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectRegistry$CachedEffects.class",
+      "bytes": 2312
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/TrimEffectRegistry.class",
+      "bytes": 7016
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/VanillaTrimEffects.class",
+      "bytes": 2813
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/AbstractAttributeTrimEffect.class",
+      "bytes": 5876
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/AmethystTrimEffect.class",
+      "bytes": 2847
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/DiamondTrimEffect.class",
+      "bytes": 1396
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/EchoShardTrimEffect.class",
+      "bytes": 1522
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/EmeraldTrimEffect.class",
+      "bytes": 803
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/GoldTrimEffect.class",
+      "bytes": 1642
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/HoneycombTrimEffect.class",
+      "bytes": 1064
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/IronTrimEffect.class",
+      "bytes": 2130
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/LapisTrimEffect.class",
+      "bytes": 1113
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/MidnightChipTrimEffect.class",
+      "bytes": 1308
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/NetheriteTrimEffect.class",
+      "bytes": 2174
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/OnyxPowderTrimEffect.class",
+      "bytes": 1450
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/QuartzTrimEffect.class",
+      "bytes": 1285
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/QuitoxicPowderTrimEffect.class",
+      "bytes": 1627
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/RedstoneTrimEffect.class",
+      "bytes": 2554
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/trim/effect/TurtleTrimEffect.class",
+      "bytes": 2166
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/classes/java/main/com/spectrum_reclamation/spectrum_reclamation/util/CopperPipeNetwork.class",
+      "bytes": 14192
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/generated/sources/modMetadata/META-INF/accesstransformer.cfg",
+      "bytes": 0
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/generated/sources/modMetadata/META-INF/neoforge.mods.toml",
+      "bytes": 874
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/libs/mod_id-minecraft_version-mod_version-0.1.0.jar",
+      "bytes": 1315
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/libs/spectrum_reclamation-1.21.1-0.1.0-0.1.0.jar",
+      "bytes": 177281
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/libs/spectrum_reclamation-1.21.1-0.1.0.jar",
+      "bytes": 181260
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/artifacts/neoforge-21.1.218-client-extra-aka-minecraft-resources.jar",
+      "bytes": 9361844
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/artifacts/neoforge-21.1.218-merged.jar",
+      "bytes": 32185941
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/artifacts/neoforge-21.1.218-sources.jar",
+      "bytes": 9378340
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/artifacts/neoforge-21.1.218.jar",
+      "bytes": 22675086
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/artifacts/net/neoforged/neoforge/event/entity/living/LivingExperienceDropEvent.java",
+      "bytes": 1638
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/artifacts/net/neoforged/neoforge/event/entity/living/LivingFallEvent.java",
+      "bytes": 1829
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/artifacts/net/neoforged/neoforge/event/entity/living/LivingIncomingDamageEvent.java",
+      "bytes": 3391
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/clientLegacyClasspath.txt",
+      "bytes": 16482
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/clientLog4j2.xml",
+      "bytes": 5961
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/clientRunProgramArgs.txt",
+      "bytes": 394
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/clientRunVmArgs.txt",
+      "bytes": 1936
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/dataLegacyClasspath.txt",
+      "bytes": 16482
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/dataLog4j2.xml",
+      "bytes": 5961
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/dataRunProgramArgs.txt",
+      "bytes": 569
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/dataRunVmArgs.txt",
+      "bytes": 1853
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/gameTestServerLegacyClasspath.txt",
+      "bytes": 10377
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/gameTestServerLog4j2.xml",
+      "bytes": 5961
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/gameTestServerRunProgramArgs.txt",
+      "bytes": 288
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/gameTestServerRunVmArgs.txt",
+      "bytes": 1983
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/minecraft_assets.properties",
+      "bytes": 126
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/serverLegacyClasspath.txt",
+      "bytes": 10377
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/serverLog4j2.xml",
+      "bytes": 5961
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/serverRunProgramArgs.txt",
+      "bytes": 296
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/moddev/serverRunVmArgs.txt",
+      "bytes": 1905
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/reports/problems/problems-report.html",
+      "bytes": 505413
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/META-INF/accesstransformer.cfg",
+      "bytes": 0
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/META-INF/neoforge.mods.toml",
+      "bytes": 874
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/atlases/armor_trims.json",
+      "bytes": 652
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/blockstates/blazing_light.json",
+      "bytes": 88
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/blockstates/copper_pipe.json",
+      "bytes": 39446
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/blockstates/copper_pipe_endpoint.json",
+      "bytes": 572950
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/blockstates/living_trap.json",
+      "bytes": 177
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/lang/zh_cn.json",
+      "bytes": 5646
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/block/blazing_light.json",
+      "bytes": 118
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/block/copper_pipe.json",
+      "bytes": 171
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/block/copper_pipe_endpoint.json",
+      "bytes": 189
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/block/living_trap.json",
+      "bytes": 846
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/blazing_bomb.json",
+      "bytes": 119
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/copper_pipe.json",
+      "bytes": 118
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/copper_pipe_endpoint.json",
+      "bytes": 127
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/heavy_spear.json",
+      "bytes": 118
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/living_trap.json",
+      "bytes": 57
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/meteor_crossbow.json",
+      "bytes": 122
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/precise_waypoint_compass.json",
+      "bytes": 131
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/scope_attachment.json",
+      "bytes": 123
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/models/item/waypoint_compass.json",
+      "bytes": 123
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/block/blazing_light.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/block/living_trap.png",
+      "bytes": 70
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/blazing_bomb.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/copper_pipe.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/copper_pipe_endpoint.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/heavy_spear.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/living_trap.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/meteor_crossbow.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/precise_waypoint_compass.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/scope_attachment.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/item/waypoint_compass.png",
+      "bytes": 120
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/midnight_chip.png",
+      "bytes": 156
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/onyx_powder.png",
+      "bytes": 156
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/quitoxic_powder.png",
+      "bytes": 156
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/assets/spectrum_reclamation/textures/trims/palettes/test_palette.png",
+      "bytes": 141
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/blazing_bomb.json",
+      "bytes": 491
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/copper_pipe.json",
+      "bytes": 497
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/fletching_table.json",
+      "bytes": 442
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/ink_coating.json",
+      "bytes": 546
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/meteor_crossbow.json",
+      "bytes": 503
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/root.json",
+      "bytes": 456
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/trim_effect.json",
+      "bytes": 479
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/advancement/unburden.json",
+      "bytes": 673
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/loot_table/blocks/living_trap.json",
+      "bytes": 321
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/crafting_table/scope_attachment.json",
+      "bytes": 299
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/fusion_shrine/meteor_crossbow.json",
+      "bytes": 281
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/pedestal/blazing_bomb.json",
+      "bytes": 263
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/pedestal/copper_pipe.json",
+      "bytes": 517
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/pedestal/copper_pipe_endpoint.json",
+      "bytes": 190
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/pedestal/heavy_spear.json",
+      "bytes": 258
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/pedestal/living_trap.json",
+      "bytes": 223
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_brewing/unburden.json",
+      "bytes": 499
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_black.json",
+      "bytes": 502
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_blue.json",
+      "bytes": 502
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_brown.json",
+      "bytes": 508
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_cyan.json",
+      "bytes": 504
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_dark_gray.json",
+      "bytes": 516
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_green.json",
+      "bytes": 506
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_light_blue.json",
+      "bytes": 518
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_light_gray.json",
+      "bytes": 519
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_lime.json",
+      "bytes": 506
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_magenta.json",
+      "bytes": 513
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_orange.json",
+      "bytes": 511
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_pink.json",
+      "bytes": 507
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_purple.json",
+      "bytes": 511
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_red.json",
+      "bytes": 505
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_white.json",
+      "bytes": 509
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/potion_workshop_crafting/coating_yellow.json",
+      "bytes": 511
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/data/spectrum_reclamation/recipe/smithing/precise_waypoint_compass.json",
+      "bytes": 300
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/resources/main/spectrum_reclamation.mixins.json",
+      "bytes": 326
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/AbstractAttributeTrimEffect.class.uniqueId1",
+      "bytes": 5510
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/AmethystTrimEffect.class.uniqueId7",
+      "bytes": 2847
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/BlazingBombEntity.class.uniqueId17",
+      "bytes": 5491
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/BlazingBombItem.class.uniqueId29",
+      "bytes": 3286
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeBlockEntity.class.uniqueId0",
+      "bytes": 7443
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeEndpointBlockEntity.class.uniqueId28",
+      "bytes": 6074
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeNetwork.class.uniqueId12",
+      "bytes": 14213
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/CopperPipeTickHandler.class.uniqueId22",
+      "bytes": 8097
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/DiamondTrimEffect.class.uniqueId15",
+      "bytes": 1396
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/EchoShardTrimEffect.class.uniqueId20",
+      "bytes": 1411
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/EmeraldTrimEffect.class.uniqueId9",
+      "bytes": 803
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/GoldTrimEffect.class.uniqueId10",
+      "bytes": 1642
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/HoneycombTrimEffect.class.uniqueId23",
+      "bytes": 1064
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/IronTrimEffect.class.uniqueId6",
+      "bytes": 2130
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/LapisTrimEffect.class.uniqueId21",
+      "bytes": 1113
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/MidnightChipTrimEffect.class.uniqueId11",
+      "bytes": 1308
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/NetheriteTrimEffect.class.uniqueId3",
+      "bytes": 2174
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/OnyxPowderTrimEffect.class.uniqueId19",
+      "bytes": 1450
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/QuartzTrimEffect.class.uniqueId18",
+      "bytes": 1285
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/QuitoxicPowderTrimEffect.class.uniqueId24",
+      "bytes": 1627
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/RedstoneTrimEffect.class.uniqueId16",
+      "bytes": 2554
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/SRClientEvents.class.uniqueId26",
+      "bytes": 4088
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/SREntities.class.uniqueId5",
+      "bytes": 4279
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/SpectrumReclamation.class.uniqueId30",
+      "bytes": 3232
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/ThrownHeavySpear.class.uniqueId13",
+      "bytes": 17943
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectEventHandler.class.uniqueId27",
+      "bytes": 9265
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectHandler.class.uniqueId2",
+      "bytes": 1889
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectRegistry$CachedEffects.class.uniqueId8",
+      "bytes": 2312
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/TrimEffectRegistry.class.uniqueId4",
+      "bytes": 7016
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/TurtleTrimEffect.class.uniqueId14",
+      "bytes": 2166
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/compileTransaction/stash-dir/VanillaTrimEffects.class.uniqueId25",
+      "bytes": 2813
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/compileJava/previous-compilation-data.bin",
+      "bytes": 226826
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/createMinecraftArtifacts/nfrt-problem-report.json",
+      "bytes": 2
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/createMinecraftArtifacts/nfrt_artifact_manifest.properties",
+      "bytes": 30696
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/downloadAssets/nfrt_artifact_manifest.properties",
+      "bytes": 30696
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/event-sources/LivingEquipmentChangeEvent.java",
+      "bytes": 1688
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/event-sources/LivingExperienceDropEvent.java",
+      "bytes": 1638
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/event-sources/LivingFallEvent.java",
+      "bytes": 1829
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/event-sources/LivingIncomingDamageEvent.java",
+      "bytes": 3391
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/jar/MANIFEST.MF",
+      "bytes": 25
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/neoformruntime/20260613-001556_applyDevTransforms/ats/accesstransformer.cfg",
+      "bytes": 69974
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": "build/tmp/neoformruntime/20260613-001556_applyDevTransforms/console_output.txt",
+      "bytes": 1022
+    }
+  ],
+  "sensitiveFiles": [],
+  "excludedCacheFiles": [
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/checksums/checksums.lock",
+      "bytes": 17
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/checksums/md5-checksums.bin",
+      "bytes": 18547
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/checksums/sha1-checksums.bin",
+      "bytes": 18659
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/executionHistory/executionHistory.bin",
+      "bytes": 1343929
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/executionHistory/executionHistory.lock",
+      "bytes": 17
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/fileChanges/last-build.bin",
+      "bytes": 1
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/fileHashes/fileHashes.bin",
+      "bytes": 72265
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/fileHashes/fileHashes.lock",
+      "bytes": 17
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/fileHashes/resourceHashesCache.bin",
+      "bytes": 27609
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/9.2.1/gc.properties",
+      "bytes": 0
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/buildOutputCleanup/buildOutputCleanup.lock",
+      "bytes": 17
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/buildOutputCleanup/cache.properties",
+      "bytes": 53
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/buildOutputCleanup/outputFiles.bin",
+      "bytes": 19847
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/file-system.probe",
+      "bytes": 8
+    },
+    {
+      "group": "spectrum_reclamation-1.21.1",
+      "path": ".gradle/vcs-1/gc.properties",
+      "bytes": 0
+    }
+  ],
+  "links": [],
+  "releaseUnits": {
+    "bin": {
+      "fileCount": 14,
+      "bytes": 24470
+    },
+    "build": {
+      "fileCount": 215,
+      "bytes": 75988331
+    }
+  },
+  "remoteReleaseAssets": [],
+  "recoveryStatus": "pending-upload"
+}

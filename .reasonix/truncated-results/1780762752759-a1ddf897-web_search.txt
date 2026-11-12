@@ -1,0 +1,1102 @@
+query: Spectrum mod Minecraft 光谱世界 mcmod 功能特性 介绍
+
+answer:
+  光谱世界 (Spectrum) 是一款基于进度、探索和色彩机制的魔法类 Minecraft 模组 [1][2][3]。它不追求线性通关，而是鼓励玩家在探索过程中通过游戏内指南书《七彩世界》和进度系统逐步解锁内容 [1][2][4]。
+
+主要功能与特性包括：
+- 魔法体系：通过收集颜料、利用七彩基座和多方块结构（如融合圣坛）创造物品 [1][5][4]。
+- 游戏深度：包含独特矿石、植物、晶洞、附魔、药水效果及自定义结构，最终目标是探索基岩之下的秘密 [6][2][3]。
+- 设计理念：注重沉浸式体验，工具旨在简化繁琐操作而非单纯追求强大，支持高度自定义配置 [1][2][3]。
+- 兼容性：广泛支持 AE2、Botania、Create 等模组 [6][2][3]。
+
+sources (5):
+
+1. 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+   https://www.mcmod.cn/class/6175.html
+   光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+
+常用地址
+
+- 最新收录今日收录模组：20 个
+- 有新动态
+- 审核状态今日审核量：508 个
+- 历史编辑今日编辑量：612 次
+
+版本检索
+
+元素检索
+
+常用地址
+
+- 最新收录今日收录整合包：0 个
+- 有新动态
+
+版本检索
+
+元素检索
+
+实用工具
+
+站点导航
+
+- >
+- 魔法Mod
+- >
+- 光谱世界 (Spectrum)
+
+红票53 (98%)黑票1 (2%)
+
+模组属性评比
+
+难度: 79分稳定: 71分实用: 87分美观: 93分平衡: 79分兼容: 76分持久: 82分" id="class-rating">
+
+好玩:29, 一般:1, 没意思:3.">
+
+87.88%的人认为光谱世界好玩。
+
+有挑战:24, 一般:7, 太简单:2.">
+
+72.73%的人认为光谱世界有挑战。
+
+很稳定:20, 一般:11, 不稳定:2.">
+
+60.61%的人认为光谱世界很稳定。
+
+很实用:28, 一般:3, 没啥用:2.">
+
+84.85%的人认为光谱世界很实用。
+
+很漂亮:31, 一般:0, 太丑了:2.">
+
+93.94%的人认为光谱世界很漂亮。
+
+合理:24, 一般:7, 变态:2.">
+
+72.73%的人认为光谱世界合理。
+
+兼容好:22, 一般:10, 兼容差:1.">
+
+66.67%的人认为光谱世界兼容好。
+
+很耐玩:27, 一般:1, 容易腻:5.">
+
+81.82%的人认为光谱世界很耐玩。
+
+管理组
+
+编辑组
+
+暂无开发组..
+
+最近参与编辑
+
+最近浏览
+
+活跃
+
+开源
+
+### 光谱世界
+
+#### Spectrum
+
+相关链接:
+
+- 最后推荐: 3天前
+- CurseForge
+- Modrinth
+- GitHub
+- WIKI
+- Discord
+- MCBBS Archive
+- MCBBS
+- MCBBS
+
+支持的MC版本:
+
+5.0
+
+名扬天下
+
+昨日指数: 1070
+
+昨日平均指数: 51.517
+
+165.09万
+
+总浏览
+
+95.73%
+
+资料填充率
+
+---
+
+打开星图 - 模组关系可视化
+
+光谱世界的前置Mod:
+
+依赖光谱世界的Mod:
+
+- Spectrum Jetpacks
+- Spectral Decorations
+- [appspec] Applied Spectrometry
+
+光谱世界联动的Mod:
+
+光谱世界的前置Mod:
+
+光谱世界的前置Mod:
+
+光谱世界的前置Mod:
+
+光谱世界的前置Mod:
+
+光谱世界联动的Mod:
+
+光谱世界的前置Mod:
+
+- Trinkets
+- Cloth Config API
+
+光谱世界的前置Mod:
+
+光谱世界的前置Mod:
+
+光谱世界封面
+
+宝石 于地下晶洞散发七彩光芒，树木 在阳光之下汲取斑斓颜色。
+
+以 七彩基座 为起点， 以 融合神龛 为途径；
+
+自然能量 流转于世界万物之中，生命记忆 重生于 灵魂灌注 之间；
+
+颜色背后的故事逐渐展现在你的面前。
+
+模组介绍
+
+《光谱世界》是一个 Fabric 和 NeoForge 下的一款大型模组，其博采众家之长，集建筑、魔法，附魔、装备、探索等要素于一身。
+
+在游戏内暗示与手册的指引下，你将能够循序渐进地创造各种魔法物品、搭建物品传输网络等。
+
+与此同时，游戏内精心绘制的纹理与令人激动的音乐能够给你以美的享受。
+
+此外，本模组还受到了植物魔法(Botania)、缤纷纪元(Chromaticraft)、达特工艺(Dartcraft) 的启发，添加了类似的内容。
+
+本模组正在快速开发中，作者表示欢迎任何形式的贡献与建议，哪怕是一张纹理，一段音乐亦或是一条反馈。
+
+模组玩法
+
+模组中自带的手册 ——七彩世界(Colorful World) 中包含本模组绝大多数方块、工具、结构的使用方式或提示。
+
+同时，部分物品的鼠标悬浮提示也写明了该物品的功能。
+
+作者推荐在正常生存的同时体验该模组，而不是以“通关”该模组为目的。
+
+设计理念
+
+光谱世界的设计理念可以用两个词概括为：
+
+探索 + 求知。
+
+举例
+
+模组中所有提示都是通过进度和游戏手册实现的，所有介绍都被设置为沉浸式的提示；
+
+模组中起初一切流程都有些费力（但这并不意味着耗时），但这将为后续流程解锁一种更加简单的实现方法；
+
+工具和方块不应过于强大，它们被设计为简化游戏中那些不那么有趣的差事，如刷取好的附魔、修复工具、机械地种植作物或刷怪...
+
+打磨，打磨，还是打磨！魔法类模组因酷炫的声音和粒子而成功，使用模组内的新玩意应该是有趣、令人兴奋和满意的（尽管上述内容会耗费很长时间）；不调好不发布！
+
+不会有“一个方块包揽复杂的操作”这类情况，每个方块或工具只能完成流程中的简单一步，独立的方块应该被创造性地结合在一起来完成实验；
+
+在物品泛滥前分类！方块和物品在不实现复杂操作的应同时能够实现多种功能，但是每种独立的功能应该简单并能够立刻被理解；
+
+一个物品的多种功能使其独特并便于记忆。以合成模板为例，它能够实现以下功能：
+
+便携式工作台；
+
+手持自动合成器；
+
+截图欣赏
+
+1589次浏览8月前
+
+3297次浏览1年前
+
+9426次浏览1年前
+
+1884次浏览1年前
+
+2694次浏览1年前
+
+4498次浏览1年前
+
+1.83万次浏览1年前
+
+2217次浏览1年前
+
+2. 光谱世界 - Spectrum - 我的世界模组 | BBSMC 下载
+   https://bbsmc.net/mod/spectrum
+   光谱世界 - Spectrum - 我的世界模组 | BBSMC 下载
+
+光谱世界 - Spectrum - 我的世界模组 | BBSMC 下载
+[![BBSMC Logo](https://bbsmc.net/_nuxt/logo-light.C07izXXB.png)](https://bbsmc.net/)
+[登录](https://bbsmc.net/auth/sign-in)
+[模组](https://bbsmc.net/mods)[插件](https://bbsmc.net/plugins)[数据包](https://bbsmc.net/datapacks)[光影](https://bbsmc.net/shaders)[资源包](https://bbsmc.net/resourcepacks)[整合包](https://bbsmc.net/modpacks)[软件](https://bbsmc.net/softwares)[汉化](https://bbsmc.net/languages)[地图](https://bbsmc.net/maps)
+[ 登录](https://bbsmc.net/auth/sign-in)
+[ 设置](https://bbsmc.net/settings)更改主题
+[](https://bbsmc.net/) 搜索
+![光谱世界 - Spectrum](https://cdn.bbsmc.net/bbsmc/data/eRnpfqU1/images/0e851ee0446887487f03af726f959302cc7459e3_350.webp)
+![光谱世界 - Spectrum](https://cdn.bbsmc.net/bbsmc/data/eRnpfqU1/daf817a5933dac224e3b8de520ec4e000a22c369.webp)
+# 光谱世界 - Spectrum
+“光谱世界” 是一款基于成长进程与探索的魔法模组！
+3,8640a year ago
+下载
+[](https://bbsmc.net/auth/sign-in)
+[](https://bbsmc.net/auth/sign-in)
+举报 复制资源 ID
+![光谱世界 - Spectrum](https://cdn.bbsmc.net/bbsmc/data/eRnpfqU1/daf817a5933dac224e3b8de520ec4e000a22c369.webp)
+# 光谱世界 - Spectrum
+“光谱世界” 是一款基于成长进程与探索的魔法模组！
+3,864
+0
+下载
+[](https://bbsmc.net/auth/sign-in)
+[](https://bbsmc.net/auth/sign-in)
+举报 复制资源 ID
+## 基本信息
+### 我的世界Java版本
+1.21.1
+1.20.1
+1.19.2
+1.18.1–1.18.2
+### 平台
+\\n \\n \\n Fabric
+NeoForge
+\\n \\n \\n \\n \\n \\n \\n \\n \\n Quilt
+### 运行环境
+客户端和服务端
+## 其他链接
+[ 反馈问题 ](https://github.com/DaFuqs/Spectrum/issues)[ 查看源码 ](https://github.com/DaFuqs/Spectrum)
+[Modrinth](https://modrinth.com/project/3rc31Hgo)
+## 搬运团队
+[![BBSMC 官方搬运(1)](https://cdn.bbsmc.net/bbsmc/data/jxhjLaTg/317f155094c061b70526b21f83619037a4a962e7.png)
+BBSMC 官方搬运(1)团队
+](https://bbsmc.net/organization/bbsmc)
+## 搬运资源声明
+对于可进行 JAR 文件搬运的许可证，我们提供站内下载服务；其他资源会跳转到原帖下载。资源更新可能不及时，建议前往资源内提供的原帖链接下载最新版本。
+## 详情信息
+许可证 LGPL-3.0-only
+发布于 2024-12-18
+更新于 2026-04-25
+![Spectrum 的横幅](https://cdn.bbsmc.net/raw/images/cDIjJnztUb/452e2c8073fb3082eddea737c17e0fbe3fe18229.png)
+## 概述
+Spectrum 是一个基于进度和探索的魔法模组，你可以将颜色组合起来创建魔法工具和机器，最终目标是发现曾经不可穿透的基岩地板下隐藏着什么。
+在这个过程中，你将获得对周围事物的新视角和新知识。那些你一直注意到但从未能够确定的错位事物，因为你缺乏观察它们的知识和工具。现在就是时候了！
+Spectrum 是基于进度的，不会在第一眼就给出所有内容。你在其进阶树中的旅程将充满领悟、谜题和大量的“啊啊啊”。你旅程的每一步都将通过进阶和你一旦找到第一个 geodes 就会收到的游戏内指南书来暗示。
+没有手把手的指导，所以一切都需要大量的实验或探索。这也意味着它可能不是适合每个人的。每个人玩 Minecraft 的方式都不同，这完全没问题！
+***Spectrum 不应该匆忙或通过磨练来完成。最好与你的游戏过程一起玩。***
+## 你在魔法模组中想要的一切
+* 手工制作的进度和启示系统
+* 许多新的魔法装备、物品、方块、装饰品
+* 许多新的附魔和药水效果
+* 具有完全碰撞和独特效果的新流体
+* 构建你自己的可定制的制作结构
+* 许多手工制作的新声音和粒子
+* 新的独特矿石、植物和 geodes
+* 带有有趣谜题的自定义结构
+![物品展示](https://cdn.bbsmc.net/raw/images/cDIjJnztUb/93d47cbb91a93ca610013ef17893648e3865590b.png)
+## 启示
+仅仅因为某样东西看起来像石头并不意味着它就是……
+![模糊的物品](https://cdn.bbsmc.net/raw/images/cDIjJnztUb/525879685786e1c53ac1d26f9ca9d88206e836ab.png)
+有很多东西需要揭开，也有很多发现需要做出。
+![启示](https://cdn.bbsmc.net/raw/images/cDIjJnztUb/d18f44e516fd6d7fbe3d1c7217534bf709209629.png)
+## 这个模组适合我吗？
+**如果你喜欢以下内容，你可能会喜欢 Spectrum：**《外域》；《神秘》；《神秘时代》；《色彩工艺》；弄清楚事物如何以及为什么起作用
+\*\*如果你喜欢以下内容，你可能会讨厌 Spectrum：\*\*具有线性进度的通用技术模组 #7，它会在每一步都告诉你确切该做什么；逐字跟随视频教程
+# 模组中的进度
+你可能会注意到，大多数物品在你的配方查看器中只显示锁定的配方。
+在 Spectrum 中，配方及其匹配的指南书条目是一步一步解锁的，每次你做出新的发现时，都会给你一些新的东西可以玩。
+一切都将通过进阶和你偶然发现第一个 geodes 时收到的指南书来暗示：你自己的个人笔记本。
+你偶然发现的一切，你解锁的每个配方，你做出的每个发现，你都会在那里记录下来。
+![指南书](https://cdn.bbsmc.net/raw/images/cDIjJnztUb/6490d0b59d852952022da1d0b73dad128829a50f.png)
+## 新的制作方式
+Spectrum 具有许多新的表达方式。
+它的多块结构设计得让人感觉满足、有趣，并且通过给你很多关于如何构建和个性化它们的自由，给你表达创造力的机会。
+![基座制作](https://cdn.bbsmc.net/raw/images/cDIjJnztUb/557edb80e180b9b5a85aedd0fa2c673c310cbbf9.png)
+# Spectrum 的 Discord
+你会在 Spectrum 的 Discord 上找到很多乐于助人的人。
+周围总是有友好和乐于助人的人。
+如果你喜欢，随时可以过来！
+[https://discord.com/invite/EXU9XFXT8a](https://discord.com/invite/EXU9XFXT8a)
+## 对于模组包制作者来说有很多可调整的空间
+几乎所有东西都是可配置的，从配方到整个进度路径。
+Spectrum 还带有许多新的进阶标准。
+模组包制作者的完整和详细文档可在[ Spectrum 的 Wiki](https://github.com/DaFuqs/Spectrum/wiki)中获得。
+玩家将在详细的游戏内指南书中找到他们需要的一切。
+## 想要贡献？
+每一个输入，无论是反馈还是错误报告，都非常感谢！
+## 模组集成
+* AE2：许多额外的配方；水晶药剂师兼容
+* 合金锻造：新的锻造、配方和燃料
+* 生物群系改造：对“被诅咒”物品的特殊处理；药水配方
+* 博塔纳：新的自定义物品、黑洞护身符支持、额外的配方和药水工坊试剂
+* 粉笔：使粉笔不可破坏
+* 通用保护 API：所有支持此 CPA 的模组的声明兼容
+* 召唤：额外的配方和药水工坊试剂
+* 创建：额外的配方
+* [附魔描述](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions)：所有 Spectrum 附魔的描述
+* EMI：所有 Spectrum 配方类型的集成
+* 额外的炼金术：药水配方
+* Geode Plus：水晶药剂师兼容
+* 去钓鱼：与去钓鱼附魔和战利品表的完全兼容；附魔配方
+* 戈伯：额外的配方
+* 魔法：对精制树叶和充电紫水晶的替代配方和用法
+* Idwtialsimmoedm：所有 Spectrum 附魔的描述；描述将在解锁前隐藏
+* 小蚂蚁：如果蚂蚁获得 Spectrum 的叶子，它们将收集稀有资源
+* 更多的 geodes：水晶药剂师兼容
+* Mythis 升级：水晶药剂师兼容
+* 哦，你要去的生物群系：水晶药剂师兼容
+* [分页进阶和自定义框架](https://github.com/DaFuqs/PaginatedAdvancements)：自定义进阶框架
+* [足够的物品](https://github.com/shedaniel/RoughlyEnoughItems)：所有 Spectrum 配方类型的集成
+* [星空](https://github.com/DaFuqs/StarrySkies)：额外的球体
+* 科技重生：额外的研磨机和工业研磨机配方
+* 旅行者背包：所有 Spectrum 的流体都是可饮用的
+* 脉矿开采：附魔师配方
+* 维克斯：药水配方
+## 支持我们
+|DaFuqs|Azzy|
+|创意主管和编程|设计主管|
+|[ko-fi](https://ko-fi.com/U7U66NEVX)|[ko-fi](https://ko-fi.com/azzyypaaras)|
+
+3. Spectrum（光谱）-MOD模组 - ⚡️ZITBBS⚡️ 我的世界小僵尸论坛 - 帖子 (宁波市星维网络科技有限公司)
+   https://www.zitbbs.com/thread-21497-1-1.html
+   Spectrum（光谱）-MOD模组 - ⚡️ZITBBS⚡️ 我的世界小僵尸论坛 - 帖子 (宁波市星维网络科技有限公司)
+
+搜索历史
+
+清空
+
+暂无搜索历史
+
+论坛热搜
+
+1
+
+Jenny — 有趣的模拟女友模组|珍妮模组
+
+3
+
+上古老物 冒险者传说 by WhiteSword
+
+5
+
+洛心斗罗-福利|公会据点战|武魂||抽奖|最终版
+
+2
+
+乌托邦探险之旅3.2
+
+4
+
+幻虚斗罗V1.5
+
+6
+
+水星迫降——在未知的世界中挣扎
+
+查看: 4151|回复: 0
+
+# [模组分享] Spectrum（光谱）-MOD模组
+
+- 微信扫一扫 分享朋友圈
+- 已有78398人穿越成功
+- 教程：手机怎么扫描二维码
+
+主题 5021回帖 60经验 10302 EP金粒5181 粒绿宝石20 块爱心0 点 在线时间65 小时 最后登录2025-10-18 性别女
+
+| 主题 | 回帖 | 积分 |
+| --- | --- | --- |
+
+经验 10302 EP金粒5181 粒绿宝石20 块爱心0 点
+
+电梯直达
+
+Spectrum（光谱）Github |相关wiki |源站链接支持: fabric , quiltSpectrum是一个关于利用颜色力量的全功能Minecraft模组 Welcome to Spectrum\'s Colorful World Spectrum是一个基于进阶和探索的魔法模组，你可以通过结合颜色创造魔法工具和机器，最终目标是发现曾经坚不可摧的基岩地板下究竟隐藏了什么。 在这个过程中，你将获得对周围事物的新视角和认识。你将发现一直困扰你的事物：你总是觉得它们不太对劲，但因为缺乏观察它们的知识和工具，你一直难以捉摸它们。现在是时候了！ > Spectrum不是用来匆忙完成的，而是用来享受的。最好在你正常游玩过程中一同进行。 非同寻常的内容模组 Spectrum是一个全功能的魔法/探索模组。它的进展试图不会一览无余地显示一切。你通过进阶树的旅程将充满领悟、谜题和许多“啊哈”的瞬间。你在模组旅程中的每一步都将通过进阶和游戏内指南逐渐得到提示。 https://cdn.modrinth.com/data/3rc31Hgo/images/525879685786e1c53ac1d26f9ca9d88206e836ab.png] 因为某样东西看起来像石头，并不代表它就是石头……有很多内容等待你去发现。 https://cdn.modrinth.com/data/3rc31Hgo/images/ba7e7923464dd10b7d97e29241adc1169c22c0e8.png] 模组进展 你可能注意到大多数物品在像REI这样的工具中没有显示配方。食谱及其匹配的指南条目被一步步解锁，这意味着每一次发现会为你带来新玩意。 找到你的第一个晶洞就可以开始了！其他的一切都是通过进阶和指南一步步提示给你的，当你发现第一个晶洞时，那个多彩世界将成为你的个人指南。你在那里遇到的每个事物、每个解锁的食谱、每次发现都会记录在那里。 https://cdn.modrinth.com/data/3rc31Hgo/images/e0af0cfe557498710d738dafeb44dd97cb55f7d7.png] 创造新方式 Spectrum提供了许多新的表达方式。其多方块结构设计让人感到满足，提供了许多自由度，让你以自己的方式构建和个性化。 https://cdn.modrinth.com/data/3rc31Hgo/images/557edb80e180b9b5a85aedd0fa2c673c310cbbf9.png] 魔法模组的一切你想要的 - 许多新的魔法物品、方块和液体 - 大量装饰物 - 许多新的附魔和药水效果 - 自定义声音和粒子 - 新的矿石、植物和晶洞等等等待你去发现 https://cdn.modrinth.com/data/3rc31Hgo/images/93d47cbb91a93ca610013ef17893648e3865590b.png] 在Forge上运行Spectrum 使用以下模组：Revelationary, Trinkets, Forgified Fabric API, Patchouli (forge), Sinytra Connector, Connector Extras 模组整合 - RoughlyEnoughItems：整合所有Spectrum的方块和物品的制作类型 - Enchantment Descriptions：所有Spectrum的附魔描述 - Colored Lights：对Spectrum所有光源的支持 - Shimmer：彩色灯支持 - 合金锻造：额外食谱和合金锻造燃料 - Little Ants：蚂蚁可以收集稀有资源，如果它们搜集到Spectrum的树叶 - Chalk：使白垩不可破坏 - AE2：很多额外食谱 - Botania：额外食谱和药水工坊试剂 - Conjuring：额外食谱和药水工坊试剂 - Gobber：额外食谱 - Tech Reborn：额外食谱 为模组包制作者提供了大量的调整空间 几乎一切都可以进行配置，从食谱到整个进展路径。Spectrum还提供了许多新的进展条件。 Modpack Makers的完整而详尽的说明文档可在Spectrum的Wiki中找到，玩家则会在游戏内详尽的指南中找到他们所需要的一切。 想要贡献吗？ 每一个意见反馈，哪怕只是一个bug报告，也都会受到极大的赞赏！ 支持我们 DaFuqsAzzy Creative Lead & 编程设计 Lead 截图： https://i.sodamc.com/modrinth/3d64ssIsbq.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/nzUcdtyelv.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/xAGJYKtxGX.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/3EEB5ZFPxL.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/rT9ncFesN2.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/p64fs6qIO6.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/Kq9NEu6Ccr.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/FYXjtSxIms.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/Fo9YrZ4C9u.jpg?x-oss-process=style/forge2]https://i.sodamc.com/modrinth/5lKQpaickE.jpg?x-oss-process=style/forge2] 来自Modrinth所有游戏版本1.21.11.20.11.19.21.18.21.18.1所有类型fabricquiltSpectrum 1.9.4spectrum-1.9.4.jar下载1.9.4#Release- Make spectrum alternate\" internal resource pack actually show up ingame- Mobs are no longer able to spawn on Deeper Down portal blocks展开版本: 1.9.4支持游戏: 1.21.1类型:FabricRelease下载次数: 199Spectrum 1.9.3spectrum-1.9.3.jar下载1.9.3#Release- Fixed Cake / Clotted Cream recipes- Fixed a typo in the Gobber integration entry- Fixed a Liquid Crystal unlock- Fixed a field initialization issue that could surface by addons- Update Supplementaries compat tags展开版本: 1.9.3支持游戏: 1.21.1类型:FabricRelease下载次数: 18Spectrum 1.9.2spectrum-1.9.2.jar下载1.9.2#Release### Improvements- The Universe Spyholes have been revamped. Minecraft has steadily improved culling, which these little blocks relied on being poor for. This has now been resolved and greatly improved! They now show caves more accurately, as if you were looking at them in spectator/creative mode, and they now spawn fancy effects to indicate that they are working- When a Pigment Pedestal has a Crafting Tablet, it will now only ever craft this specific recipe, even if the items in its inventory would match a different recipe- You can now add new Kindling variants, as well as Lizard Frills & Horns using a datapack!- Pastel Nodes can now also be colored using Pigment on them- Mining Azurite & Malachite with Resonance now drops their Pure counterparts- Bedrock Dust was renamed to Shattered Bedrock- Sleep Effects do not bypass invulnerability/totems anymore### Bug Fixes- Fixed Pastel Networks not saving across restarts properly- Fixed fishing rods- Fixed complex potion reagents being un-unlockable- Fixed a dupe with the Bottomless Bundle- Fixed the End Portal opening sound not playing when having \'dynamic end portal shapes\' configured to true- Fixed a crash when wearing a Mob Head- Fixed Bedrock Armor always rendering full, even if just wearing one piece- Fixed a missing image in the Sludge guidebook entry### Mod Compat- REI: Fixed the icons for Crystallarieum recipes- REI: Fixed Enchantment Upgrading recipes not being shownHuge thanks to EgrorBs for quite a bunch of these fixes!展开版本: 1.9.2支持游戏: 1.21.1类型:FabricRelease下载次数: 730Spectrum 1.9.1spectrum-1.9.1.jar下载1.9.1#Release展开版本: 1.9.1支持游戏: 1.21.1类型:FabricRelease下载次数: 279Spectrum 1.9.0spectrum-1.9.0.jar下载1.9.0#Release# Spectrum 1.9.0 - Welcome to Spectrum on 1.21.1!This port has taken forever, since Minecraft changed a lot in recent updates, so we had to rewrite almost every class in the entire mod. 1.21.7 isn\'t looking like less work, either. But since you all enjoy Spectrum so much it\'s very much worth it.At this point big thanks to electro_593 and noaaan for helping out a lot with this port.## Early Potion Workshop!The Potion Workshop is now unlocked in earlygame, after collecting Mermaid\'s Gems & Quitoxic Reeds - the Stratine requirement was removed.Since the vanilla Brewing Stand requires Blaze Rods, this is a nice alternative for Players that don\'t vibe with the Nether too much or play on peaceful.To keep the power level down, all non-vanilla reagents get unlocked starting the midgame advancement tree.## Player Memories!When using the Staff of Remembrance on a Player, you can now get a Memory of them.Hatching that memory makes the player teleport back to the position of the Memory.Using the \'Memory to Head\' recipe you can now finally get Player heads, making Hardcore Revival a lot more accessible.I\'ve also made sure to add a new funky advancements, if you try a certain cursed thing with that :tomfoolery:## Texture OverhaulMost Spectrum textures use the ones that were previously included in the \'gen1\' texture pack again.Especially the new Calcite and Basalt textures did not mesh too nicely with their vanilla counterparts.Some blocks, like the Perservation Blocks, Chimes, Pylons, Azurite ore and more still retain their updated textures and in other cases (like Shimmerstone particles) the visuals have been merged to create a vanillay, yet consistent look.Other blocks have gotten an overhaul - Stardust Blocks now sparkle, for example. Gemstone Blocks are back to their former selves, while their \'pillary\' versions got their dedicated decorative blocks, actually called \'<Gem> Pillar\'. The Neolith item got smaller and it\'s block texture swapped with radiating ender, emphasizing its non-attributable properties as a null-block.Of course you can still use the previous textures which are now included in a separate texture pack.## Improvements- Added mob heads for all 1.21 mobs- Noxwood and Weeping Gala doors & trapdoors actually look good (had broken side textures before)- You can now dispense Ender Splices to teleport players- Manors are quire a bit more common- Erasers are now immune from some damage types, while taking immensely more from others (electrocution, falling blocks, getting snacked, ...)- Titration Barrel Filling is 
+
+4. 光谱世界——从入门到通关 - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+   https://www.mcmod.cn/post/4569.html
+   --光谱世界——从入门到通关 - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+
+主站
+
+常用地址
+
+- 历史编辑今日编辑量：461 次
+- 审核状态今日审核量：478 个
+- 有新动态
+- 最新收录今日收录模组：0 个
+
+版本检索
+
+- 1.7.10 模组
+- 1.12.2 模组
+- 1.16.5 模组
+- 1.18.2 模组
+- 1.19.4 模组
+- 1.20.1 模组
+- Fabric 模组
+- Forge 模组
+
+元素检索
+
+- 魔改模组
+- 辅助模组
+- 装饰模组
+- 农业模组
+- 冒险模组
+- 实用模组
+- 魔法模组
+- 科技模组
+
+整合包
+
+常用地址
+
+- 有新动态
+- 最新收录今日收录整合包：0 个
+
+版本检索
+
+- 1.7.10 整合包
+- 1.12.2 整合包
+- 1.16.5 整合包
+- 1.18.2 整合包
+- 1.19.4 整合包
+- 1.20.1 整合包
+- Fabric 整合包
+- Forge 整合包
+
+元素检索
+
+- 轻量整合包
+- 大型整合包
+- 休闲整合包
+- 硬核整合包
+- 剧情整合包
+- 任务整合包
+- 魔法整合包
+- 科技整合包
+
+实用工具
+
+实用工具
+
+- 遇事不决在退进两难的情况下抛硬币或投骰子
+- 神秘代码将一串内容压缩成一把钥匙
+- 我的世界黄历中国黄历 MineCraft 版
+- 进度/成就生成器 Minecraft 进度/成就生成器工具
+- 神秘时代研究助手快速查找神秘时代研究笔记连线
+- 命令方块指令生成器快速生成自定义命令方块指令
+
+站点导航
+
+- 词典
+- 特性
+- 实用工具
+- 找服玩
+- 社群
+- 整合包
+- 主站
+- 词典
+
+- 登录
+
+光谱世界——从入门到通关
+
+- >
+- 光谱世界 (Spectrum)
+- >
+- 魔法Mod
+- >
+
+智能月兔
+
+---
+
+- 创建日期：1年前
+- 浏览量：7920
+- 教程权限：个人教程
+
+最近参与编辑
+
+智能月兔
+
+[ 查看历史改动对比 ]
+
+最近浏览
+
+灌汤小笼猫
+
+hcode4375
+
+走乖觉
+
+yanqi_
+
+青墨浮跃
+
+闪现
+
+方圆
+
+Jhougio
+
+某名昆仲
+
+F1yFeather
+
+Seve猫神
+
+lyxhaha
+
+1115君
+
+Qazpl-1
+
+##### 光谱世界——从入门到通关
+
+本篇教程由作者设定未经允许禁止转载。
+
+前言
+
+氦，大家好，我是光谱世界的MCMOD编辑员智能月兔Ethanolgie，目前来看光谱世界算是新几代模组里最能打的魔法模组之一，不过由于它基于 Revelationary的独特解锁机制，加上很多人喜欢开局就把指南书丢掉，所以很多玩家会玩着玩着就卡死走不动了。今天就简单来讲一下光谱世界的快速入门和主线攻略，希望能方便大家的游玩。
+
+开始之前先定义一下，什么是主线：光谱世界采用进度树来推进，通往最终的进度的一条线路就是主线，也就是树干。随后本教程默认玩家没有安装大幅破坏平衡的模组（例如Coxinha纸板箱），请不要评论“我选择XXX模组”。
+
+警告：本教程很可能涉及剧透，请谨慎查看！模组作者Dafuqsy表示：不建议以强行推进的目的玩光谱世界，更希望玩家在普通的游玩过程中体验光谱世界。过程中有部分QoL性质的内容被省去了，感兴趣可以在下方提问！
+
+初期
+
+开局和平常的MC流程其实没什么区别，不过还是建议拿到铁镐之后再进入下一步，路上尽量少砍野生橡树，优先砍其他的树种。沿途记得带点甘蔗和棕色蘑菇，打死了蜘蛛也尽量存着一点蜘蛛眼。
+
+建议找一个合适的位置作为基地，这个比较重要：最好的就是高山旁边的平原或者草甸，这样最大的好处是各种水晶晶洞的会离家比较近，日常可以加载到，并且采集也方便。
+
+注意：这个高山的高处一定要达到Y90以上。
+
+下一步就是采集水晶了：
+
+托帕石刷新在Y轴高于82的位置；
+
+黄水晶刷新在平原地带；
+
+紫水晶刷新在地下。
+
+一般来说托帕石和黄水晶的晶洞很容易一不小心露出，找起来很方便，紫水晶就得挖一挖了。
+
+找到水晶洞之后，首先随便摸一块解锁一下进度，随后往周围的石块里面挖一挖，很容易找到对应的水晶矿石，这些就是你的启动资金，一般来说三种水晶洞的这些矿物挖完之后是能够顺利过渡很久的，这段时间你甚至不需要造铁砧来自己粉碎。记得还要挖走一点方解石和磨制玄武岩，这也是模组的重要材料。
+
+七彩基座
+
+三种水晶都采集后，会达成进度到底有多少，此时回到基地，在三种基础的七彩基座里面凭个人喜好和材料数量选一个造，没有区别。
+
+画笔不是必须的，不过有的整合包要求你必须做才能过任务。一般还是建议用压力板或者拉杆之类的来激活，但是用拉杆要小心材料放得太慢被自动制作了。
+
+下一步就需要用七彩基座随便造一种物品，建议是方块放置器、压缩箱、收纳袋里面选一个，它们相对实用一些，也可以是红石沙子、合成模板，它们造价最便宜，这样就可以完成进度奇怪的既视感。
+
+同时你会解锁火花石，这是下一个阶段需要的重要物品。
+
+CMY七彩基座
+
+完成上一步后，你可以在七彩基座同时放入托帕石碎片、黄水晶碎片、紫水晶碎片，这样它会升级成为CMY七彩基座，升级的七彩基座需要建造多方块结构光谱注魔基座才能完全驾驭。
+
+材料折算：36个水晶碎片、84个磨制岩石方块。不同的水晶/玄武岩和方解石之间可以自由搭配，凭个人喜好造就行。
+
+请注意：建议预留共计13*13*7的空间，否则之后的升级你很可能面临需要拆迁的问题。
+
+褪解微生物
+
+使用七彩基座制作褪解之瓶，之前提到记得带的材料现在可以发挥作用了。棕色蘑菇实在难找可以在下界基岩顶层或者原始针叶林群系寻找。
+
+做出来之后随便找一棵树，拿着褪解之瓶右键放在树叶上面，等几秒钟会发生一次计划刻更新，随后可以用玻璃瓶把它接起来找另一棵树，被侵蚀的树叶会继续扩散。不用一会就可以把被侵蚀的树叶挖下来，你会收获植本质。
+
+彩色树
+
+接下来你需要用CMY七彩基座制作彩色树苗来获取模组的核心道具：颜料。
+
+使用刚刚薅来的植本质和任意树苗再加上六个染料就可以合成彩色树苗。这里只造一个树苗就好了，建议选红、黄、橙这些比较好做的。
+
+接下来，不建议傻乎乎地把所有颜色都做一遍，一是因为有的染料确实不好搞；二是因为这样会大量消耗我们的水晶粉末，每颗树苗就是六个，11个基础色彩做出来，66个粉末就没有了，还是很伤的。
+
+这个时候，到处转一转，你会发现莫名有一些橡树变成了彩色树，现在就可以把他们砍了，实在没遇到再手动做。
+
+一定要手动把每一块树叶挖掉再挖原木，自然衰败的树叶不会掉落颜料和彩色树苗。
+
+也可以用剪刀挖树叶，把树叶用铁砧粉碎增加颜料产出。
+
+如果有机械动力可以把树叶和原木一起放入粉碎轮，也可以增加很多颜料产出。
+
+把彩色树的物品带回家，建议单独用一个大箱子来存储相关物品，这样存取会方便很多。
+
+当然，这个时候你是无法实现树苗正增长的，没有时运每棵树平均掉落树苗0.15个， 即使是时运3也只有平均0.6个，所以姑且只需要一棵树的颜料就可以了。
+
+融合神龛
+
+当11种基础颜色的颜料都到手之后，你会发现棕色没法制作出来，这时就解锁了融合神龛。
+
+融合神龛也是一个多方块结构，材料折算：
+
+水晶碎片：本体三种水晶各9个+多方块结构4*9个任意，共计63个。
+
+磨制岩石方块：本体6个+多方块结构95个，共计101个。
+
+有了融合神龛就可以制作缟玛瑙了，一桶熔岩可以做一组，尽量多放一点一次多处理一些，不然每次要等8天，而且还要消耗一桶熔岩。具体如何判断今晚会不会是新月，可以打开F3调试页面看这个，如果是8n+5就是新月。（n为自然数）
+
+缟玛瑙七彩基座
+
+把缟玛瑙放进CMY七彩基座，就会变为缟玛瑙七彩基座。这时需要升级多方块结构，只需要在原来的结构上添加内容即可。如果之前没有留足够的空间，就会有点麻烦了。
+
+升级材料需要雕纹宝石岩石和宝石灯，前者建议直接用精准采集附魔的工具挖晶簇制作，后者也可以直接用水晶洞挖来的水晶方块，这样制作起来会相对便宜一些。
+
+升级所需材料折算（没有使用上述材料简化方案）：
+
+水晶碎片：132个；
+
+水晶宝石粉末：24个；
+
+磨制岩石方块：212个；
+
+火花石：18个。
+
+如果使用了材料简化方案：
+
+水晶簇：2个；
+
+水晶方块：4个；
+
+水晶宝石粉末：16个；
+
+磨制岩石方块：164个；
+
+火花石：18个。
+
+建造完成之后记得和七彩基座互动一下以获得进度[建造祭坛]；现在你可以制作棕色和黑色树木了！
+
+至此，绯红矿石就解锁了。
+
+美人鱼宝石
+
+美人鱼宝石其实很早就解锁，不过现在才会刚需：
+
+到附近的海上划船，挂机十来分钟，然后寻找海面上的掉落物（如果有Xaero的地图，就是地图上那些红色的小点），就可以拿到美人鱼宝石，把它带回家可以种在水里，随后用骨粉对它一顿催熟就可以收获大量的美人鱼宝石。
+
+奇毒苇
+
+奇毒苇类似美人鱼宝石，很早就解锁，不过现在才刚需。在沼泽可以找到，会在水中的黏土块上生成。更推荐在红树林沼泽寻找，搜刮一圈可以挖到成组的奇毒苇。条件实在太差，在丛林边缘的河道中的黏土块也可以找到极少的奇毒苇。
+
+如果你的奇毒苇实在过于少，可以简单种植：用玻璃瓶右键泥土变为泥巴，这样就能给奇毒苇提供养料。
+
+绯红碎片
+
+随后去到下界，可以很轻松的找到绯红矿石，用钻石镐以上的镐采掘即可。绯红宝石不用强求，主线进度对绯红宝石没有需求，并且概率太低且不吃时运，只有4%。
+
+蚀解微生物
+
+把绯红碎片带回家，现在可以做药水工作站和蚀解之瓶了。蚀解之瓶需要附魔之瓶，可以通过与牧师村民交易来换，或者用知识宝石+药水工作站来获取；海晶砂砾可以在热带海底废墟、海底神殿挖海晶灯获取。
+
+随后拿上蚀解之瓶，去腐蚀黑曜石挖下来即可获得坚新石。
+
+注意，蚀解微生物不同于褪解微生物，会损害大多数方块，不过范围有限，最多离源头/感染的黑曜石15格。
+
+如果你没有安装植物魔法，推荐去末地掏黑曜石柱（记得挖成悬空的）。不然就只能老实摆一坨浮空的黑曜石，再用蚀解之瓶。不建议在地底直接浇水来制取，很容易漏挖导致扩散，并且效率会很低，坚新石是一个需求略大的材料。
+
+类似于褪解微生物，放下后会有计划刻扩散，扩散后装起来再次放下就可以快速扩散。
+
+石青
+
+获取到坚新石即可解锁，1.8.0以后，在主世界的最底层（Y=-64~Y-=32）会有大坨的深层石青矿石，在1.8.0以前则是同样深度的散装深层天青石矿石。挖掘后获得粗石青，带回家。
+
+石青需要在融合神龛提纯，这时候就需要用到坚新石了。
+
+有了坚新石和石青就解锁了祛消解之瓶，接下来的发展会伴有大面积毁坏的风险，还是推荐做一个以防万一。
+
+风暴之石
+
+获取到坚新石即可解锁，被闪电劈的地方会有默认40%概率生成风暴之石。
+
+液体水晶
+
+建议在药水工作站制作液体水晶桶，会比直接在七彩基座制作便宜非常多。
+
+第一桶液体水晶建议不要着急去做完美的化合物，先做一个蔚蓝防御戒指进入远古遗迹-蔚蓝立场谜题，大概率之前挖矿的时候你有见到过，在里面可以一次捞12桶液体水晶回来，这样就液体水晶自由了。
+
+里面会有玉藤球茎，种出来可以获取用于制作缟玛瑙母岩，可以让后续步骤轻松一点，需要的话参见种植玉藤树。
+
+完美的化合物？
+
+接下来你会需要使用融合神龛进行一场实验来尝试创造完美的化合物。在开始之前请检查：
+
+携带祛消解之瓶（够自信可以不带）；
+
+将融合神龛结构与可用铲子挖掘的方块隔离，并用方块阻挡；可以试着在它的结构和周围各处放水，保证水不能碰到可用铲子挖掘的方块。
+
+带至少9格空桶；
+
+可触及范围内有个容器；
+
+周围没有易燃物：过程中会打雷，而且有时会由于“游戏特性”无法被避雷针吸引。
+
+这次请每种材料放一个即可，过程中会大量产生午夜溶液，没有提前准备处理起来会非常棘手。
+
+这次实验是注定失败的，产生的午夜畸变主线暂时用不到（可用于合成缟玛瑙母岩），如果实在想要保存可以放到容器里面，它只有在玩家身上才会瓦解。
+
+对比之下，这次实验最关键的产物其实是午夜溶液，用桶全部打捞起来即可。
+
+午夜溶液
+
+如果你有刷怪设施/刷铁机/养鸡场，可以直接在终端处死处放一桶午夜溶液，让午夜溶液来杀死生物即可掉落午夜碎片。也可以直接拿去迫害生物，但记得不要让它直接接触可用铲子挖掘的方块。
+
+坏灭微生物
+
+午夜碎片可以用来制作坏灭之瓶，这将是下一阶段的入口，同时也可以用于获取实用材料基岩粉。除此以外还需要用到石青和龙息，龙息获取起来相对麻烦一点，不借助其他模组的话这个阶段必须要去末地接。
+
+随后带上坏灭之瓶和祛消解之瓶（如果自信的话你也可以不带）来到世界的底部，放到基岩上等一会你会看到坚不可摧的基岩也被腐蚀了；挖掘被腐蚀的基岩可以获得基岩粉，用于制作属性优秀无限耐久的基岩系列物品。
+
+警告：坏灭微生物会不受控制的无限扩散和侵蚀（包括液体），没有蚀解微生物的15格限制，使用时务必小心谨慎。
+
+至此1.6.x版本主线已经完结；如果是1.7以上，世界最底层的基岩会被腐蚀，凿开它就会打开新世界的大门。
+
+渊深之域
+
+渊深之域有多条线程，本次所定义的主线就是通往通关地点遗弃的大教堂
+
+准备
+
+建议做一些基岩装备，最好有一点机动物品，例如鞘翅烟花、弹射腰带、脚手架和水桶。
+
+月长石
+
+在渊深的世界下层会有月长石晶洞，在里面可以找到纯魔法的象征：月长石。
+
+有了月长石就可以打开一定程度的……新世界的大门；回到你的缟玛瑙七彩基座进行升级，你会发现完成建造之后仍然无法使用，这时我们就需要进一步的研究了……
+
+远古城市
+
+这个就靠跑图了，代码上来讲只会生成在永夜菇林、深层岩障、深处溶洞，但是由于远古城市一般都非常大，目前看下来这个判断依据不够可靠。
+
+远古城市——大教堂
+
+大教堂的特征特别明显，外侧有多色的染色树叶，并且外墙上面有醒目的灯条。
+
+除非生成出现问题，不然里面必定有一个光谱注魔宫殿，不过中间是个工作台。你可以直接把自己的七彩基座带到这里，放到工作台的位置一键成型，也可以把灯条挖走去完成自己的多方块结构。
+
+有了完整的多方块结构请制作一个白色树苗。
+
+远古城市——种子库
+
+外侧布满了黄色的黄铁块堆，中间是一座巨大的石头建筑，门口竖满了要求你远离的告示牌……
+
+来这里的主要目的是杀死那些哨戒炮塔，需要静步走过去刀，期间不能露脚步，不然就会立刻向你开火。
+
+如果真的被索敌了，可以用方块阻挡视线，再潜行离开掩体，它会丢失目标。
+
+一般来说，杀死门口的四只是足够至少拿到一个月石核心的，脸太黑可以进去继续杀；
+
+杀完了都没有请到种子库二楼拿上白炽汞合金，回到地下室炸开门口的龙骨，里面的罐子会存有现成的月石核心。
+
+远古遗迹-颜色组合谜题
+
+拿到了白色树苗掉落的白色颜料、月石核心之后，距离到达遗弃的大教堂只差最后一块拼图：神秘的吊坠。
+
+回到主世界，你需要找到远古遗迹-颜色组合谜题，解开最终的谜题：灰色/淡灰色（1.8.0以后有随机性，在以前就是淡灰色），里面会获取到神秘的吊坠。
+
+神秘指南针
+
+来到你的融合圣坛，向其中放入1桶液体水晶、16个白色颜料、月石核心、神秘的吊坠，就会成功将月石核心嵌入其中。手持它右键，就会获得神秘指南针。
+
+带着神秘指南针再次回到渊深之域，跟着指南针，就会到达被遗弃的大教堂，至此1.7+主线结束。
+
+评分 --
+
+5. [1.20.1-1.18.2]Spectrum-光谱世界——一个关于色彩和探索的剧情向魔法模组 - Mod发布 -  MCBBS纪念版 -  我的世界中文社区
+   https://www.mcbbs.co/thread-30-1-1.html
+   [1.20.1-1.18.2]Spectrum-光谱世界——一个关于色彩和探索的剧情向魔法模组 - Mod发布 - MCBBS纪念版 - 我的世界中文社区
+
+# [转载Mod] [1.20.1-1.18.2]Spectrum-光谱世界——一个关于色彩和探索的剧情向魔法模组
+
+| 主题 | 回帖 | 积分 |
+| --- | --- | --- |
+
+哈基蜗
+
+人气2350 点金粒67131 粒宝石6 枚爱心155 颗钻石2507 枚贡献47 点
+
+电梯直达
+
+光谱世界 Spectrum
+
+- 概要
+- 下载链接
+- 授权信息
+
+Mod类型: 探险&RPG&nbsp;装备工具 世界生成相关
+
+Mod版本: 我忘了
+
+API需求: Forge
+
+安装方法: 拖入mods文件夹（需要API支持)
+
+语言支持: 简体中文 繁體/正體中文
+
+适用版本:
+
+多人游戏兼容性: 服务器需装
+
+最后更新: 我忘了
+
+简介:
+
+来源: 转载
+
+授权方式:
+
+授权方式: 保留所有权利（All Rights Reserved）
+
+---
+
+首页 指南 & 百科 1 游玩之前的提示 2 开始之前的准备 3 走进光谱的世界 4 感受色彩的魅力 5 体会魔法的奥妙（上） 5 体会魔法的奥妙（下） 6 轻享红石的便利 7 闲暇之余的休闲（上） 7 闲暇之余的休闲（下） 截图欣赏 疑难解答 下载 & 汉化 授权许可 更新记录 其他链接 & 鸣谢
+
+### 加入 MCBBS 纪念版，结交更多好友，解锁更多功能，轻松玩转社区。
+
+您需要登录才可以下载或查看，没有账号？立即注册
+
+x
+
+↑ 点击目录以查看其他更多内容 ↑
+
+光 谱 世 界
+
+> a storydriven magic mod about color and exploration 一个关于色彩和探索的剧情向魔法模组
+
+| ！开发团队 DaFuqsy（所有者） azazelthedemonlord（美工） |
+| --- |
+
+i 简介
+
+欢迎来到光谱的多彩世界！
+
+宝石于地下晶洞散发七彩光芒，树木在阳光之下汲取斑斓颜色。 以七彩基座为起点， 以融合圣坛为途径 自然能量流转于世界万物之中，生命记忆重生于灵魂灌注之间 颜色背后的故事逐渐展现在你的面前
+
+—— Wudji
+
+| 这是一个蕴含色彩，探索和故事的魔法模组。其博采众家之长，集建筑、魔法，附魔、装备、探索等要素于一身。在游戏内的各种提示与自带手册的指引下，你将能够循序渐进地创造各种魔法物品、搭建物品传输网络等。与此同时，游戏内精心绘制的纹理与令人激动的音乐能够给你以美的享受。 这是一个对广大普通玩家或者创作者的友好型模组，开发者欢迎大家为这个模组提供任何形式的贡献或者建议，即使是一张纹理，一段音乐亦或是输入反馈也能有效，开发者都会对每一个贡献表示衷心的感谢。 以下省略若干字 哎牢坛你怎么似了？！！幸好我保存了帖子源码哈哈哈哈 |
+| --- |
+
+### 评分
+
+帖子永久地址： 您可以用快捷键 Ctrl + V 粘贴到 QQ、MSN 里。')">推荐给好友
+
+MCBBS纪念版 - 论坛版权1、本主题所有言论和图片纯属会员个人意见，与本论坛立场无关 2、本站所有主题由该帖子作者发表，该帖子作者与 MCBBS纪念版享有帖子相关版权 3、其他单位或个人使用、转载或引用本文时必须同时征得该帖子作者和 MCBBS纪念版的同意 4、帖子作者须承担一切因本文发表而直接或间接导致的民事或刑事法律责任 5、本帖部分内容转载自其它媒体，但并不代表本站赞同其观点和对其真实性负责 6、如本帖侵犯到任何版权问题，请立即告知本站，本站将及时予与删除并致以最深的歉意 7、 MCBBS纪念版管理员和版主有权不事先通知发贴者而删除本文
+
+原MCBBS用户UID：631831
+
+| 主题 | 回帖 | 积分 |
+| --- | --- | --- |
+
+Java版ID Han_Jiang23
+
+鸽鸽鸽鸽鸽鸽鸽鸽鸽鸽鸽
+
+Lv.8 考古家, 积分 4358, 距离下一级还需 642 积分
+
+Lv.8 考古家, 积分 4358, 距离下一级还需 642 积分
+
+人气430 点金粒9382 粒宝石7 枚爱心1 颗钻石1306 枚贡献19 点
+
+发表于 2024-6-3 20:39:51 |只看该作者
+
+| wc，我就在klp保存了一个。:( |
+| --- |
+
+https://2119.online 上面就是我的网站，可以来看看！
+
+| 主题 | 回帖 | 积分 |
+| --- | --- | --- |
+
+Lv.3 挖沙工, 积分 53, 距离下一级还需 47 积分
+
+Lv.3 挖沙工, 积分 53, 距离下一级还需 47 积分
+
+人气10 点金粒58 粒宝石0 枚爱心0 颗钻石8 枚贡献0 点
+
+发表于 2024-6-28 13:57:19 |只看该作者
+
+| 真聪明哈哈哈哈哈 |
+| --- |
+
+| 主题 | 回帖 | 积分 |
+| --- | --- | --- |
+
+Java版ID Flowers_Baby 基岩版ID Flowers_BabyY
+
+Lv.2 采石匠, 积分 23, 距离下一级还需 27 积分
+
+Lv.2 采石匠, 积分 23, 距离下一级还需 27 积分
+
+人气5 点金粒17 粒宝石0 枚爱心0 颗钻石2 枚贡献0 点
+
+发表于 2024-7-13 11:17:53 来自手机 |只看该作者
+
+| 笑死我了23333333 |
+| --- |
+
+| 主题 | 回帖 | 积分 |
+| --- | --- | --- |
+
+Java版ID LongSea 基岩版ID EricBlack4897
+
+Lv. ??? 禁止访问
+
+Lv.8 考古家, 积分 2495, 距离下一级还需 2505 积分
+
+Lv.8 考古家, 积分 2495, 距离下一级还需 2505 积分
+
+人气111 点金粒3916 粒宝石3 枚爱心1 颗钻石1007 枚贡献0 点
+
+发表于 2024-7-14 22:28:22 |只看该作者
+
+| 主播你这目录他点不开阿（doge |
+| --- |
+
+| 主题 | 回帖 | 积分 |
+| --- | --- | --- |
+
+Lv.4 矿工, 积分 178, 距离下一级还需 22 积分
+
+Lv.4 矿工, 积分 178, 距离下一级还需 22 积分
+
+人气19 点金粒170 粒宝石0 枚爱心0 颗钻石56 枚贡献0 点
+
+发表于 2024-11-11 23:59:59 |只看该作者
+
+| 66666666666666666666666666 |
+| --- |
+
+您需要登录后才可以回帖登录|立即注册
+
+#### 石镐矿工勋章
+
+加入论坛有段时间的玩家（50钻石）
+
+#### 铁镐矿工勋章
+
+你会时常在论坛发现此人活跃的身影（200钻石）
+
+#### 钻镐矿工勋章
+
+这家伙是住在论坛了吗……（800钻石）
+
+#### 小麦种勋章
+
+小有人气的论坛用户（80人气）
+
+#### 苹果树勋章
+
+备受瞩目的论坛明星（300人气）
+
+#### 下界疣勋章
+
+呼风唤雨的论坛大拿（1000人气）
+
+#### 面包勋章
+
+对论坛小有贡献的达人（20贡献）
+
+#### 论坛元老勋章
+
+在论坛成立六周年之前注册(不晚于2016/09/27)，陪同论坛一起度过辛苦的日子的老油条
+
+#### 骨灰勋章
+
+注册超过两年的老用户，骨灰级玩家！
+
+#### Java正版勋章
+
+经论坛验证的Java正版玩家，支持正版！
+
+#### Windows 10正版勋章
+
+经论坛验证的基岩版（微软Windows 10）正版玩家，支持正版！
+
+#### 金锭勋章
+
+有钱银，羡慕不？（5000金粒兑换）
+
+#### 搬运工勋章
+
+曾为社区搬运大量外语资源
+
+#### 热心翻译者勋章
+
+至少参与或独立制作2个翻译项目
+
+#### 皮肤爱好者勋章
+
+至少制作十款皮肤的优秀会员
+
+#### 基岩版爱好者勋章
+
+曾在论坛基岩版大区发表过原创教程、资源、地图作品
+
+#### 捉虫专家勋章
+
+多次对论坛提出有效建议的优秀会员
+
+#### 疯狂搬运工勋章
+
+搬运数量巨大且搬运质量优秀
+
+#### 精英翻译官勋章
+
+为论坛打破语言屏障做出杰出贡献
+
+#### 灵感大区联合活动 十九世纪 勋章
+
+#### 士兵勋章
+
+多次参加论坛活动的活跃用户
+
+#### 青苹果勋章
+
+乐于助人的玩家（40爱心）
+
+#### 红苹果勋章
+
+授人以渔的玩家（150爱心）
+
+#### 论坛十周年纪念勋章
+
+砥砺十年，真心为你。Since Sep 27, 2010
+
+#### Android正版勋章
+
+经论坛验证的基岩版（谷歌Android）正版玩家，支持正版！
+
+#### 优秀小组勋章-EWO
+
+#### iOS正版勋章
+
+经论坛验证的基岩版（苹果iOS）正版玩家，支持正版！
+
+顔が→鈍器になっちゃうヨ，偽が→権利を取ったんだ。
+
+GMT+8, 2026-5-3 13:44 , Processed in 0.420978 second(s), 40 queries , Redis On.
+
+" Minecraft"以及"我的世界"为美国微软公司的商标 本站与微软公司没有从属关系
+
+© 2010-2026 MCBBS纪念版版权所有 本站内原创内容版权属于其原创作者，除作者或版规特别声明外未经许可不得转载
+
+返回顶部

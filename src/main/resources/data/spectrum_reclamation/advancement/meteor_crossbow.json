@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": { "item": "spectrum_reclamation:meteor_crossbow" },
+    "title": "陨星之力",
+    "description": "首次合成陨星弩，掌控天降之怒",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "spectrum_reclamation:root",
+  "criteria": {
+    "get_meteor_crossbow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": ["spectrum_reclamation:meteor_crossbow"] }]
+      }
+    }
+  }
+}

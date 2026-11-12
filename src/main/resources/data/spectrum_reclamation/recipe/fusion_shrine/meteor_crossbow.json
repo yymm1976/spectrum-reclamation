@@ -1,0 +1,12 @@
+{
+  "type": "spectrum:fusion_shrine",
+  "ingredients": [
+    { "item": "minecraft:crossbow" },
+    { "item": "spectrum_reclamation:heavy_spear" },
+    { "item": "minecraft:dragon_breath" }
+  ],
+  "result": {
+    "item": "spectrum_reclamation:meteor_crossbow",
+    "count": 1
+  }
+}

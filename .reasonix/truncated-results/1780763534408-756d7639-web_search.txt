@@ -1,0 +1,1197 @@
+query: spectrum "bottle_of_ruin" OR "quitoxic_powder" OR "black_pigment" mcmod site:mcmod.cn
+
+answer:
+  The items you inquired about belong to the Spectrum mod, except for the black pigment, which is from the Botany mod.
+
+Bottle of Ruin is an item from the Spectrum mod used to place "ruin microbes" that erode blocks, generate bedrock dust, and open specific portals [1]. Its command is /give @p spectrum:bottle_of_ruin 16 [2][1].
+
+Quitoxic powder does not appear in the provided search results for the Spectrum mod.
+
+Black Pigment belongs to the Botany mod [3]. Its command is /give @p botany:pigment 64 1 [3].
+
+sources (5):
+
+1. 褪解之瓶 (Bottle of Fading) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+   http://www.mcmod.cn/item/590374.html?jump=590511
+   褪解之瓶 (Bottle of Fading) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+
+常用地址
+
+- 最新收录今日收录模组：0 个
+- 有新动态
+- 审核状态今日审核量：16 个
+- 历史编辑今日编辑量：17 次
+
+版本检索
+
+元素检索
+
+常用地址
+
+- 最新收录今日收录整合包：0 个
+- 有新动态
+
+版本检索
+
+元素检索
+
+实用工具
+
+站点导航
+
+褪解之瓶 (Bottle of Fading)
+
+- >
+- 魔法Mod
+- >
+- 光谱世界 (Spectrum)
+- >
+- 物品/方块
+- >
+
+- 浏览量：6823
+- 创建日期：3年前
+- 最后编辑：1年前
+- 编辑次数：5次
+
+相关物品
+
+Checkered Wool Light ..
+
+Wool Light Lemon Yell..
+
+Crimson Red Classic Bed
+
+Dotted Aqua Blue Slab
+
+最近参与编辑
+
+最近浏览
+
+本页共有 5 个物品/方块
+
+##### 褪解之瓶 (Bottle of Fading)
+
+物品命令：/give @p spectrum:bottle_of_fading 16
+
+| 主要名称： | 褪解之瓶 |
+| --- | --- |
+| 次要名称： | Bottle of Fading |
+| 资料分类： | 装饰品 |
+| 最大堆叠： | 16个 / 组 |
+
+获取途径
+
+解锁和识别
+
+无需解锁条件即可识别褪解微生物方块。
+
+用途
+
+褪解微生物
+
+看上去像是青白色的黏土块，踩在上面的生物会每秒受到1伤害。它会侵蚀与它直接接触（不包括斜角接触）的有机方块：
+
+树叶(#minecraft:leaves)、
+
+南瓜、西瓜、红/棕色蘑菇方块、
+
+蘑菇柄、干草块、干海带块、苔藓块。
+
+无论褪解微生物是否是侵蚀其他方块产生的，都可以用玻璃瓶重新收集变为褪解之瓶。
+
+| 资料分类： | 装饰品 |
+| --- | --- |
+| 最大堆叠： | 16个 / 组 |
+
+滑动合成表可以查看更多信息~
+
+[使用:七彩基座光谱世界" target="_blank" href="//www.mcmod.cn/item/590868.html">七彩基座]
+
+合成时间: 20秒
+
+发酵蛛眼我的世界原版" target="_blank" href="//www.mcmod.cn/item/981.html">发酵蛛眼* 4
+
+火花石光谱世界" target="_blank" href="//www.mcmod.cn/item/590612.html">火花石* 2
+
+烈焰粉我的世界原版" target="_blank" href="//www.mcmod.cn/item/976.html">烈焰粉* 2
+
+蜂蜜瓶我的世界原版" target="_blank" href="//www.mcmod.cn/item/209866.html">蜂蜜瓶* 1
+
+↓
+
+褪解之瓶光谱世界" target="_blank" href="//www.mcmod.cn/item/590374.html">褪解之瓶* 1
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 60px;">
+
+火花石 光谱世界" data-html="true" item-id="590612" style="margin:38px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 132px;">
+
+烈焰粉 我的世界原版" data-html="true" item-id="976" style="margin:74px 0 0 60px;">
+
+蜂蜜瓶 我的世界原版" data-html="true" item-id="209866" style="margin:74px 0 0 96px;">
+
+烈焰粉 我的世界原版" data-html="true" item-id="976" style="margin:74px 0 0 132px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 60px;">
+
+火花石 光谱世界" data-html="true" item-id="590612" style="margin:110px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 132px;">
+
+褪解之瓶 光谱世界" data-html="true" item-id="590374" style="margin:73px 0 0 254px;">
+
+| 材料统计 | 输入 >> 输出 | 备注 |
+| --- | --- | --- |
+
+---
+
+##### 蚀解之瓶 (Bottle of Failing)
+
+物品命令：/give @p spectrum:bottle_of_failing 16
+
+| 主要名称： | 蚀解之瓶 |
+| --- | --- |
+| 次要名称： | Bottle of Failing |
+| 资料分类： | 装饰品 |
+| 最大堆叠： | 16个 / 组 |
+
+“⚠️饥饿”
+
+获取途径
+
+解锁和识别
+
+解锁七彩基座配方需要获取进度沉重的负荷、建造祭坛；
+
+无需解锁条件即可识别蚀解微生物方块。
+
+用途
+
+蚀解微生物
+
+看起来像颜色非常黑的海绵方块，踩在上面的生物会每秒受到2.5伤害。
+
+它会侵蚀与它直接接触（不包括斜角接触）的绝大多数方块：
+
+由蚀解之瓶直接放出的蚀解微生物；
+
+被蚀解微生物侵蚀的其他方块。
+
+黑曜石。
+
+| 不掉落坚新石 |
+| --- |
+| 挖掘后掉落1个坚新石 |
+| 挖掘后掉落3~5个坚新石 | 哭泣的黑曜石。 |
+
+液体：包括水、熔岩、液体水晶等；
+
+雪、基岩方块、移动的活塞、基岩；（不理解雪为什么不行）
+
+各种传送门（#minecraft:portals）、末地传送门框架。
+
+各类管理员方块。
+
+蚀解微生物最多散播至曼哈顿距离15的位置，每距离源头一格都会增加一点age直到age=15就不再会散播。而被侵蚀的黑曜石将会将age设置为0并重新作为新的源头。
+
+无论蚀解微生物是否是侵蚀其他方块产生的，都可以用玻璃瓶重新收集变为蚀解之瓶。
+
+| 资料分类： | 装饰品 |
+| --- | --- |
+| 最大堆叠： | 16个 / 组 |
+
+滑动合成表可以查看更多信息~
+
+[使用:七彩基座光谱世界" target="_blank" href="//www.mcmod.cn/item/590868.html">七彩基座]
+
+合成时间: 40秒
+
+发酵蛛眼我的世界原版" target="_blank" href="//www.mcmod.cn/item/981.html">发酵蛛眼* 4
+
+绯红碎片光谱世界" target="_blank" href="//www.mcmod.cn/item/590359.html">绯红碎片* 2
+
+奇毒粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590754.html">奇毒粉末* 2
+
+附魔之瓶我的世界原版" target="_blank" href="//www.mcmod.cn/item/1073.html">附魔之瓶* 1
+
+黄玉粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590297.html">黄玉粉末* 1
+
+紫水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590617.html">紫水晶粉末* 1
+
+黄水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590465.html">黄水晶粉末* 1
+
+缟玛瑙粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590482.html">缟玛瑙粉末* 1
+
+↓
+
+蚀解之瓶光谱世界" target="_blank" href="//www.mcmod.cn/item/590555.html">蚀解之瓶* 1
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 60px;">
+
+绯红碎片 光谱世界" data-html="true" item-id="590359" style="margin:38px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 132px;">
+
+奇毒粉末 光谱世界" data-html="true" item-id="590754" style="margin:74px 0 0 60px;">
+
+附魔之瓶 我的世界原版" data-html="true" item-id="1073" style="margin:74px 0 0 96px;">
+
+奇毒粉末 光谱世界" data-html="true" item-id="590754" style="margin:74px 0 0 132px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 60px;">
+
+绯红碎片 光谱世界" data-html="true" item-id="590359" style="margin:110px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 132px;">
+
+黄玉粉末 光谱世界" data-html="true" item-id="590297" style="margin:154px 0 0 88px;">
+
+紫水晶粉末 光谱世界" data-html="true" item-id="590617" style="margin:154px 0 0 125px;">
+
+黄水晶粉末 光谱世界" data-html="true" item-id="590465" style="margin:154px 0 0 160px;">
+
+缟玛瑙粉末 光谱世界" data-html="true" item-id="590482" style="margin:154px 0 0 195px;">
+
+蚀解之瓶 光谱世界" data-html="true" item-id="590555" style="margin:73px 0 0 254px;">
+
+| 材料统计 | 输入 >> 输出 | 备注 |
+| --- | --- | --- |
+
+---
+
+##### 坏灭之瓶 (Bottle of Ruin)
+
+物品命令：/give @p spectrum:bottle_of_ruin 16
+
+| 主要名称： | 坏灭之瓶 |
+| --- | --- |
+| 次要名称： | Bottle of Ruin |
+| 资料分类： | 装饰品 |
+| 最大堆叠： | 16个 / 组 |
+
+获取途径
+
+解锁和识别
+
+解锁七彩基座配方需要获取进度忧郁"蓝"调、细碎的恶；
+
+无需解锁条件即可识别坏灭微生物方块。
+
+用途
+
+模组里的第三种会侵蚀方块的物品，右击任意方块即可放出其坏灭微生物方块并返还玻璃瓶，用于获取基岩粉、打开渊深之域传送门、破解远古遗迹-基岩与红石谜题。放置时会发出尖锐的爆鸣声，同时发出爆炸粒子。
+
+本身也是合成材料，可以合成兔毒瓶装饮品、变换自如(Razing)附魔书。
+
+坏灭微生物
+
+看起来像更黑的煤炭块，踩在上面的生物会每秒受到5伤害。
+
+由坏灭之瓶直接放出的坏灭微生物；
+
+被坏灭微生物侵蚀的其他方块。
+
+| 不掉落基岩粉 |
+| --- |
+| 挖掘后掉落1个基岩粉 |
+
+各种传送门（#minecraft:portals）、末地传送门框架。
+
+各类管理员方块。
+
+无论坏灭微生物是否是侵蚀其他方块产生的，都可以用玻璃瓶重新收集变为坏灭之瓶。
+
+| 资料分类： | 装饰品 |
+| --- | --- |
+| 最大堆叠： | 16个 / 组 |
+
+滑动合成表可以查看更多信息~
+
+[使用:七彩基座光谱世界" target="_blank" href="//www.mcmod.cn/item/590868.html">七彩基座]
+
+合成时间: 60秒
+
+发酵蛛眼我的世界原版" target="_blank" href="//www.mcmod.cn/item/981.html">发酵蛛眼* 4
+
+午夜碎片光谱世界" target="_blank" href="//www.mcmod.cn/item/590534.html">午夜碎片* 2
+
+天青石光谱世界" target="_blank" href="//www.mcmod.cn/item/590494.html">天青石* 2
+
+龙息我的世界原版" target="_blank" href="//www.mcmod.cn/item/33827.html">龙息* 1
+
+黄玉粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590297.html">黄玉粉末* 4
+
+紫水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590617.html">紫水晶粉末* 4
+
+黄水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590465.html">黄水晶粉末* 4
+
+缟玛瑙粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590482.html">缟玛瑙粉末* 4
+
+↓
+
+坏灭之瓶光谱世界" target="_blank" href="//www.mcmod.cn/item/590202.html">坏灭之瓶* 1
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 60px;">
+
+午夜碎片 光谱世界" data-html="true" item-id="590534" style="margin:38px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 132px;">
+
+天青石 光谱世界" data-html="true" item-id="590494" style="margin:74px 0 0 60px;">
+
+龙息 我的世界原版" data-html="true" item-id="33827" style="margin:74px 0 0 96px;">
+
+天青石 光谱世界" data-html="true" item-id="590494" style="margin:74px 0 0 132px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 60px;">
+
+午夜碎片 光谱世界" data-html="true" item-id="590534" style="margin:110px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 132px;">
+
+黄玉粉末 光谱世界" data-html="true" item-id="590297" style="margin:154px 0 0 88px;">
+
+4 4
+
+紫水晶粉末 光谱世界" data-html="true" item-id="590617" style="margin:154px 0 0 125px;">
+
+4 4
+
+黄水晶粉末 光谱世界" data-html="true" item-id="590465" style="margin:154px 0 0 160px;">
+
+4 4
+
+缟玛瑙粉末 光谱世界" data-html="true" item-id="590482" style="margin:154px 0 0 195px;">
+
+4 4
+
+坏灭之瓶 光谱世界" data-html="true" item-id="590202" style="margin:73px 0 0 254px;">
+
+| 材料统计 | 输入 >> 输出 | 备注 |
+| --- | --- | --- |
+
+---
+
+##### 畏怖之瓶 (Bottle of Forfeiture)
+
+畏怖之瓶与 褪解之瓶 为同类物品/方块，已合并。
+
+物品命令：/give @p spectrum:bottle_of_forfeiture 16
+
+| 主要名称： | 畏怖之瓶 |
+| --- | --- |
+| 次要名称： | Bottle of Forfeiture |
+| 资料分类： | 装饰品 |
+| 最大堆叠： | 16个 / 组 |
+
+除了弄出一大堆其对应方块以外，没有什么用途。只能通过创造模式获得。无保护措施时踩在上面会每次扣7点（）生命值。
+
+| 资料分类： | 装饰品 |
+| --- | --- |
+| 最大堆叠： | 16个 / 组 |
+
+---
+
+##### 祛消解之瓶 (Bottle of Decay Away)
+
+物品命令：/give @p spectrum:bottle_of_decay_away 16
+
+| 主要名称： | 祛消解之瓶 |
+| --- | --- |
+| 次要名称： | Bottle of Decay Away |
+| 资料分类： | 装饰品 |
+| 最大堆叠： | 16个 / 组 |
+
+用来对付侵蚀之瓶、损毁之瓶、恐怖之瓶放出的方块和黑暗物质的必备物品。它会把所有用上述物品放出的方块，包括被它们侵蚀的方块，全部吃掉并变成该维度的默认方块，主世界为泥土，下界为下界岩，末地为末地石，渊深为黑渣岩，被侵蚀的特殊方块会变为原状。如果它的方块被单独放出，它本身也会被转化。不同于其他微生物瓶，它放出来后就不能收回了，无论你点的速度有多快。
+
+它也可
+
+2. 合成表 - 坏灭之瓶 (Bottle of Ruin) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+   http://www.mcmod.cn/item/tab/590202.html
+   合成表 - 坏灭之瓶 (Bottle of Ruin) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+
+常用地址
+
+- 最新收录今日收录模组：0 个
+- 有新动态
+- 审核状态今日审核量：0 个
+- 历史编辑今日编辑量：2 次
+
+版本检索
+
+元素检索
+
+常用地址
+
+- 最新收录今日收录整合包：0 个
+- 有新动态
+
+版本检索
+
+元素检索
+
+实用工具
+
+站点导航
+
+合成表
+
+- >
+- 魔法Mod
+- >
+- 光谱世界 (Spectrum)
+- >
+- 物品/方块
+- >
+- 坏灭之瓶 (Bottle of Ruin)
+- >
+
+- 浏览量：7603
+- 创建日期：3年前
+- 最后编辑：1年前
+- 编辑次数：7次
+
+相关物品
+
+Plato Bajo De Greda
+
+Wool Dark Orange Slab
+
+Wood Plank Deep Orang..
+
+最近参与编辑
+
+最近浏览
+
+坏灭之瓶 与褪解之瓶为同类物品。
+
+##### 坏灭之瓶 (Bottle of Ruin)
+
+物品命令：/give @p spectrum:bottle_of_ruin 16
+
+物品合成 显示如何合成/获取这个物品。
+
+滑动合成表可以查看更多信息~
+
+[使用:七彩基座光谱世界" target="_blank" href="//www.mcmod.cn/item/590868.html">七彩基座]
+
+合成时间: 60秒
+
+发酵蛛眼我的世界原版" target="_blank" href="//www.mcmod.cn/item/981.html">发酵蛛眼* 4
+
+午夜碎片光谱世界" target="_blank" href="//www.mcmod.cn/item/590534.html">午夜碎片* 2
+
+天青石光谱世界" target="_blank" href="//www.mcmod.cn/item/590494.html">天青石* 2
+
+龙息我的世界原版" target="_blank" href="//www.mcmod.cn/item/33827.html">龙息* 1
+
+黄玉粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590297.html">黄玉粉末* 4
+
+紫水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590617.html">紫水晶粉末* 4
+
+黄水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590465.html">黄水晶粉末* 4
+
+缟玛瑙粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590482.html">缟玛瑙粉末* 4
+
+↓
+
+坏灭之瓶光谱世界" target="_blank" href="//www.mcmod.cn/item/590202.html">坏灭之瓶* 1
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 60px;">
+
+午夜碎片 光谱世界" data-html="true" item-id="590534" style="margin:38px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 132px;">
+
+天青石 光谱世界" data-html="true" item-id="590494" style="margin:74px 0 0 60px;">
+
+龙息 我的世界原版" data-html="true" item-id="33827" style="margin:74px 0 0 96px;">
+
+天青石 光谱世界" data-html="true" item-id="590494" style="margin:74px 0 0 132px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 60px;">
+
+午夜碎片 光谱世界" data-html="true" item-id="590534" style="margin:110px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 132px;">
+
+黄玉粉末 光谱世界" data-html="true" item-id="590297" style="margin:154px 0 0 88px;">
+
+4 4
+
+紫水晶粉末 光谱世界" data-html="true" item-id="590617" style="margin:154px 0 0 125px;">
+
+4 4
+
+黄水晶粉末 光谱世界" data-html="true" item-id="590465" style="margin:154px 0 0 160px;">
+
+4 4
+
+缟玛瑙粉末 光谱世界" data-html="true" item-id="590482" style="margin:154px 0 0 195px;">
+
+4 4
+
+坏灭之瓶 光谱世界" data-html="true" item-id="590202" style="margin:73px 0 0 254px;">
+
+| 材料统计 | 输入 >> 输出 | 备注 |
+| --- | --- | --- |
+
+3. 合成表 - 黑颜料 (Black Pigment) - 植物学 (Botany) - MC百科|最大的Minecraft中文MOD百科
+   https://www.mcmod.cn/item/tab/387452.html
+   合成表 - 黑颜料 (Black Pigment) - 植物学 (Botany) - MC百科|最大的Minecraft中文MOD百科
+
+常用地址
+
+- 最新收录今日收录模组：30 个
+- 有新动态
+- 审核状态今日审核量：78 个
+- 历史编辑今日编辑量：201 次
+
+版本检索
+
+元素检索
+
+常用地址
+
+- 最新收录今日收录整合包：0 个
+- 有新动态
+
+版本检索
+
+元素检索
+
+实用工具
+
+站点导航
+
+合成表
+
+- >
+- 农业Mod
+- >
+- 植物学 (Botany)
+- >
+- 物品/方块
+- >
+- 黑颜料 (Black Pigment)
+- >
+
+- 浏览量：1979
+- 创建日期：5年前
+- 最后编辑：未知
+- 编辑次数：没有
+
+相关物品
+
+最近参与编辑
+
+暂无记录..
+
+最近浏览
+
+黑颜料 与颜料为同类物品。
+
+##### 黑颜料 (Black Pigment)
+
+物品命令：/give @p botany:pigment 64 1
+
+4. 祛消解之瓶 (Bottle of Decay Away) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+   https://www.mcmod.cn/item/590477.html
+   --祛消解之瓶 (Bottle of Decay Away) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+
+主站
+
+常用地址
+
+- 历史编辑今日编辑量：462 次
+- 审核状态今日审核量：478 个
+- 有新动态
+- 最新收录今日收录模组：0 个
+
+版本检索
+
+- 1.7.10 模组
+- 1.12.2 模组
+- 1.16.5 模组
+- 1.18.2 模组
+- 1.19.4 模组
+- 1.20.1 模组
+- Fabric 模组
+- Forge 模组
+
+元素检索
+
+- 魔改模组
+- 辅助模组
+- 装饰模组
+- 农业模组
+- 冒险模组
+- 实用模组
+- 魔法模组
+- 科技模组
+
+整合包
+
+常用地址
+
+- 有新动态
+- 最新收录今日收录整合包：0 个
+
+版本检索
+
+- 1.7.10 整合包
+- 1.12.2 整合包
+- 1.16.5 整合包
+- 1.18.2 整合包
+- 1.19.4 整合包
+- 1.20.1 整合包
+- Fabric 整合包
+- Forge 整合包
+
+元素检索
+
+- 轻量整合包
+- 大型整合包
+- 休闲整合包
+- 硬核整合包
+- 剧情整合包
+- 任务整合包
+- 魔法整合包
+- 科技整合包
+
+实用工具
+
+实用工具
+
+- 遇事不决在退进两难的情况下抛硬币或投骰子
+- 神秘代码将一串内容压缩成一把钥匙
+- 我的世界黄历中国黄历 MineCraft 版
+- 进度/成就生成器 Minecraft 进度/成就生成器工具
+- 神秘时代研究助手快速查找神秘时代研究笔记连线
+- 命令方块指令生成器快速生成自定义命令方块指令
+
+站点导航
+
+- 词典
+- 特性
+- 实用工具
+- 找服玩
+- 社群
+- 整合包
+- 主站
+- 词典
+
+- 登录
+
+祛消解之瓶 (Bottle of Decay Away)
+
+- >
+- 物品/方块
+- >
+- 光谱世界 (Spectrum)
+- >
+- 魔法Mod
+- >
+
+- 编辑次数：6次
+- 最后编辑：9月前
+- 创建日期：3年前
+- 浏览量：3195
+
+相关物品
+
+Temple Stairs
+
+小玻璃方桌
+
+脚手架
+
+Fancy Tile Dark Pink ..
+
+石头墙
+
+Magenta Terracotta Fe..
+
+暮光木梯
+
+黑色路锥
+
+烟熏石活板门
+
+Rusted Iron Slab
+
+Birch Classic Dresser
+
+土耳其咖啡锅
+
+瓦片
+
+泥娃娃（女）
+
+苹果木路标
+
+Mistletoe
+
+Fir Table
+
+Halloween Tree
+
+历史编辑记录更多
+
+[ 查看历史改动对比 ]
+
+最近参与编辑
+
+EndlessLeo
+
+智能月兔
+
+Naci
+
+炎术士佳佳
+
+最近浏览
+
+tempest23
+
+lyxhaha
+
+2733757404
+
+Leisure_moon
+
+Mona
+
+note6180339
+
+z5xc7845
+
+QQ酱137462
+
+决明
+
+QQ酱743846
+
+Airtic_Spirit
+
+给五米亚麻头
+
+Monometro
+
+wloetshixon
+
+QQ酱1129694
+
+Eternal30
+
+卖主的叛徒
+
+EndlessLeo
+
+祛消解之瓶 与褪解之瓶为同类物品/方块。
+
+##### 祛消解之瓶 (Bottle of Decay Away)
+
+- 加合成表
+- 编辑
+
+物品命令：/give @p spectrum:bottle_of_decay_away 16
+
+用来对付侵蚀之瓶、损毁之瓶、恐怖之瓶放出的方块和黑暗物质的必备物品。它会把所有用上述物品放出的方块，包括被它们侵蚀的方块，全部吃掉并变成该维度的默认方块，主世界为泥土，下界为下界岩，末地为末地石，渊深为黑渣岩，被侵蚀的特殊方块会变为原状。如果它的方块被单独放出，它本身也会被转化。不同于其他微生物瓶，它放出来后就不能收回了，无论你点的速度有多快。
+
+它也可以用于消灭幽匿系列方块，在远古城市中使用将解锁成就[Undarks your Deep]。
+
+查看合成/用途
+
+| 资料分类： | 装饰品 |
+| --- | --- |
+| 最大堆叠： | 16个 / 组 |
+
+滑动合成表可以查看更多信息~
+
+[使用:七彩基座光谱世界" target="_blank" href="//www.mcmod.cn/item/590868.html"七彩基座]
+
+合成时间: 10秒
+
+绿色颜料光谱世界" target="_blank" href="//www.mcmod.cn/item/590241.html"绿色颜料* 4
+
+天青石光谱世界" target="_blank" href="//www.mcmod.cn/item/590494.html"天青石* 2
+
+坚新石光谱世界" target="_blank" href="//www.mcmod.cn/item/590303.html"坚新石* 2
+
+玻璃瓶我的世界原版" target="_blank" href="//www.mcmod.cn/item/984.html"玻璃瓶* 1
+
+黄玉粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590297.html"黄玉粉末* 1
+
+紫水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590617.html"紫水晶粉末* 1
+
+黄水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590465.html"黄水晶粉末* 1
+
+↓
+
+清理微生物之瓶光谱世界" target="_blank" href="//www.mcmod.cn/item/590477.html"清理微生物之瓶* 1
+
+绿色颜料 光谱世界" data-html="true" item-id="590241" style="margin:38px 0 0 60px;"
+
+天青石 光谱世界" data-html="true" item-id="590494" style="margin:38px 0 0 96px;"
+
+绿色颜料 光谱世界" data-html="true" item-id="590241" style="margin:38px 0 0 132px;"
+
+坚新石 光谱世界" data-html="true" item-id="590303" style="margin:74px 0 0 60px;"
+
+玻璃瓶 我的世界原版" data-html="true" item-id="984" style="margin:74px 0 0 96px;"
+
+坚新石 光谱世界" data-html="true" item-id="590303" style="margin:74px 0 0 132px;"
+
+绿色颜料 光谱世界" data-html="true" item-id="590241" style="margin:110px 0 0 60px;"
+
+天青石 光谱世界" data-html="true" item-id="590494" style="margin:110px 0 0 96px;"
+
+绿色颜料 光谱世界" data-html="true" item-id="590241" style="margin:110px 0 0 132px;"
+
+黄玉粉末 光谱世界" data-html="true" item-id="590297" style="margin:154px 0 0 88px;"
+
+紫水晶粉末 光谱世界" data-html="true" item-id="590617" style="margin:154px 0 0 125px;"
+
+黄水晶粉末 光谱世界" data-html="true" item-id="590465" style="margin:154px 0 0 160px;"
+
+清理微生物之瓶 光谱世界" data-html="true" item-id="590477" style="margin:73px 0 0 254px;"
+
+- 删除
+- 编辑
+
+| 材料统计 | 输入 输出 | 备注 |
+| --- | --- | --- |
+
+*这里只会显示该物品合成方式，且最多显示10个，点击右边栏"查看合成/用途"可查看该物品作为材料的合成。
+
+5. 蚀解之瓶 (Bottle of Failing) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+   http://www.mcmod.cn/item/590555.html
+   蚀解之瓶 (Bottle of Failing) - 光谱世界 (Spectrum) - MC百科|最大的Minecraft中文MOD百科
+
+主站
+
+常用地址
+
+- 最新收录今日收录模组：20 个
+- 有新动态
+- 审核状态今日审核量：1047 个
+- 历史编辑今日编辑量：1166 次
+
+版本检索
+
+- Forge 模组
+- Fabric 模组
+- 1.20.1 模组
+- 1.19.4 模组
+- 1.18.2 模组
+- 1.16.5 模组
+- 1.12.2 模组
+- 1.7.10 模组
+
+元素检索
+
+- 科技模组
+- 魔法模组
+- 实用模组
+- 冒险模组
+- 农业模组
+- 装饰模组
+- 辅助模组
+- 魔改模组
+
+整合包
+
+常用地址
+
+- 最新收录今日收录整合包：0 个
+- 有新动态
+
+版本检索
+
+- Forge 整合包
+- Fabric 整合包
+- 1.20.1 整合包
+- 1.19.4 整合包
+- 1.18.2 整合包
+- 1.16.5 整合包
+- 1.12.2 整合包
+- 1.7.10 整合包
+
+元素检索
+
+- 科技整合包
+- 魔法整合包
+- 任务整合包
+- 剧情整合包
+- 硬核整合包
+- 休闲整合包
+- 大型整合包
+- 轻量整合包
+
+实用工具
+
+实用工具
+
+- 命令方块指令生成器快速生成自定义命令方块指令
+- 神秘时代研究助手快速查找神秘时代研究笔记连线
+- 进度/成就生成器 Minecraft 进度/成就生成器工具
+- 我的世界黄历中国黄历 MineCraft 版
+- 神秘代码将一串内容压缩成一把钥匙
+- 遇事不决在退进两难的情况下抛硬币或投骰子
+
+站点导航
+
+- 词典
+- 主站
+- 整合包
+- 社群
+- 找服玩
+- 实用工具
+- 特性
+- 词典
+
+- 登录
+
+蚀解之瓶 (Bottle of Failing)
+
+- >
+- 魔法Mod
+- >
+- 光谱世界 (Spectrum)
+- >
+- 物品/方块
+- >
+
+- 浏览量：4969
+- 创建日期：3年前
+- 最后编辑：2月前
+- 编辑次数：10次
+
+相关物品
+
+"M" 数码方块
+
+Mossy Cobbled Andesit..
+
+闪长岩墙
+
+Wood Plank Terracotta..
+
+Mangrove Chair
+
+Zkul
+
+Korp
+
+Stone Brick Light War..
+
+Basic Calcite Chair
+
+Red Flare
+
+青色蜡烛
+
+障子门
+
+品红荧光玻璃
+
+Husk Trophy
+
+棕色气球
+
+Birch Stockade Fence
+
+Cupric Lantern
+
+Lucky cat
+
+历史编辑记录更多
+
+[ 查看历史改动对比 ]
+
+最近参与编辑
+
+1115君
+
+EndlessLeo
+
+智能月兔
+
+Naci
+
+重生是希望
+
+炎术士佳佳
+
+最近浏览
+
+多厨菜鸟nothing
+
+QQ酱1330583
+
+阿阿阿逸
+
+最后的天地
+
+chashaomao
+
+yanqi_
+
+buyun14
+
+柒茜
+
+lyxhaha
+
+wucaiyu
+
+智能月兔
+
+Butanediol
+
+zzh1003
+
+QQ酱743846
+
+烤鸡！
+
+Airtic_Spirit
+
+QQ酱193162
+
+QQ酱26515
+
+蚀解之瓶 与褪解之瓶为同类物品/方块。
+
+##### 蚀解之瓶 (Bottle of Failing)
+
+- 编辑
+- 加合成表
+
+物品命令：/give @p spectrum:bottle_of_failing 16
+
+合/用途
+
+| 主要名称： | 蚀解之瓶 |
+| --- | --- |
+| 次要名称： | Bottle of Failing |
+| 资料分类： | 装饰品 |
+| 最大堆叠： | 16个 / 组 |
+
+“⚠️饥饿”
+
+获取途径
+
+通过七彩基座制作，也可以用玻璃瓶接取已经存在的蚀解微生物方块来获取。
+
+解锁和识别
+
+解锁七彩基座配方需要获取进度沉重的负荷、建造祭坛；
+
+无需解锁条件即可识别蚀解微生物方块。
+
+用途
+
+模组里的第二种会侵蚀方块的物品，右击任意方块即可放出其蚀解微生物方块并返还玻璃瓶，用于获取坚新石。
+
+蚀解微生物
+
+看起来像颜色非常黑的海绵方块，踩在上面的生物会每秒受到2.5伤害。
+
+它会侵蚀与它直接接触（不包括斜角接触）的绝大多数方块：
+
+由蚀解之瓶直接放出的蚀解微生物；
+
+被蚀解微生物侵蚀的其他方块。
+
+黑曜石。
+
+| 不掉落坚新石 |
+| --- |
+| 挖掘后掉落1个坚新石 |
+| 挖掘后掉落3~5个坚新石 | 哭泣的黑曜石。 |
+
+默认情况下，蚀解微生物不能侵蚀方块实体以及下列方块：
+
+液体：包括水、熔岩、液体水晶等；
+
+雪、基岩方块、移动的活塞、基岩；（不理解雪为什么不行）
+
+各种传送门（#minecraft:portals）、末地传送门框架。
+
+各类管理员方块。
+
+蚀解微生物最多散播至曼哈顿距离15的位置，每距离源头一格都会增加一点age直到age=15就不再会散播。而被侵蚀的黑曜石将会将age设置为0并重新作为新的源头。
+
+无论蚀解微生物是否是侵蚀其他方块产生的，都可以用玻璃瓶重新收集变为蚀解之瓶。
+
+查看合成/用途
+
+| 资料分类： | 装饰品 |
+| --- | --- |
+| 最大堆叠： | 16个 / 组 |
+
+滑动合成表可以查看更多信息~
+
+[使用:七彩基座光谱世界" target="_blank" href="//www.mcmod.cn/item/590868.html">七彩基座]
+
+合成时间: 40秒
+
+发酵蛛眼我的世界原版" target="_blank" href="//www.mcmod.cn/item/981.html">发酵蛛眼* 4
+
+绯红碎片光谱世界" target="_blank" href="//www.mcmod.cn/item/590359.html">绯红碎片* 2
+
+奇毒粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590754.html">奇毒粉末* 2
+
+附魔之瓶我的世界原版" target="_blank" href="//www.mcmod.cn/item/1073.html">附魔之瓶* 1
+
+黄玉粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590297.html">黄玉粉末* 1
+
+紫水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590617.html">紫水晶粉末* 1
+
+黄水晶粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590465.html">黄水晶粉末* 1
+
+缟玛瑙粉末光谱世界" target="_blank" href="//www.mcmod.cn/item/590482.html">缟玛瑙粉末* 1
+
+↓
+
+蚀解之瓶光谱世界" target="_blank" href="//www.mcmod.cn/item/590555.html">蚀解之瓶* 1
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 60px;">
+
+绯红碎片 光谱世界" data-html="true" item-id="590359" style="margin:38px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:38px 0 0 132px;">
+
+奇毒粉末 光谱世界" data-html="true" item-id="590754" style="margin:74px 0 0 60px;">
+
+附魔之瓶 我的世界原版" data-html="true" item-id="1073" style="margin:74px 0 0 96px;">
+
+奇毒粉末 光谱世界" data-html="true" item-id="590754" style="margin:74px 0 0 132px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 60px;">
+
+绯红碎片 光谱世界" data-html="true" item-id="590359" style="margin:110px 0 0 96px;">
+
+发酵蛛眼 我的世界原版" data-html="true" item-id="981" style="margin:110px 0 0 132px;">
+
+黄玉粉末 光谱世界" data-html="true" item-id="590297" style="margin:154px 0 0 88px;">
+
+紫水晶粉末 光谱世界" data-html="true" item-id="590617" style="margin:154px 0 0 125px;">
+
+黄水晶粉末 光谱世界" data-html="true" item-id="590465" style="margin:154px 0 0 160px;">
+
+缟玛瑙粉末 光谱世界" data-html="true" item-id="590482" style="margin:154px 0 0 195px;">
+
+蚀解之瓶 光谱世界" data-html="true" item-id="590555" style="margin:73px 0 0 254px;">
+
+- 编辑
+- 删除
+
+| 材料统计 | 输入 >> 输出 | 备注 |
+| --- | --- | --- |
+
+*这里只会显示该物品合成方式，且最多显示10个，点击右边栏"查看合成/用途"可查看该物品作为材料的合成。
